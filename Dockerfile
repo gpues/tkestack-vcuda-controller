@@ -1,7 +1,8 @@
 # stage 1
-FROM nvidia/cuda:10.1-devel-ubuntu18.04 as build
-
-RUN apt update && apt install -y --no-install-recommends \
+FROM registry.cn-hangzhou.aliyuncs.com/acejilam/nvidia-cuda:11.2.2-devel-ubuntu20.04 as build
+RUN apt update
+RUN DEBIAN_FRONTEND=noninteractive apt install tzdata -y && \
+  apt install -y --no-install-recommends \
   cmake libvdpau-dev && \
   rm -rf /var/lib/apt/lists/*
 
@@ -17,7 +18,7 @@ RUN cd /tmp && tar xvf /tmp/cuda-control.tar && \
 RUN cd /tmp/cuda-control && tar cf /tmp/vcuda.tar.gz -c vcuda-${version}
 
 # stage 2
-FROM centos:7 as rpmpkg
+FROM registry.cn-hangzhou.aliyuncs.com/acejilam/centos:7 as rpmpkg
 
 RUN yum install -y rpm-build
 RUN mkdir -p /root/rpmbuild/{SPECS,SOURCES}
@@ -40,7 +41,7 @@ RUN rpmbuild -bb --quiet \
   vcuda.spec
 
 # stage 3
-FROM centos:7
+FROM registry.cn-hangzhou.aliyuncs.com/acejilam/centos:7
 
 ARG version
 ARG commit

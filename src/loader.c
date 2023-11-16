@@ -25,10 +25,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
-#include "include/cuda-helper.h"
-#include "include/hijack.h"
-#include "include/nvml-helper.h"
+#include <stdio.h>
+#include "include/auto-cuda-helper.h"
+#include "include/auto-nvml-helper.h"
+#include "include/json/cJSON.h"
 
 entry_t cuda_library_entry[] = {
     {.name = "cuInit"},
@@ -664,14 +664,6 @@ entry_t nvml_library_entry[] = {
     {.name = "nvmlSetVgpuVersion"},
 };
 
-static void UNUSED bug_on() {
-  BUILD_BUG_ON((sizeof(nvml_library_entry) / sizeof(nvml_library_entry[0])) !=
-               NVML_ENTRY_END);
-
-  BUILD_BUG_ON((sizeof(cuda_library_entry) / sizeof(cuda_library_entry[0])) !=
-               CUDA_ENTRY_END);
-}
-
 /** register once set */
 static pthread_once_t g_cuda_set = PTHREAD_ONCE_INIT;
 static pthread_once_t g_driver_set = PTHREAD_ONCE_INIT;
@@ -690,359 +682,437 @@ char config_path[FILENAME_MAX] = CONTROLLER_CONFIG_PATH;
 char pid_path[FILENAME_MAX] = PIDS_CONFIG_PATH;
 char driver_version[FILENAME_MAX] = "";
 
-static void load_driver_libraries() {
-  void *table = NULL;
-  char driver_filename[FILENAME_MAX];
-  int i;
+char *Marshal(resource_data_t t) {
+    cJSON *monitor = cJSON_CreateObject();
 
-  snprintf(driver_filename, FILENAME_MAX - 1, "%s.%s", DRIVER_ML_LIBRARY_PREFIX,
-           driver_version);
-  driver_filename[FILENAME_MAX - 1] = '\0';
+    cJSON_AddItemToObject(monitor, "pod_uid", cJSON_CreateString(t.pod_uid));
+    cJSON_AddItemToObject(monitor, "limit", cJSON_CreateNumber(t.limit));
+    cJSON_AddItemToObject(monitor, "occupied", cJSON_CreateString(t.occupied));
+    cJSON_AddItemToObject(monitor, "container_name", cJSON_CreateString(t.container_name));
+    cJSON_AddItemToObject(monitor, "bus_id", cJSON_CreateString(t.bus_id));
+    cJSON_AddItemToObject(monitor, "gpu_memory", cJSON_CreateNumber(t.gpu_memory));
+    cJSON_AddItemToObject(monitor, "utilization", cJSON_CreateNumber(t.utilization));
+    cJSON_AddItemToObject(monitor, "hard_limit", cJSON_CreateNumber(t.hard_limit));
+    cJSON_AddItemToObject(monitor, "enable", cJSON_CreateNumber(t.enable));
+    cJSON *version = cJSON_CreateObject();
+    cJSON_AddItemToObject(monitor, "driver_version", version);
+    cJSON_AddItemToObject(version, "major", cJSON_CreateNumber(t.driver_version.major));
+    cJSON_AddItemToObject(version, "minor", cJSON_CreateNumber(t.driver_version.minor));
+    return cJSON_Print(monitor);
+}
 
-  table = dlopen(driver_filename, RTLD_NOW | RTLD_NODELETE);
-  if (unlikely(!table)) {
-    LOGGER(FATAL, "can't find library %s", driver_filename);
-  }
+resource_data_t UnMarshal(char *s) {
+    resource_data_t t = {};
+    cJSON *monitor_json = cJSON_Parse(s);
 
-  for (i = 0; i < NVML_ENTRY_END; i++) {
-    nvml_library_entry[i].fn_ptr = dlsym(table, nvml_library_entry[i].name);
-    if (unlikely(!nvml_library_entry[i].fn_ptr)) {
-      LOGGER(4, "can't find function %s in %s", driver_filename,
-             nvml_library_entry[i].name);
+    cJSON *pod_uid = cJSON_GetObjectItemCaseSensitive(monitor_json, "pod_uid");
+    if (pod_uid != NULL) {
+        t.pod_uid = pod_uid->valuestring;
     }
-  }
+    cJSON *occupied = cJSON_GetObjectItemCaseSensitive(monitor_json, "occupied");
+    if (occupied != NULL) {
+        t.occupied = occupied->valuestring;
+    }
+    cJSON *container_name = cJSON_GetObjectItemCaseSensitive(monitor_json, "container_name");
+    if (container_name != NULL) {
+        t.container_name = container_name->valuestring;
+    }
+    cJSON *bus_id = cJSON_GetObjectItemCaseSensitive(monitor_json, "bus_id");
+    if (bus_id != NULL) {
+        t.bus_id = bus_id->valuestring;
+    }
 
-  dlclose(table);
+    cJSON *limit = cJSON_GetObjectItemCaseSensitive(monitor_json, "limit");
+    if (limit != NULL) {
+        t.limit = limit->valueint;
+    }
+    cJSON *gpu_memory = cJSON_GetObjectItemCaseSensitive(monitor_json, "gpu_memory");
+    if (gpu_memory != NULL) {
+        t.gpu_memory = gpu_memory->valueint;
+    }
+    cJSON *utilization = cJSON_GetObjectItemCaseSensitive(monitor_json, "utilization");
+    if (utilization != NULL) {
+        t.utilization = utilization->valueint;
+    }
+    cJSON *enable = cJSON_GetObjectItemCaseSensitive(monitor_json, "enable");
+    if (enable != NULL) {
+        t.enable = enable->valueint;
+    }
+    cJSON *hard_limit = cJSON_GetObjectItemCaseSensitive(monitor_json, "hard_limit");
+    if (hard_limit != NULL) {
+        t.hard_limit = hard_limit->valueint;
+    }
+    cJSON *driver_version_tmp = cJSON_GetObjectItem(monitor_json, "driver_version");
+    if (driver_version_tmp != NULL) {
+        cJSON *major = cJSON_GetObjectItemCaseSensitive(driver_version_tmp, "major");
+        if (major != NULL) {
+            t.driver_version.major = major->valueint;
+        }
+        cJSON *minor = cJSON_GetObjectItemCaseSensitive(driver_version_tmp, "minor");
+        if (minor != NULL) {
+            t.driver_version.minor = minor->valueint;
+        }
+        t.driver_version.major = cJSON_GetObjectItemCaseSensitive(driver_version_tmp, "minor")->valueint;
+    }
+
+    return t;
+}
+
+static void load_driver_libraries() {
+    void *table = NULL;
+    char driver_filename[FILENAME_MAX];
+    int i;
+
+    snprintf(driver_filename, FILENAME_MAX - 1, "%s.%s", DRIVER_ML_LIBRARY_PREFIX, driver_version);
+    driver_filename[FILENAME_MAX - 1] = '\0';
+
+    table = dlopen(driver_filename, RTLD_NOW | RTLD_NODELETE);
+    if (unlikely(!table)) {
+        LOGGER(FATAL, "can't find library %s", driver_filename);
+    }
+
+    for (i = 0; i < NVML_ENTRY_END; i++) {
+        nvml_library_entry[i].fn_ptr = dlsym(table, nvml_library_entry[i].name);
+        if (unlikely(!nvml_library_entry[i].fn_ptr)) {
+            LOGGER(4, "can't find function %s in %s", driver_filename, nvml_library_entry[i].name);
+        }
+    }
+
+    dlclose(table);
 }
 
 static void load_cuda_single_library(int idx) {
-  void *table = NULL;
-  char cuda_filename[FILENAME_MAX];
+    void *table = NULL;
+    char cuda_filename[FILENAME_MAX];
 
-  snprintf(cuda_filename, FILENAME_MAX - 1, "%s.%s", CUDA_LIBRARY_PREFIX,
-           driver_version);
-  cuda_filename[FILENAME_MAX - 1] = '\0';
+    snprintf(cuda_filename, FILENAME_MAX - 1, "%s.%s", CUDA_LIBRARY_PREFIX, driver_version);
+    cuda_filename[FILENAME_MAX - 1] = '\0';
 
-  table = dlopen(cuda_filename, RTLD_NOW | RTLD_NODELETE);
-  if (unlikely(!table)) {
-    LOGGER(FATAL, "can't find library %s", cuda_filename);
-  }
+    table = dlopen(cuda_filename, RTLD_NOW | RTLD_NODELETE);
+    if (unlikely(!table)) {
+        LOGGER(FATAL, "can't find library %s", cuda_filename);
+    }
 
-  cuda_library_entry[idx].fn_ptr = dlsym(table, cuda_library_entry[idx].name);
-  if (unlikely(!cuda_library_entry[idx].fn_ptr)) {
-    LOGGER(4, "can't find function %s in %s", cuda_filename,
-           cuda_library_entry[idx].name);
-  }
+    cuda_library_entry[idx].fn_ptr = dlsym(table, cuda_library_entry[idx].name);
+    if (unlikely(!cuda_library_entry[idx].fn_ptr)) {
+        LOGGER(4, "can't find function %s in %s", cuda_filename, cuda_library_entry[idx].name);
+    }
 
-  dlclose(table);
+    dlclose(table);
 }
 
 void load_cuda_libraries() {
-  void *table = NULL;
-  int i = 0;
-  char cuda_filename[FILENAME_MAX];
+    void *table = NULL;
+    int i = 0;
+    char cuda_filename[FILENAME_MAX];
 
-  LOGGER(4, "Start hijacking");
+    LOGGER(4, "Start hijacking");
 
-  snprintf(cuda_filename, FILENAME_MAX - 1, "%s.%s", CUDA_LIBRARY_PREFIX,
-           driver_version);
-  cuda_filename[FILENAME_MAX - 1] = '\0';
-  cuda_filename[FILENAME_MAX - 1] = '\0';
+    snprintf(cuda_filename, FILENAME_MAX - 1, "%s.%s", CUDA_LIBRARY_PREFIX, driver_version);
+    cuda_filename[FILENAME_MAX - 1] = '\0';
+    cuda_filename[FILENAME_MAX - 1] = '\0';
 
-  table = dlopen(cuda_filename, RTLD_NOW | RTLD_NODELETE);
-  if (unlikely(!table)) {
-    LOGGER(FATAL, "can't find library %s", cuda_filename);
-  }
-
-  for (i = 0; i < CUDA_ENTRY_END; i++) {
-    cuda_library_entry[i].fn_ptr = dlsym(table, cuda_library_entry[i].name);
-    if (unlikely(!cuda_library_entry[i].fn_ptr)) {
-      LOGGER(4, "can't find function %s in %s", cuda_filename,
-             cuda_library_entry[i].name);
+    table = dlopen(cuda_filename, RTLD_NOW | RTLD_NODELETE);
+    if (unlikely(!table)) {
+        LOGGER(FATAL, "can't find library %s", cuda_filename);
     }
-  }
 
-  dlclose(table);
+    for (i = 0; i < CUDA_ENTRY_END; i++) {
+        cuda_library_entry[i].fn_ptr = dlsym(table, cuda_library_entry[i].name);
+        if (unlikely(!cuda_library_entry[i].fn_ptr)) {
+            LOGGER(4, "can't find function %s in %s", cuda_filename, cuda_library_entry[i].name);
+        }
+    }
+
+    dlclose(table);
 }
 
 // #lizard forgives
-int get_cgroup_data(const char *pid_cgroup, char *pod_uid, char *container_id,
-                    size_t size) {
-  int ret = 1;
-  FILE *cgroup_fd = NULL;
-  char *token = NULL, *last_ptr = NULL, *last_second = NULL;
-  char *cgroup_ptr = NULL;
-  char buffer[4096];
-  int is_systemd = 0;
-  char *prune_pos = NULL;
+int get_cgroup_data(const char *pid_cgroup, char *pod_uid, char *container_id, size_t size) {
+    int ret = 1;
+    FILE *cgroup_fd = NULL;
+    char *token = NULL, *last_ptr = NULL, *last_second = NULL;
+    char *cgroup_ptr = NULL;
+    char buffer[4096];
+    int is_systemd = 0;
+    char *prune_pos = NULL;
 
-  cgroup_fd = fopen(pid_cgroup, "r");
-  if (unlikely(!cgroup_fd)) {
-    LOGGER(4, "can't open %s, error %s", pid_cgroup, strerror(errno));
-    goto DONE;
-  }
-
-  /**
-   * find memory cgroup name
-   */
-  while (!feof(cgroup_fd)) {
-    buffer[0] = '\0';
-    if (unlikely(!fgets(buffer, sizeof(buffer), cgroup_fd))) {
-      LOGGER(4, "can't get line from %s", pid_cgroup);
-      goto DONE;
+    cgroup_fd = fopen(pid_cgroup, "r");
+    if (unlikely(!cgroup_fd)) {
+        LOGGER(4, "can't open %s, error %s", pid_cgroup, strerror(errno));
+        goto DONE;
     }
 
-    buffer[strlen(buffer) - 1] = '\0';
+    /**
+     * find memory cgroup name
+     */
+    while (!feof(cgroup_fd)) {
+        buffer[0] = '\0';
+        if (unlikely(!fgets(buffer, sizeof(buffer), cgroup_fd))) {
+            LOGGER(4, "can't get line from %s", pid_cgroup);
+            goto DONE;
+        }
 
+        buffer[strlen(buffer) - 1] = '\0';
+
+        last_ptr = NULL;
+        token = buffer;
+        for (token = strtok_r(token, ":", &last_ptr); token; token = NULL, token = strtok_r(token, ":", &last_ptr)) {
+            if (!strcmp(token, "memory")) {
+                cgroup_ptr = strtok_r(NULL, ":", &last_ptr);
+                break;
+            }
+        }
+
+        if (cgroup_ptr) {
+            break;
+        }
+    }
+
+    if (!cgroup_ptr) {
+        LOGGER(4, "can't find memory cgroup from %s", pid_cgroup);
+        goto DONE;
+    }
+
+    /**
+     * find container id
+     */
     last_ptr = NULL;
-    token = buffer;
-    for (token = strtok_r(token, ":", &last_ptr); token;
-         token = NULL, token = strtok_r(token, ":", &last_ptr)) {
-      if (!strcmp(token, "memory")) {
-        cgroup_ptr = strtok_r(NULL, ":", &last_ptr);
-        break;
-      }
+    last_second = NULL;
+    token = cgroup_ptr;
+    while (*token) {
+        if (*token == '/') {
+            last_second = last_ptr;
+            last_ptr = token;
+        }
+        ++token;
     }
 
-    if (cgroup_ptr) {
-      break;
+    if (!last_ptr) {
+        goto DONE;
     }
-  }
 
-  if (!cgroup_ptr) {
-    LOGGER(4, "can't find memory cgroup from %s", pid_cgroup);
-    goto DONE;
-  }
+    strncpy(container_id, last_ptr + 1, size);
+    container_id[size - 1] = '\0';
 
-  /**
-   * find container id
-   */
-  last_ptr = NULL;
-  last_second = NULL;
-  token = cgroup_ptr;
-  while (*token) {
-    if (*token == '/') {
-      last_second = last_ptr;
-      last_ptr = token;
+    /**
+     * if cgroup is systemd, cgroup pattern should be like
+     * /kubepods.slice/kubepods-besteffort.slice/kubepods-besteffort-pod27882189_b4d9_11e9_b287_ec0d9ae89a20.slice/docker-4aa615892ab2a014d52178bdf3da1c4a45c8ddfb5171dd6e39dc910f96693e14.scope
+     */
+    if ((prune_pos = strstr(container_id, ".scope"))) {
+        is_systemd = 1;
+        *prune_pos = '\0';
     }
-    ++token;
-  }
 
-  if (!last_ptr) {
-    goto DONE;
-  }
-
-  strncpy(container_id, last_ptr + 1, size);
-  container_id[size - 1] = '\0';
-
-  /**
-   * if cgroup is systemd, cgroup pattern should be like
-   * /kubepods.slice/kubepods-besteffort.slice/kubepods-besteffort-pod27882189_b4d9_11e9_b287_ec0d9ae89a20.slice/docker-4aa615892ab2a014d52178bdf3da1c4a45c8ddfb5171dd6e39dc910f96693e14.scope
-   */
-  if ((prune_pos = strstr(container_id, ".scope"))) {
-    is_systemd = 1;
-    *prune_pos = '\0';
-  }
-
-  /**
-   * find pod uid
-   */
-  *last_ptr = '\0';
-  if (!last_second) {
-    goto DONE;
-  }
-
-  strncpy(pod_uid, last_second, size);
-  pod_uid[size - 1] = '\0';
-
-  if (is_systemd && (prune_pos = strstr(pod_uid, ".slice"))) {
-    *prune_pos = '\0';
-  }
-
-  /**
-   * remove unnecessary chars from $container_id and $pod_uid
-   */
-  if (is_systemd) {
-    prune_pos = strstr(container_id, "docker-");
-    if (!prune_pos) {
-      LOGGER(4, "no docker- prefix");
-      goto DONE;
+    /**
+     * find pod uid
+     */
+    *last_ptr = '\0';
+    if (!last_second) {
+        goto DONE;
     }
-    prune_pos += strlen("docker-");
-    memmove(container_id, prune_pos, strlen(prune_pos));
-    container_id[strlen(prune_pos)] = '\0';
 
-    prune_pos = strstr(pod_uid, "-pod");
-    if (!prune_pos) {
-      LOGGER(4, "no pod string");
-      goto DONE;
-    }
-    prune_pos += strlen("-pod");
-    memmove(pod_uid, prune_pos, strlen(prune_pos));
-    pod_uid[strlen(prune_pos)] = '\0';
-    prune_pos = pod_uid;
-    while (*prune_pos) {
-      if (*prune_pos == '_') {
-        *prune_pos = '-';
-      }
-      ++prune_pos;
-    }
-  } else {
-    memmove(pod_uid, pod_uid + strlen("/pod"), strlen(pod_uid));
-  }
+    strncpy(pod_uid, last_second, size);
+    pod_uid[size - 1] = '\0';
 
-  ret = 0;
+    if (is_systemd && (prune_pos = strstr(pod_uid, ".slice"))) {
+        *prune_pos = '\0';
+    }
+
+    /**
+     * remove unnecessary chars from $container_id and $pod_uid
+     */
+    if (is_systemd) {
+        prune_pos = strstr(container_id, "docker-");
+        if (!prune_pos) {
+            LOGGER(4, "no docker- prefix");
+            goto DONE;
+        }
+        prune_pos += strlen("docker-");
+        memmove(container_id, prune_pos, strlen(prune_pos));
+        container_id[strlen(prune_pos)] = '\0';
+
+        prune_pos = strstr(pod_uid, "-pod");
+        if (!prune_pos) {
+            LOGGER(4, "no pod string");
+            goto DONE;
+        }
+        prune_pos += strlen("-pod");
+        memmove(pod_uid, prune_pos, strlen(prune_pos));
+        pod_uid[strlen(prune_pos)] = '\0';
+        prune_pos = pod_uid;
+        while (*prune_pos) {
+            if (*prune_pos == '_') {
+                *prune_pos = '-';
+            }
+            ++prune_pos;
+        }
+    }
+    else {
+        memmove(pod_uid, pod_uid + strlen("/pod"), strlen(pod_uid));
+    }
+
+    ret = 0;
 DONE:
-  if (cgroup_fd) {
-    fclose(cgroup_fd);
-  }
-  return ret;
+    if (cgroup_fd) {
+        fclose(cgroup_fd);
+    }
+    return ret;
 }
 
 static int get_path_by_cgroup(const char *pid_cgroup) {
-  int ret = 1;
-  char pod_uid[4096], container_id[4096];
+    int ret = 1;
+    char pod_uid[4096], container_id[4096];
 
-  if (is_custom_config_path()) {
-    return 0;
-  }
+    if (is_custom_config_path()) {
+        return 0;
+    }
 
-  if (unlikely(get_cgroup_data(pid_cgroup, pod_uid, container_id,
-                               sizeof(container_id)))) {
-    LOGGER(4, "can't find container id from %s", pid_cgroup);
-    goto DONE;
-  }
+    if (unlikely(get_cgroup_data(pid_cgroup, pod_uid, container_id, sizeof(container_id)))) {
+        LOGGER(4, "can't find container id from %s", pid_cgroup);
+        goto DONE;
+    }
 
-  snprintf(base_dir, sizeof(base_dir), "%s%s", VCUDA_CONFIG_PATH, container_id);
-  snprintf(config_path, sizeof(config_path), "%s/%s", base_dir,
-           CONTROLLER_CONFIG_NAME);
-  snprintf(pid_path, sizeof(pid_path), "%s/%s", base_dir, PIDS_CONFIG_NAME);
+    snprintf(base_dir, sizeof(base_dir), "%s%s", VCUDA_CONFIG_PATH, container_id);
+    snprintf(config_path, sizeof(config_path), "%s/%s", base_dir, CONTROLLER_CONFIG_NAME);
+    snprintf(pid_path, sizeof(pid_path), "%s/%s", base_dir, PIDS_CONFIG_NAME);
 
-  LOGGER(4, "config file: %s", config_path);
-  LOGGER(4, "pid file: %s", pid_path);
-  ret = 0;
+    LOGGER(4, "config file: %s", config_path);
+    LOGGER(4, "pid file: %s", pid_path);
+    ret = 0;
 
-  LOGGER(4, "register to remote: pod uid: %s, cont id: %s", pod_uid,
-         container_id);
-  register_to_remote_with_data("", pod_uid, container_id);
+    LOGGER(4, "register to remote: pod uid: %s, cont id: %s", pod_uid, container_id);
+    register_to_remote_with_data("", pod_uid, container_id);
 DONE:
-  return ret;
+    return ret;
 }
 
 static int is_default_config_path() {
-  int fd = -1;
+    int fd = -1;
 
-  fd = open(config_path, O_RDONLY);
-  if (fd == -1) {
-    return 0;
-  }
+    fd = open(config_path, O_RDONLY);
+    if (fd == -1) {
+        return 0;
+    }
 
-  close(fd);
+    close(fd);
 
-  return 1;
+    return 1;
 }
 
-static void matchRegex(const char *pattern, const char *matchString,
-                       char *version) {
-  regex_t regex;
-  int reti;
-  regmatch_t matches[1];
-  char msgbuf[512];
+static void matchRegex(const char *pattern, const char *matchString, char *version) {
+    regex_t regex;
+    int reti;
+    regmatch_t matches[1];
+    char msgbuf[512];
 
-  reti = regcomp(&regex, pattern, REG_EXTENDED);
-  if (reti) {
-    LOGGER(4, "Could not compile regex: %s", DRIVER_VERSION_MATCH_PATTERN);
+    reti = regcomp(&regex, pattern, REG_EXTENDED);
+    if (reti) {
+        LOGGER(4, "Could not compile regex: %s", DRIVER_VERSION_MATCH_PATTERN);
+        return;
+    }
+
+    reti = regexec(&regex, matchString, 1, matches, 0);
+    switch (reti) {
+        case 0:
+            strncpy(version, matchString + matches[0].rm_so, matches[0].rm_eo - matches[0].rm_so);
+            version[matches[0].rm_eo - matches[0].rm_so] = '\0';
+            break;
+        case REG_NOMATCH:
+            LOGGER(4, "Regex does not match for string: %s", matchString);
+            break;
+        default:
+            regerror(reti, &regex, msgbuf, sizeof(msgbuf));
+            LOGGER(4, "Regex match failed: %s", msgbuf);
+    }
+
+    regfree(&regex);
     return;
-  }
-
-  reti = regexec(&regex, matchString, 1, matches, 0);
-  switch (reti) {
-    case 0:
-      strncpy(version, matchString + matches[0].rm_so,
-              matches[0].rm_eo - matches[0].rm_so);
-      version[matches[0].rm_eo - matches[0].rm_so] = '\0';
-      break;
-    case REG_NOMATCH:
-      LOGGER(4, "Regex does not match for string: %s", matchString);
-      break;
-    default:
-      regerror(reti, &regex, msgbuf, sizeof(msgbuf));
-      LOGGER(4, "Regex match failed: %s", msgbuf);
-  }
-
-  regfree(&regex);
-  return;
 }
 
 static void read_version_from_proc(char *version) {
-  char *line = NULL;
-  size_t len = 0;
+    char *line = NULL;
+    size_t len = 0;
 
-  FILE *fp = fopen(DRIVER_VERSION_PROC_PATH, "r");
-  if (fp == NULL) {
-    LOGGER(4, "can't open %s, error %s", DRIVER_VERSION_PROC_PATH,
-           strerror(errno));
-    return;
-  }
-
-  while ((getline(&line, &len, fp) != -1)) {
-    if (strncmp(line, "NVRM", 4) == 0) {
-      matchRegex(DRIVER_VERSION_MATCH_PATTERN, line, version);
-      break;
+    FILE *fp = fopen(DRIVER_VERSION_PROC_PATH, "r");
+    if (fp == NULL) {
+        LOGGER(4, "can't open %s, error %s", DRIVER_VERSION_PROC_PATH, strerror(errno));
+        return;
     }
-  }
-  fclose(fp);
+
+    while ((getline(&line, &len, fp) != -1)) {
+        if (strncmp(line, "NVRM", 4) == 0) {
+            matchRegex(DRIVER_VERSION_MATCH_PATTERN, line, version);
+            break;
+        }
+    }
+    fclose(fp);
 }
 
 int read_controller_configuration() {
-  int fd = 0;
-  int rsize;
-  int ret = 1;
-
-  if (!is_default_config_path()) {
-    if (get_path_by_cgroup("/proc/self/cgroup")) {
-      LOGGER(FATAL, "can't get config file path");
+    int ret = 1;
+    if (!is_default_config_path()) {
+        if (get_path_by_cgroup("/proc/self/cgroup")) {
+            LOGGER(FATAL, "can't get config file path");
+        }
     }
-  }
 
-  fd = open(config_path, O_RDONLY);
-  if (unlikely(fd == -1)) {
-    LOGGER(4, "can't open %s, error %s", config_path, strerror(errno));
-    goto DONE;
-  }
+    FILE *file;
+    char *text = NULL;              // 用于存储所有文本的字符串
+    char line[100];                 // 用于存储读取的每行文本
+    size_t len = 0;                 // 用于记录当前文本的长度
 
-  rsize = (int)read(fd, (void *)&g_vcuda_config, sizeof(resource_data_t));
-  if (unlikely(rsize != sizeof(g_vcuda_config))) {
-    LOGGER(4, "can't read %s, need %zu but got %d", CONTROLLER_CONFIG_PATH,
-           sizeof(resource_data_t), rsize);
-    goto DONE;
-  }
+    file = fopen(config_path, "r"); // 打开文件
+    if (file == NULL) {
+        LOGGER(4, "can't open %s, error %s", config_path, strerror(errno));
+        goto DONE;
+    }
 
-  read_version_from_proc(driver_version);
-  ret = 0;
+    // 逐行读取文件内容并连接在一起
+    while (fgets(line, sizeof(line), file) != NULL) {
+        size_t line_len = strlen(line);
+        char *new_text = realloc(text, len + line_len + 1); // 重新分配足够的空间来存储当前文本
+        if (new_text == NULL) {
+            printf("内存分配失败\n");
+            free(text);   // 释放原始缓冲区的内存
+            fclose(file); // 关闭文件
+            return 1;
+        }
+        text = new_text;
+        strcpy(text + len, line); // 将当前行文本连接到已有的文本之后
+        len += line_len;          // 更新当前文本的长度
+    }
 
-  LOGGER(4, "pod uid          : %s", g_vcuda_config.pod_uid);
-  LOGGER(4, "limit            : %d", g_vcuda_config.limit);
-  LOGGER(4, "container name   : %s", g_vcuda_config.container_name);
-  LOGGER(4, "total utilization: %d", g_vcuda_config.utilization);
-  LOGGER(4, "total gpu memory : %" PRIu64, g_vcuda_config.gpu_memory);
-  LOGGER(4, "driver version   : %s", driver_version);
-  LOGGER(4, "hard limit mode  : %d", g_vcuda_config.hard_limit);
-  LOGGER(4, "enable mode      : %d", g_vcuda_config.enable);
+    g_vcuda_config = UnMarshal(text);
+
+    read_version_from_proc(driver_version);
+    ret = 0;
+
+    LOGGER(4, "pod uid          : %s", g_vcuda_config.pod_uid);
+    LOGGER(4, "limit            : %d", g_vcuda_config.limit);
+    LOGGER(4, "container name   : %s", g_vcuda_config.container_name);
+    LOGGER(4, "total utilization: %d", g_vcuda_config.utilization);
+    LOGGER(4, "total gpu memory : %d", g_vcuda_config.gpu_memory);
+    LOGGER(4, "driver version   : %s", driver_version);
+    LOGGER(4, "hard limit mode  : %d", g_vcuda_config.hard_limit);
+    LOGGER(4, "enable mode      : %d", g_vcuda_config.enable);
 DONE:
-  if (likely(fd)) {
-    close(fd);
-  }
+    if (likely(file)) {
+        free(text);
+        fclose(file); // 关闭文件
+    }
 
-  return ret;
+    return ret;
 }
 
 void load_necessary_data() {
-  read_controller_configuration();
-  load_cuda_single_library(CUDA_ENTRY_ENUM(cuDriverGetVersion));
+    read_controller_configuration();
+    load_cuda_single_library(CUDA_ENTRY_ENUM(cuDriverGetVersion));
 
-  pthread_once(&g_cuda_set, load_cuda_libraries);
-  pthread_once(&g_driver_set, load_driver_libraries);
+    pthread_once(&g_cuda_set, load_cuda_libraries);
+    pthread_once(&g_driver_set, load_driver_libraries);
 }
 
-int is_custom_config_path() { return strcmp(base_dir, EMPTY_PREFIX) != 0; }
+int is_custom_config_path() {
+    return strcmp(base_dir, EMPTY_PREFIX) != 0;
+}

@@ -3,7 +3,7 @@ set -o errexit
 set -o pipefail
 set -o nounset
 set -o xtrace
-
+set -x
 ROOT=$(cd $(dirname ${BASH_SOURCE[0]}) && pwd -P)
 IMAGE_FILE=${IMAGE_FILE:-"tkestack.io/gaia/vcuda:latest"}
 
@@ -24,7 +24,8 @@ function build_img() {
     cp ${ROOT}/Dockerfile ${ROOT}/build
     (
       cd ${ROOT}/build
-      docker build --build-arg version=${version} --build-arg commit=${commit} -t ${IMAGE_FILE} .
+#      docker buildx build --platform=linux/amd64  --build-arg version=${version} --build-arg commit=${commit} -t ${IMAGE_FILE} .
+      docker buildx build --platform=linux/amd64 --pull --no-cache --build-arg version=${version} --build-arg commit=${commit} -t ${IMAGE_FILE} .
     )
 }
 

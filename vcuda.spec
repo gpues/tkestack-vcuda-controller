@@ -20,14 +20,14 @@ GPU virtual device library
 install -d $RPM_BUILD_ROOT/%{_libdir}
 install -d $RPM_BUILD_ROOT/%{_bindir}
 
-install -p -m 755 libcuda-control.so $RPM_BUILD_ROOT/%{_libdir}/
+install -p -m 755 libvgpu.so $RPM_BUILD_ROOT/%{_libdir}/
 install -p -m 755 nvml-monitor $RPM_BUILD_ROOT/%{_bindir}/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
-/%{_libdir}/libcuda-control.so
+/%{_libdir}/libvgpu.so
 /%{_bindir}/nvml-monitor
 
 %post
