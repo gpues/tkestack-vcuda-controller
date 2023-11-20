@@ -680,7 +680,7 @@ resource_data_t g_vcuda_config = {
 static char base_dir[FILENAME_MAX] = EMPTY_PREFIX;
 char config_path[FILENAME_MAX] = CONTROLLER_CONFIG_PATH;
 char pid_path[FILENAME_MAX] = PIDS_CONFIG_PATH;
-char driver_version[FILENAME_MAX] = "";
+char driver_version[FILENAME_MAX] = "1";
 
 char *Marshal(resource_data_t t) {
     cJSON *monitor = cJSON_CreateObject();
@@ -973,7 +973,7 @@ static int get_path_by_cgroup(const char *pid_cgroup) {
         goto DONE;
     }
 
-    snprintf(base_dir, sizeof(base_dir), "%s%s", VCUDA_CONFIG_PATH, container_id);
+    snprintf(base_dir, sizeof(base_dir), "%s/%s", VCUDA_CONFIG_PATH, container_id);
     snprintf(config_path, sizeof(config_path), "%s/%s", base_dir, CONTROLLER_CONFIG_NAME);
     snprintf(pid_path, sizeof(pid_path), "%s/%s", base_dir, PIDS_CONFIG_NAME);
 
