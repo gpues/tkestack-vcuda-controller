@@ -1,0 +1,1 @@
+nvmlReturn_t nvmlInternalGetExportTable(const void **ppExportTable, void *pExportTableId);

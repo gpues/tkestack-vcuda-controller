@@ -7,14 +7,18 @@ set -o pipefail
 CUDA_LIBRARY=$1
 ML_LIBRARY=$2
 
-echo "find new library"
+echo "find new library: "
 
 while read item; do
-  grep -q ${item} include/cuda-helper.h || echo "$item,"
-done < <(nm -D ${CUDA_LIBRARY} | grep " T " | awk '{print "CUDA_ENTRY_ENUM("$3")"}')
-
-echo ""
+  grep -qF "$item" include/cuda.h
+  if [ $? != 0 ]; then
+    echo "$item"
+  fi
+done < <(nm -D ${CUDA_LIBRARY} | grep " T " | awk '{print $3}')
 
 while read item; do
-  grep -q ${item} include/nvml-helper.h || echo "$item,"
-done < <(nm -D ${ML_LIBRARY} | grep " T " | awk '{print "NVML_ENTRY_ENUM("$3")"}')
+  grep -qF "$item" include/nvml.h
+  if [ $? != 0 ]; then
+    echo "$item"
+  fi
+done < <(nm -D ${ML_LIBRARY} | grep " T " | awk '{print $3}')

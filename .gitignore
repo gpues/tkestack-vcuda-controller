@@ -3,3 +3,4 @@ build/
 cmake-build-debug/
 proto/*.h
 proto/*.cc
+test
