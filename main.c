@@ -30,7 +30,7 @@ int main(void) {
 
     int i, j;
 
-    unsigned int device_num = MAX_PIDS;
+    unsigned int device_num;
     read_controller_configuration();
     nvmlInit();
     ret = nvmlDeviceGetCount(&device_num);
@@ -38,28 +38,18 @@ int main(void) {
         HLOG(ERROR, "Get device number return %d", ret);
         return 1;
     }
-
+    nvmlDevice_t dev;
+    int a = 1024;
+    nvmlProcessInfo_t* infos;
     for (i = 0; i < device_num; i++) {
-        nvmlProcessInfo_v1_t *pids_on_device = malloc(sizeof(nvmlProcessInfo_t) * MAX_PIDS);
-
-        nvmlDevice_t dev;
-
         HLOG(INFO, "Get device %d return %d", i, ret);
-        ret = nvmlDeviceGetHandleByIndex(i, &dev);
-        if (unlikely(ret)) {
-            HLOG(ERROR, "Get device %d return %d", i, ret);
-            continue;
-        }
-        unsigned int size_on_device;
-        ret = nvmlDeviceGetGraphicsRunningProcesses(dev, &size_on_device, pids_on_device);
-        if (ret != NVML_SUCCESS) {
-            // todo 有问题
-            HLOG(INFO, "Get process gpu memory return %d %d ", ret, size_on_device);
-            continue;
-        }
+        infos = (nvmlProcessInfo_t*)malloc(sizeof(nvmlProcessInfo_t) * a);
+        nvmlDeviceGetHandleByIndex(i, &dev);
+        unsigned int size_on_device = a;
+        nvmlDeviceGetGraphicsRunningProcesses_v3(dev, &size_on_device, infos);
         HLOG(INFO, "Get process %d ", size_on_device);
         for (j = 0; j < size_on_device; j++) {
-            HLOG(INFO, "summary: %d used %lld", pids_on_device[j].pid, pids_on_device[j].usedGpuMemory);
+            HLOG(INFO, "summary: %d used %lld", infos[j].pid, infos[j].usedGpuMemory);
         }
     }
 

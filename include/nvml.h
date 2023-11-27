@@ -865,7 +865,7 @@ typedef enum nvmlReturn_enum {
     NVML_ERROR_INSUFFICIENT_POWER = 8,         //!< A device's external power cables are not properly attached
     NVML_ERROR_DRIVER_NOT_LOADED = 9,          //!< NVIDIA driver is not loaded
     NVML_ERROR_TIMEOUT = 10,                   //!< User provided timeout passed
-    NVML_ERROR_IRQ_ISSUE = 11,                 //!< NVIDIA Kernel detected an interrupt issue with a GPU
+    NVML_ERROR_IRQ_ISSUE = 11,                 //!< NVIDIA Kernel detected an interrup t issue with a GPU
     NVML_ERROR_LIBRARY_NOT_FOUND = 12,         //!< NVML Shared Library couldn't be found or loaded
     NVML_ERROR_FUNCTION_NOT_FOUND = 13,        //!< Local version of NVML doesn't implement this function
     NVML_ERROR_CORRUPTED_INFOROM = 14,         //!< infoROM is corrupted
@@ -8899,30 +8899,6 @@ nvmlReturn_t DECLDIR nvmlDeviceGetMPSComputeRunningProcesses_v2(nvmlDevice_t dev
 nvmlReturn_t DECLDIR nvmlDeviceGetGpuInstancePossiblePlacements(nvmlDevice_t device, unsigned int profileId, nvmlGpuInstancePlacement_t *placements, unsigned int *count);
 nvmlReturn_t DECLDIR nvmlVgpuInstanceGetLicenseInfo(nvmlVgpuInstance_t vgpuInstance, nvmlVgpuLicenseInfo_t *licenseInfo);
 
-#if defined(NVML_NO_UNVERSIONED_FUNC_DEFS)
-// We don't define APIs to run new versions if this guard is present so there is
-// no need to undef
-#elif defined(__NVML_API_VERSION_INTERNAL)
-#    undef nvmlDeviceGetGraphicsRunningProcesses
-#    undef nvmlDeviceGetComputeRunningProcesses
-#    undef nvmlDeviceGetMPSComputeRunningProcesses
-#    undef nvmlDeviceGetAttributes
-#    undef nvmlComputeInstanceGetInfo
-#    undef nvmlEventSetWait
-#    undef nvmlDeviceGetGridLicensableFeatures
-#    undef nvmlDeviceRemoveGpu
-#    undef nvmlDeviceGetNvLinkRemotePciInfo
-#    undef nvmlDeviceGetPciInfo
-#    undef nvmlDeviceGetCount
-#    undef nvmlDeviceGetHandleByIndex
-#    undef nvmlDeviceGetHandleByPciBusId
-#    undef nvmlInit
-#    undef nvmlBlacklistDeviceInfo_t
-#    undef nvmlGetBlacklistDeviceCount
-#    undef nvmlGetBlacklistDeviceInfoByIndex
-#    undef nvmlDeviceGetGpuInstancePossiblePlacements
-#    undef nvmlVgpuInstanceGetLicenseInfo
-#endif
 
 #ifdef __cplusplus
 }
