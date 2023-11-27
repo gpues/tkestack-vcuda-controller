@@ -68,9 +68,38 @@ $ret$ $func_name$($func_param$) {
             "cuFuncSetBlockShape": 1,
             "cuLaunchKernel_ptsz": 1,
             "cuLaunchCooperativeKernel_ptsz": 1,
+            "cuArray3DCreate_v2": 1,
+            "cuDeviceTotalMem_v2": 1,
+            "cuMemAlloc_v2": 1,
+            "cuMemGetInfo_v2": 1,
         }
-        self.nvml_hook = {}
-
+        self.nvml_hook = {
+            "nvmlInitWithFlags": 1,
+            "nvmlInit_v2": 1,
+            "nvmlInit": 1,
+        }
+        self.nvml_discard = {
+        #     "nvmlInit": 1,
+        #     "nvmlDeviceGetPciInfo": 1,
+        #     "nvmlDeviceGetCount": 1,
+        #     "nvmlDeviceGetHandleByIndex": 1,
+        #     "nvmlDeviceGetHandleByPciBusId": 1,
+        #     "nvmlDeviceGetNvLinkRemotePciInfo": 1,
+        #     "nvmlDeviceRemoveGpu": 1,
+        #     "nvmlDeviceGetGridLicensableFeatures": 1,
+        #     "nvmlEventSetWait": 1,
+        #     "nvmlDeviceGetAttributes": 1,
+        #     "nvmlComputeInstanceGetInfo": 1,
+        #     "nvmlDeviceGetComputeRunningProcesses": 1,
+        #     "nvmlDeviceGetGraphicsRunningProcesses": 1,
+        #     "nvmlDeviceGetMPSComputeRunningProcesses": 1,
+        #     "nvmlBlacklistDeviceInfo_t": 1,
+        #     "nvmlGetBlacklistDeviceCount": 1,
+        #     "nvmlGetBlacklistDeviceInfoByIndex": 1,
+        #     "nvmlDeviceGetGpuInstancePossiblePlacements": 1,
+        #     "nvmlVgpuInstanceGetLicenseInfo": 1,
+        }
+        self.cuda_discard = {}
         self.cuda_map = {}
         self.nvml_map = {}
 
@@ -134,6 +163,10 @@ $ret$ $func_name$($func_param$) {
             _h = getattr(self, self.type + '_hook')  # type:dict
             if _h.get(func_name):
                 continue
+            _d = getattr(self, self.type + '_discard')  # type:dict
+            if _d.get(func_name):
+                continue
+
             if new_func_name != func_name:
                 continue
                 # raw_hook_func = hook_func.replace("$func_name$", func_name)

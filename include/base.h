@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include <sys/times.h>
 #include <unistd.h>
-
+#include "stdint.h"
+#include "limits.h"
 #include "cuda.h"
 #include "nvml.h"
 typedef struct {

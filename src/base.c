@@ -275,7 +275,7 @@ void initialization() {
 void get_used_gpu_memory(int fd, void *arg) {
     size_t *used_memory = arg;
     nvmlDevice_t dev;
-    nvmlProcessInfo_v1_t *pids_on_device = NULL;
+    nvmlProcessInfo_t *pids_on_device = NULL;
     unsigned int size_on_device = MAX_PIDS;
     int ret;
     unsigned int i;
@@ -287,9 +287,9 @@ void get_used_gpu_memory(int fd, void *arg) {
         return;
     }
 
-    ret = nvmlDeviceGetComputeRunningProcesses(dev, &size_on_device, pids_on_device);
+    ret = nvmlDeviceGetComputeRunningProcesses_v3(dev, &size_on_device, pids_on_device);
     if (unlikely(ret)) {
-        HLOG(INFO, "nvmlDeviceGetComputeRunningProcesses can't get pids on device 0, return %d", ret);
+        HLOG(INFO, "nvmlDeviceGetComputeRunningProcesses_v3 can't get pids on device 0, return %d", ret);
         *used_memory = g_vcuda_config.gpu_memory;
         return;
     }
@@ -450,7 +450,7 @@ void get_used_gpu_utilization(int fd, void *arg) {
     nvmlProcessUtilizationSample_t processes_sample[MAX_PIDS];
     unsigned int processes_num = 0;
     unsigned int running_processes = 0;
-    nvmlProcessInfo_v1_t *pids_on_device = NULL;
+    nvmlProcessInfo_t *pids_on_device = NULL;
     nvmlDevice_t dev;
     utilization_t *top_result = (utilization_t *)arg;
     nvmlReturn_t ret;
@@ -466,9 +466,9 @@ void get_used_gpu_utilization(int fd, void *arg) {
         return;
     }
 
-    ret = nvmlDeviceGetComputeRunningProcesses(dev, &running_processes, pids_on_device);
+    ret = nvmlDeviceGetComputeRunningProcesses_v3(dev, &running_processes, pids_on_device);
     if (unlikely(ret)) {
-        HLOG(INFO, "nvmlDeviceGetComputeRunningProcesses: %s", nvmlErrorString(ret));
+        HLOG(INFO, "nvmlDeviceGetComputeRunningProcesses_v3: %s", nvmlErrorString(ret));
         return;
     }
 

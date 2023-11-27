@@ -25,3 +25,13 @@ nvmlReturn_t nvmlInit_v2() {
     TimeProfileDestroy(pprof);
     return rs;
 }
+nvmlReturn_t nvmlInit() {
+    load_necessary_data();
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("nvmlInit");
+    void *nvml_handle = dlopen(NvmlSo(), RTLD_GLOBAL | RTLD_LAZY);
+    nvmlReturn_t (*hookFunc)() = (nvmlReturn_t(*)())dlsym(nvml_handle, "nvmlInit");
+    HOOK_CHECK(hookFunc);
+    nvmlReturn_t rs = hookFunc();
+    TimeProfileDestroy(pprof);
+    return rs;
+}
