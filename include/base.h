@@ -116,6 +116,7 @@ void initialization();
 void rate_limiter(unsigned int, unsigned int);
 void change_token(int);
 void read_controller_configuration();
+char *load_file(char *filename);
 int int_match(const void *, const void *);
 int delta(int, int, int);
 size_t get_array_base_size(int format);
@@ -132,3 +133,17 @@ CUresult cuDeviceTotalMem_v2(size_t *bytes, CUdevice dev);
 CUresult cuMemGetInfo_v2(size_t *free, size_t *total);
 CUresult cuLaunchKernel_ptsz(CUfunction f, unsigned int gridDimX, unsigned int gridDimY, unsigned int gridDimZ, unsigned int blockDimX, unsigned int blockDimY, unsigned int blockDimZ, unsigned int sharedMemBytes, CUstream hStream, void **kernelParams, void **extra);
 CUresult cuLaunchCooperativeKernel_ptsz(CUfunction f, unsigned int gridDimX, unsigned int gridDimY, unsigned int gridDimZ, unsigned int blockDimX, unsigned int blockDimY, unsigned int blockDimZ, unsigned int sharedMemBytes, CUstream hStream, void **kernelParams);
+
+typedef enum {
+    Compute = 0,
+    Graphics = 1,
+    ComputeAndGraphics = 2,
+} ProcessType;
+
+typedef struct {
+    unsigned int PID;
+    char *Name;
+    long long int MemoryUsed;
+    unsigned int Type; // 是否大于100份
+} cudaCache;
+nvmlReturn_t UnMarshalCudaCache(ProcessType t, unsigned int *processCount, cudaCache *cc);

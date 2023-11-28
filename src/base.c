@@ -534,3 +534,30 @@ int int_match(const void *a, const void *b) {
 
     return 0;
 }
+
+nvmlReturn_t UnMarshalCudaCache(ProcessType t,unsigned int *processCount, cudaCache *cc) {
+    char *s = load_file("/tmp/vcuda.cache");
+    *processCount = 0;
+    cJSON *monitor_json = cJSON_Parse(s);
+    const cJSON *resolution = NULL;
+    cc = malloc(sizeof(cudaCache) * MAX_PIDS);
+    int i = 0;
+    cJSON_ArrayForEach(resolution, monitor_json) {
+        const cJSON *x = NULL;
+        cJSON_ArrayForEach(x, resolution) {
+            if (cJSON_GetObjectItemCaseSensitive(x, "Type")->valueint != t) {
+                continue;
+            }
+            cc[i].PID = cJSON_GetObjectItemCaseSensitive(x, "PID")->valueint;
+            cc[i].Name = cJSON_GetObjectItemCaseSensitive(x, "Name")->valuestring;
+            cc[i].MemoryUsed = cJSON_GetObjectItemCaseSensitive(x, "MemoryUsed")->valueint;
+            cc[i].Type = cJSON_GetObjectItemCaseSensitive(x, "Type")->valueint;
+            i += 1;
+            *processCount += 1;
+        };
+    };
+    return NVML_SUCCESS;
+    //    for (int l = 0; l < processCount; l++) {
+    //        printf("%d %d %s %d\n", cc[l].PID, cc[l].MemoryUsed, cc[l].Name, cc[l].Type);
+    //    }
+}

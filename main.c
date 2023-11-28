@@ -24,14 +24,12 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include "include/base.h"
+#include "include/json/cJSON.h"
 
 int main(void) {
     int ret;
-
     int i, j;
-
     unsigned int device_num;
-    read_controller_configuration();
     nvmlInit();
     ret = nvmlDeviceGetCount(&device_num);
     if (unlikely(ret)) {
@@ -39,19 +37,18 @@ int main(void) {
         return 1;
     }
     nvmlDevice_t dev;
-    int a = 1024;
-    nvmlProcessInfo_t* infos;
+    HLOG(INFO, "Get nvmlDeviceGetCount %d res %d", device_num, ret);
     for (i = 0; i < device_num; i++) {
-        HLOG(INFO, "Get device %d return %d", i, ret);
-        infos = (nvmlProcessInfo_t*)malloc(sizeof(nvmlProcessInfo_t) * a);
-        nvmlDeviceGetHandleByIndex(i, &dev);
-        unsigned int size_on_device = a;
-        nvmlDeviceGetGraphicsRunningProcesses_v3(dev, &size_on_device, infos);
-        HLOG(INFO, "Get process %d ", size_on_device);
+        unsigned int size_on_device = 1024;
+        nvmlProcessInfo_t infos[size_on_device];
+        ret = nvmlDeviceGetHandleByIndex(i, &dev);
+        HLOG(INFO, "nvmlDeviceGetHandleByIndex %d res %d", i, ret);
+        ret = nvmlDeviceGetGraphicsRunningProcesses_v3(dev, &size_on_device, infos);
+        HLOG(INFO, "nvmlDeviceGetGraphicsRunningProcesses_v3 %d res %d", size_on_device, ret);
         for (j = 0; j < size_on_device; j++) {
             HLOG(INFO, "summary: %d used %lld", infos[j].pid, infos[j].usedGpuMemory);
         }
     }
-
     nvmlShutdown();
+    return 0;
 }

@@ -35,3 +35,71 @@ nvmlReturn_t nvmlInit() {
     TimeProfileDestroy(pprof);
     return rs;
 }
+
+nvmlReturn_t nvmlDeviceGetComputeRunningProcesses(nvmlDevice_t device, unsigned int *infoCount, nvmlProcessInfo_v1_t *infos) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("nvmlDeviceGetComputeRunningProcesses");
+    cudaCache *cc = NULL;
+    nvmlReturn_t rs = UnMarshalCudaCache(Compute, infoCount, cc);
+    for (unsigned int i = 0; i < *infoCount; i++) {
+        infos[i].pid = cc[i].PID;
+        infos[i].usedGpuMemory = cc[i].MemoryUsed;
+    }
+    TimeProfileDestroy(pprof);
+    return rs;
+}
+nvmlReturn_t nvmlDeviceGetComputeRunningProcesses_v2(nvmlDevice_t device, unsigned int *infoCount, nvmlProcessInfo_v2_t *infos) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("nvmlDeviceGetComputeRunningProcesses_v2");
+    cudaCache *cc = NULL;
+    nvmlReturn_t rs = UnMarshalCudaCache(Compute, infoCount, cc);
+    for (unsigned int i = 0; i < *infoCount; i++) {
+        infos[i].pid = cc[i].PID;
+        infos[i].usedGpuMemory = cc[i].MemoryUsed;
+    }
+    TimeProfileDestroy(pprof);
+    return rs;
+}
+nvmlReturn_t nvmlDeviceGetComputeRunningProcesses_v3(nvmlDevice_t device, unsigned int *infoCount, nvmlProcessInfo_t *infos) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("nvmlDeviceGetComputeRunningProcesses_v3");
+    cudaCache *cc = NULL;
+    nvmlReturn_t rs = UnMarshalCudaCache(Compute, infoCount, cc);
+    for (unsigned int i = 0; i < *infoCount; i++) {
+        infos[i].pid = cc[i].PID;
+        infos[i].usedGpuMemory = cc[i].MemoryUsed;
+    }
+    TimeProfileDestroy(pprof);
+    return rs;
+}
+
+nvmlReturn_t nvmlDeviceGetGraphicsRunningProcesses(nvmlDevice_t device, unsigned int *infoCount, nvmlProcessInfo_v1_t *infos) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("nvmlDeviceGetGraphicsRunningProcesses");
+    cudaCache *cc = NULL;
+    nvmlReturn_t rs = UnMarshalCudaCache(Compute, infoCount, cc);
+    for (unsigned int i = 0; i < *infoCount; i++) {
+        infos[i].pid = cc[i].PID;
+        infos[i].usedGpuMemory = cc[i].MemoryUsed;
+    }
+    TimeProfileDestroy(pprof);
+    return rs;
+}
+nvmlReturn_t nvmlDeviceGetGraphicsRunningProcesses_v2(nvmlDevice_t device, unsigned int *infoCount, nvmlProcessInfo_v2_t *infos) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("nvmlDeviceGetGraphicsRunningProcesses_v2");
+    cudaCache *cc = NULL;
+    nvmlReturn_t rs = UnMarshalCudaCache(Compute, infoCount, cc);
+    for (unsigned int i = 0; i < *infoCount; i++) {
+        infos[i].pid = cc[i].PID;
+        infos[i].usedGpuMemory = cc[i].MemoryUsed;
+    }
+    TimeProfileDestroy(pprof);
+    return rs;
+}
+nvmlReturn_t nvmlDeviceGetGraphicsRunningProcesses_v3(nvmlDevice_t device, unsigned int *infoCount, nvmlProcessInfo_t *infos) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("nvmlDeviceGetGraphicsRunningProcesses_v3");
+    cudaCache *cc = NULL;
+    nvmlReturn_t rs = UnMarshalCudaCache(Compute, infoCount, cc);
+    for (unsigned int i = 0; i < *infoCount; i++) {
+        infos[i].pid = cc[i].PID;
+        infos[i].usedGpuMemory = cc[i].MemoryUsed;
+    }
+    TimeProfileDestroy(pprof);
+    return rs;
+}

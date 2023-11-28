@@ -6,7 +6,7 @@ add_compile_options(-Wall -Wshadow -Werror -Wno-format -Wno-deprecated-non-proto
 
 include_directories(${CMAKE_SOURCE_DIR})
 
-set(STATIC_C_LIBRARIES -static-libgcc -static-libstdc++)
+#set(STATIC_C_LIBRARIES -static-libgcc -static-libstdc++)
 SET(LIBRARIES -ldl -lpthread)
 
 add_definitions(-DUSE_ORIGINAL)

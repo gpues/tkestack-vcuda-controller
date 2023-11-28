@@ -16,7 +16,7 @@ resource_data_t g_vcuda_config = {
     .bus_id = "",
 };
 
-void read_controller_configuration() {
+char *load_file(char *filename) {
     char *text = NULL;                               // 用于存储所有文本的字符串
     char line[1000];                                 // 用于存储读取的每行文本
     FILE *file = fopen(CONTROLLER_CONFIG_PATH, "r"); // 打开文件
@@ -31,14 +31,19 @@ void read_controller_configuration() {
         size_t line_len = strlen(line);
         char *new_text = realloc(text, len + line_len + 1); // 重新分配足够的空间来存储当前文本
         if (new_text == NULL) {
-            free(text);   // 释放原始缓冲区的内存
-            fclose(file); // 关闭文件
+            free(text);                                     // 释放原始缓冲区的内存
+            fclose(file);                                   // 关闭文件
             HLOG(FATAL, "内存分配失败");
         }
         text = new_text;
         strcpy(text + len, line); // 将当前行文本连接到已有的文本之后
         len += line_len;          // 更新当前文本的长度
     }
+    return text;
+}
+
+void read_controller_configuration() {
+    char *text = load_file(CONTROLLER_CONFIG_PATH);
     g_vcuda_config = UnMarshal(text);
     HLOG(DEBUG, "pod uid          : %s", g_vcuda_config.pod_uid);
     HLOG(DEBUG, "limit            : %d", g_vcuda_config.limit);
