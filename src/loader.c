@@ -54,13 +54,13 @@ void read_controller_configuration() {
     HLOG(DEBUG, "hard limit mode  : %d", g_vcuda_config.hard_limit);
     HLOG(DEBUG, "enable mode      : %d", g_vcuda_config.enable);
 }
-static pthread_once_t g_cuda_config_set = PTHREAD_ONCE_INIT;
-static pthread_once_t g_cuda_set = PTHREAD_ONCE_INIT;
-static pthread_once_t g_init_set = PTHREAD_ONCE_INIT;
+//static pthread_once_t g_cuda_config_set = PTHREAD_ONCE_INIT;
+//static pthread_once_t g_cuda_set = PTHREAD_ONCE_INIT;
+//static pthread_once_t g_init_set = PTHREAD_ONCE_INIT;
 void load_necessary_data() {
-    pthread_once(&g_cuda_config_set, read_controller_configuration);
+//    pthread_once(&g_cuda_config_set, read_controller_configuration);
 }
 void cudaNecessary() {
-    pthread_once(&g_cuda_set, write_cuda_config);
-    pthread_once(&g_init_set, initialization);
+//    pthread_once(&g_cuda_set, write_cuda_config);
+//    pthread_once(&g_init_set, initialization);
 }

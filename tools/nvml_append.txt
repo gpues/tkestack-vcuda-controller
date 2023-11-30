@@ -1,1 +1,2 @@
 nvmlReturn_t nvmlInternalGetExportTable(const void **ppExportTable, void *pExportTableId);
+nvmlReturn_t nvmlDeviceGetSupportedEventTypes ( nvmlDevice_t device, unsigned long long* eventTypes );

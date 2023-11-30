@@ -216,7 +216,6 @@ void write_cuda_config() {
     unsigned int deviceCount = 0;
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(unsigned int) = (CUresult(*)(unsigned int))dlsym(cuda_handle, "cuInit");
-    HOOK_CHECK(hookFunc);
     hookFunc(0);
     nvmlInit();
     nvmlDeviceGetCount(&deviceCount);
@@ -250,7 +249,6 @@ void initialization() {
     HLOG(INFO, "enter %s", __FUNCTION__);
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(unsigned int) = (CUresult(*)(unsigned int))dlsym(cuda_handle, "cuInit");
-    HOOK_CHECK(hookFunc);
     CUresult ret = hookFunc(0);
     const char *cuda_err_string = NULL;
     if (ret != CUDA_SUCCESS) {

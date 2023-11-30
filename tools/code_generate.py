@@ -8,6 +8,7 @@ from __future__ import with_statement
 
 import optparse
 import os
+import sys
 
 from CppHeaderParser import CppHeader
 
@@ -77,27 +78,33 @@ $ret$ $func_name$($func_param$) {
             "nvmlInitWithFlags": 1,
             "nvmlInit_v2": 1,
             "nvmlInit": 1,
+            "nvmlDeviceGetGraphicsRunningProcesses": 1,
+            "nvmlDeviceGetGraphicsRunningProcesses_v2": 1,
+            "nvmlDeviceGetGraphicsRunningProcesses_v3": 1,
+            "nvmlDeviceGetComputeRunningProcesses": 1,
+            "nvmlDeviceGetComputeRunningProcesses_v2": 1,
+            "nvmlDeviceGetComputeRunningProcesses_v3": 1,
         }
         self.nvml_discard = {
-        #     "nvmlInit": 1,
-        #     "nvmlDeviceGetPciInfo": 1,
-        #     "nvmlDeviceGetCount": 1,
-        #     "nvmlDeviceGetHandleByIndex": 1,
-        #     "nvmlDeviceGetHandleByPciBusId": 1,
-        #     "nvmlDeviceGetNvLinkRemotePciInfo": 1,
-        #     "nvmlDeviceRemoveGpu": 1,
-        #     "nvmlDeviceGetGridLicensableFeatures": 1,
-        #     "nvmlEventSetWait": 1,
-        #     "nvmlDeviceGetAttributes": 1,
-        #     "nvmlComputeInstanceGetInfo": 1,
-        #     "nvmlDeviceGetComputeRunningProcesses": 1,
-        #     "nvmlDeviceGetGraphicsRunningProcesses": 1,
-        #     "nvmlDeviceGetMPSComputeRunningProcesses": 1,
-        #     "nvmlBlacklistDeviceInfo_t": 1,
-        #     "nvmlGetBlacklistDeviceCount": 1,
-        #     "nvmlGetBlacklistDeviceInfoByIndex": 1,
-        #     "nvmlDeviceGetGpuInstancePossiblePlacements": 1,
-        #     "nvmlVgpuInstanceGetLicenseInfo": 1,
+            #     "nvmlInit": 1,
+            #     "nvmlDeviceGetPciInfo": 1,
+            #     "nvmlDeviceGetCount": 1,
+            #     "nvmlDeviceGetHandleByIndex": 1,
+            #     "nvmlDeviceGetHandleByPciBusId": 1,
+            #     "nvmlDeviceGetNvLinkRemotePciInfo": 1,
+            #     "nvmlDeviceRemoveGpu": 1,
+            #     "nvmlDeviceGetGridLicensableFeatures": 1,
+            #     "nvmlEventSetWait": 1,
+            #     "nvmlDeviceGetAttributes": 1,
+            #     "nvmlComputeInstanceGetInfo": 1,
+            #     "nvmlDeviceGetComputeRunningProcesses": 1,
+            #     "nvmlDeviceGetGraphicsRunningProcesses": 1,
+            #     "nvmlDeviceGetMPSComputeRunningProcesses": 1,
+            #     "nvmlBlacklistDeviceInfo_t": 1,
+            #     "nvmlGetBlacklistDeviceCount": 1,
+            #     "nvmlGetBlacklistDeviceInfoByIndex": 1,
+            #     "nvmlDeviceGetGpuInstancePossiblePlacements": 1,
+            #     "nvmlVgpuInstanceGetLicenseInfo": 1,
         }
         self.cuda_discard = {}
         self.cuda_map = {}
@@ -147,7 +154,6 @@ $ret$ $func_name$($func_param$) {
             if param_name != "":
                 param_name = ', ' + param_name
             hook_func = self.hook_template
-
             hook_func = hook_func.replace("$ret$", ret)
             hook_func = hook_func.replace("$func_param$", func_param)
             hook_func = hook_func.replace("$param_type$", param_type)
@@ -192,8 +198,8 @@ $ret$ $func_name$($func_param$) {
 
 
 def main():
-    # sys.argv.extend(['-t', 'nvml', '-f', '../src/nvml.h', '-o', '../src', '--rt', 'nvmlReturn_t'])
-    # sys.argv.extend(['-t', 'cuda', '-f', '../src/cuda.h', '-o', '../src', '--rt', 'CUresult'])
+    # sys.argv.extend(['-t', 'nvml', '-f', '../include/nvml.h', '-o', '../src', '--rt', 'nvmlReturn_t'])
+    # sys.argv.extend(['-t', 'cuda', '-f', '../include/cuda.h', '-o', '../src', '--rt', 'CUresult'])
     usage = "python3 code_generate.py -t/--type cuda -f/--file include/cuda.h -o/--output output"
     parser = optparse.OptionParser(usage)
     parser.add_option(

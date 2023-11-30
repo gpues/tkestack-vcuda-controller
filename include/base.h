@@ -1,5 +1,5 @@
 #include <stdbool.h>
-#include <stdio.h>
+
 #include <stdlib.h>
 #include <sys/times.h>
 #include <unistd.h>
@@ -7,6 +7,8 @@
 #include "limits.h"
 #include "cuda.h"
 #include "nvml.h"
+#include <stdio.h>
+
 typedef struct {
     char *name;
     clock_t start;
@@ -42,28 +44,24 @@ typedef enum {
     FATAL = 4,
     VERBOSE = 5,
 } log_level_enum_t;
-
-#define HLOG(level, format, ...)                                                                                                                     \
-    ({                                                                                                                                               \
-        char *_print_level_str = getenv("LOGGER_LEVEL");                                                                                             \
-        int _print_level = 0;                                                                                                                        \
-        if (_print_level_str) {                                                                                                                      \
-            _print_level = (int)strtoul(_print_level_str, NULL, 10);                                                                                 \
-            _print_level = _print_level < 0 ? 3 : _print_level;                                                                                      \
-        }                                                                                                                                            \
-        if (level <= _print_level) {                                                                                                                 \
-            fprintf(stderr, "[%s %s %d %s:%d] " format "\n", HOOK_LOG_TAG, curr_time(), getpid(), HOOK_LOG_FILE(__FILE__), __LINE__, ##__VA_ARGS__); \
-        }                                                                                                                                            \
-        if (level == FATAL) {                                                                                                                        \
-            exit(-1);                                                                                                                                \
-        }                                                                                                                                            \
+// sub_4074F0
+#define HLOG(level, format, ...)                                                                                                            \
+    ({                                                                                                                                      \
+        char *_print_level_str = getenv("LOGGER_LEVEL");                                                                                    \
+        int _print_level = 0;                                                                                                               \
+        if (_print_level_str) {                                                                                                             \
+            _print_level = (int)strtoul(_print_level_str, NULL, 10);                                                                        \
+            _print_level = _print_level < 0 ? 3 : _print_level;                                                                             \
+        }                                                                                                                                   \
+        if (level <= _print_level) {                                                                                                        \
+            printf("[%s %s %d %s:%d] " format "\n", HOOK_LOG_TAG, curr_time(), getpid(), HOOK_LOG_FILE(__FILE__), __LINE__, ##__VA_ARGS__); \
+        }                                                                                                                                   \
     })
-#define HOOK_CHECK(x)                            \
-    do {                                         \
-        if (HOOK_UNLIKELY(!(x))) {               \
-            HLOG(FATAL, "Check failed: %s", #x); \
-            exit(EXIT_FAILURE);                  \
-        }                                        \
+#define HOOK_CHECK(x)                       \
+    do {                                    \
+        if (HOOK_UNLIKELY(!(x))) {          \
+            printf("Check failed: %s", #x); \
+        }                                   \
     } while (0)
 
 #define likely(x) __builtin_expect(!!(x), 1)
