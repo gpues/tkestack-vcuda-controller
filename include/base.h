@@ -14,6 +14,8 @@ typedef struct {
     clock_t start;
 } HOOK_TRACE_PROFILE;
 
+void cudaTimeProfileDestroy(HOOK_TRACE_PROFILE *obj, CUresult rs);
+void nvmlTimeProfileDestroy(HOOK_TRACE_PROFILE *obj, nvmlReturn_t rs);
 void TimeProfileDestroy(HOOK_TRACE_PROFILE *obj);
 HOOK_TRACE_PROFILE *TimeProfile(char *name);
 char *curr_time();

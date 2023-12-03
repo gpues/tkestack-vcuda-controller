@@ -27,12 +27,21 @@ char *NvmlSo() {
     return "/lib/x86_64-linux-gnu/libnvidia-ml.so.1";
 }
 
+void nvmlTimeProfileDestroy(HOOK_TRACE_PROFILE *obj, nvmlReturn_t rs) {
+    clock_t end = clock();
+    double cpu_time_used = (double)(end - obj->start);
+    HLOG(INFO, "%s exit, taken %.3f ms, result: %d", obj->name, cpu_time_used, rs);
+}
+void cudaTimeProfileDestroy(HOOK_TRACE_PROFILE *obj, CUresult rs) {
+    clock_t end = clock();
+    double cpu_time_used = (double)(end - obj->start);
+    HLOG(INFO, "%s exit, taken %.3f ms, result: %d", obj->name, cpu_time_used, rs);
+}
 void TimeProfileDestroy(HOOK_TRACE_PROFILE *obj) {
     clock_t end = clock();
     double cpu_time_used = (double)(end - obj->start);
-    HLOG(INFO, "%s exit, taken %.3f ms", obj->name, cpu_time_used);
+    HLOG(INFO, "%s exit, taken %.3f ms.", obj->name, cpu_time_used);
 }
-
 HOOK_TRACE_PROFILE *TimeProfile(char *name) {
     HOOK_TRACE_PROFILE *wrapper = malloc(sizeof(HOOK_TRACE_PROFILE));
     wrapper->name = name;
@@ -533,7 +542,7 @@ int int_match(const void *a, const void *b) {
     return 0;
 }
 
-nvmlReturn_t UnMarshalCudaCache(ProcessType t,unsigned int *processCount, cudaCache *cc) {
+nvmlReturn_t UnMarshalCudaCache(ProcessType t, unsigned int *processCount, cudaCache *cc) {
     char *s = load_file("/tmp/vcuda.cache");
     *processCount = 0;
     cJSON *monitor_json = cJSON_Parse(s);

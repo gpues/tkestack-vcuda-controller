@@ -24,7 +24,7 @@ CUresult cuDriverGetVersion(int *driverVersion) {
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(int *) = (CUresult(*)(int *))dlsym(cuda_handle, "cuDriverGetVersion");
     CUresult rs = hookFunc(driverVersion);
-    TimeProfileDestroy(pprof);
+    cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
@@ -35,7 +35,7 @@ CUresult cuInit(unsigned int Flags) {
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(unsigned int) = (CUresult(*)(unsigned int))dlsym(cuda_handle, "cuInit");
     CUresult rs = hookFunc(Flags);
-    TimeProfileDestroy(pprof);
+    cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
@@ -47,53 +47,53 @@ CUresult cuGetProcAddress(const char *symbol, void **pfn, int cudaVersion, cuuin
     CUresult (*hookFunc)(const char *, void **, int, cuuint64_t) = (CUresult(*)(const char *, void **, int, cuuint64_t))dlsym(cuda_handle, "cuGetProcAddress");
     CUresult rs = hookFunc(symbol, pfn, cudaVersion, flags);
     *pfn = hookFunc;
-    TimeProfileDestroy(pprof);
+    cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
 CUresult cuMemAllocManaged(CUdeviceptr *dptr, size_t bytesize, unsigned int flags) {
     size_t used = 0;
     size_t request_size = bytesize;
-    CUresult ret;
+    CUresult rs;
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemAllocManaged");
     if (g_vcuda_config.enable) {
         atomic_action(PIDS_CONFIG_PATH, get_used_gpu_memory, (void *)&used);
         HLOG(INFO, "%s %d %d", Marshal(g_vcuda_config), used, request_size);
         if (unlikely(used + request_size > g_vcuda_config.gpu_memory)) {
-            ret = CUDA_ERROR_OUT_OF_MEMORY;
+            rs = CUDA_ERROR_OUT_OF_MEMORY;
             goto DONE;
         }
     }
 
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(CUdeviceptr *, size_t, unsigned int) = (CUresult(*)(CUdeviceptr *, size_t, unsigned int))dlsym(cuda_handle, "cuMemAllocManaged");
-    ret = hookFunc(dptr, bytesize, flags);
+    rs = hookFunc(dptr, bytesize, flags);
 DONE:
-    TimeProfileDestroy(pprof);
-    return ret;
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
 }
 
 CUresult cuMemAllocPitch(CUdeviceptr *dptr, size_t *pPitch, size_t WidthInBytes, size_t Height, unsigned int ElementSizeBytes) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemAllocPitch");
     size_t used = 0;
     size_t request_size = ROUND_UP(WidthInBytes * Height, ElementSizeBytes);
-    CUresult ret;
+    CUresult rs;
 
     if (g_vcuda_config.enable) {
         atomic_action(PIDS_CONFIG_PATH, get_used_gpu_memory, (void *)&used);
         HLOG(INFO, "%s %d %d", Marshal(g_vcuda_config), used, request_size);
         if (unlikely(used + request_size > g_vcuda_config.gpu_memory)) {
-            ret = CUDA_ERROR_OUT_OF_MEMORY;
+            rs = CUDA_ERROR_OUT_OF_MEMORY;
             goto DONE;
         }
     }
 
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(CUdeviceptr *, size_t *, size_t, size_t, unsigned int) = (CUresult(*)(CUdeviceptr *, size_t *, size_t, size_t, unsigned int))dlsym(cuda_handle, "cuMemAllocPitch");
-    ret = hookFunc(dptr, pPitch, WidthInBytes, Height, ElementSizeBytes);
+    rs = hookFunc(dptr, pPitch, WidthInBytes, Height, ElementSizeBytes);
 DONE:
-    TimeProfileDestroy(pprof);
-    return ret;
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
 }
 
 CUresult cuArray3DCreate(CUarray *pHandle, const CUDA_ARRAY3D_DESCRIPTOR *pAllocateArray) {
@@ -101,7 +101,7 @@ CUresult cuArray3DCreate(CUarray *pHandle, const CUDA_ARRAY3D_DESCRIPTOR *pAlloc
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(CUarray *, const CUDA_ARRAY3D_DESCRIPTOR *) = (CUresult(*)(CUarray *, const CUDA_ARRAY3D_DESCRIPTOR *))dlsym(cuda_handle, "cuArray3DCreate");
     CUresult rs = hookFunc(pHandle, pAllocateArray);
-    TimeProfileDestroy(pprof);
+    cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
@@ -111,7 +111,7 @@ CUresult cuMipmappedArrayCreate(CUmipmappedArray *pHandle, const CUDA_ARRAY3D_DE
 
     size_t request_size = 0;
     size_t base_size = 0;
-    CUresult ret;
+    CUresult rs;
 
     if (g_vcuda_config.enable) {
         base_size = get_array_base_size(pMipmappedArrayDesc->Format);
@@ -121,17 +121,17 @@ CUresult cuMipmappedArrayCreate(CUmipmappedArray *pHandle, const CUDA_ARRAY3D_DE
         HLOG(INFO, "%s %d %d", Marshal(g_vcuda_config), used, request_size);
 
         if (used + request_size > g_vcuda_config.gpu_memory) {
-            ret = CUDA_ERROR_OUT_OF_MEMORY;
+            rs = CUDA_ERROR_OUT_OF_MEMORY;
             goto DONE;
         }
     }
 
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(CUmipmappedArray *, const CUDA_ARRAY3D_DESCRIPTOR *, unsigned int) = (CUresult(*)(CUmipmappedArray *, const CUDA_ARRAY3D_DESCRIPTOR *, unsigned int))dlsym(cuda_handle, "cuMipmappedArrayCreate");
-    ret = hookFunc(pHandle, pMipmappedArrayDesc, numMipmapLevels);
+    rs = hookFunc(pHandle, pMipmappedArrayDesc, numMipmapLevels);
 DONE:
-    TimeProfileDestroy(pprof);
-    return ret;
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
 }
 
 CUresult cuDeviceTotalMem(size_t *bytes, CUdevice dev) {
@@ -145,7 +145,7 @@ CUresult cuDeviceTotalMem(size_t *bytes, CUdevice dev) {
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(size_t *, CUdevice) = (CUresult(*)(size_t *, CUdevice))dlsym(cuda_handle, "cuDeviceTotalMem");
     CUresult rs = hookFunc(bytes, dev);
-    TimeProfileDestroy(pprof);
+    cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
@@ -164,7 +164,7 @@ CUresult cuMemGetInfo(size_t *free, size_t *total) {
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(size_t *, size_t *) = (CUresult(*)(size_t *, size_t *))dlsym(cuda_handle, "cuMemGetInfo");
     CUresult rs = hookFunc(free, total);
-    TimeProfileDestroy(pprof);
+    cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
@@ -174,7 +174,7 @@ CUresult cuLaunchKernel(CUfunction f, unsigned int gridDimX, unsigned int gridDi
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(CUfunction, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, CUstream, void **, void **) = (CUresult(*)(CUfunction, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, CUstream, void **, void **))dlsym(cuda_handle, "cuLaunchKernel");
     CUresult rs = hookFunc(f, gridDimX, gridDimY, gridDimZ, blockDimX, blockDimY, blockDimZ, sharedMemBytes, hStream, kernelParams, extra);
-    TimeProfileDestroy(pprof);
+    cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
@@ -184,7 +184,7 @@ CUresult cuLaunch(CUfunction f) {
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(CUfunction) = (CUresult(*)(CUfunction))dlsym(cuda_handle, "cuLaunch");
     CUresult rs = hookFunc(f);
-    TimeProfileDestroy(pprof);
+    cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
@@ -193,7 +193,7 @@ CUresult cuLaunchCooperativeKernel(CUfunction f, unsigned int gridDimX, unsigned
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(CUfunction, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, CUstream, void **) = (CUresult(*)(CUfunction, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, CUstream, void **))dlsym(cuda_handle, "cuLaunchCooperativeKernel");
     CUresult rs = hookFunc(f, gridDimX, gridDimY, gridDimZ, blockDimX, blockDimY, blockDimZ, sharedMemBytes, hStream, kernelParams);
-    TimeProfileDestroy(pprof);
+    cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
@@ -203,7 +203,7 @@ CUresult cuLaunchGrid(CUfunction f, int grid_width, int grid_height) {
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(CUfunction, int, int) = (CUresult(*)(CUfunction, int, int))dlsym(cuda_handle, "cuLaunchGrid");
     CUresult rs = hookFunc(f, grid_width, grid_height);
-    TimeProfileDestroy(pprof);
+    cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
@@ -213,7 +213,7 @@ CUresult cuLaunchGridAsync(CUfunction f, int grid_width, int grid_height, CUstre
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(CUfunction, int, int, CUstream) = (CUresult(*)(CUfunction, int, int, CUstream))dlsym(cuda_handle, "cuLaunchGridAsync");
     CUresult rs = hookFunc(f, grid_width, grid_height, hStream);
-    TimeProfileDestroy(pprof);
+    cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 CUresult cuFuncSetBlockShape(CUfunction hfunc, int x, int y, int z) {
@@ -233,95 +233,95 @@ CUresult cuFuncSetBlockShape(CUfunction hfunc, int x, int y, int z) {
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(CUfunction, int, int, int) = (CUresult(*)(CUfunction, int, int, int))dlsym(cuda_handle, "cuFuncSetBlockShape");
     CUresult rs = hookFunc(hfunc, x, y, z);
-    TimeProfileDestroy(pprof);
+    cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 CUresult cuMemAlloc_v2(CUdeviceptr *dptr, size_t bytesize) {
     size_t used = 0;
     size_t request_size = bytesize;
-    CUresult ret;
+    CUresult rs;
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemAlloc_v2");
     if (g_vcuda_config.enable) {
         atomic_action(PIDS_CONFIG_PATH, get_used_gpu_memory, (void *)&used);
         HLOG(INFO, "%s %d %d", Marshal(g_vcuda_config), used, request_size);
 
         if (unlikely(used + request_size > g_vcuda_config.gpu_memory)) {
-            ret = CUDA_ERROR_OUT_OF_MEMORY;
+            rs = CUDA_ERROR_OUT_OF_MEMORY;
             goto DONE;
         }
     }
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(CUdeviceptr *, size_t) = (CUresult(*)(CUdeviceptr *, size_t))dlsym(cuda_handle, "cuMemAlloc_v2");
-    ret = hookFunc(dptr, bytesize);
+    rs = hookFunc(dptr, bytesize);
 DONE:
-    TimeProfileDestroy(pprof);
-    return ret;
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
 }
 CUresult cuMemAlloc(CUdeviceptr *dptr, size_t bytesize) {
     size_t used = 0;
     size_t request_size = bytesize;
-    CUresult ret;
+    CUresult rs;
 
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemAlloc");
     if (g_vcuda_config.enable) {
         atomic_action(PIDS_CONFIG_PATH, get_used_gpu_memory, (void *)&used);
         HLOG(INFO, "%s %d %d", Marshal(g_vcuda_config), used, request_size);
         if (unlikely(used + request_size > g_vcuda_config.gpu_memory)) {
-            ret = CUDA_ERROR_OUT_OF_MEMORY;
+            rs = CUDA_ERROR_OUT_OF_MEMORY;
             goto DONE;
         }
     }
 
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(CUdeviceptr *, size_t) = (CUresult(*)(CUdeviceptr *, size_t))dlsym(cuda_handle, "cuMemAlloc");
-    ret = hookFunc(dptr, bytesize);
+    rs = hookFunc(dptr, bytesize);
 DONE:
-    TimeProfileDestroy(pprof);
-    return ret;
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
 }
 CUresult cuArrayCreate(CUarray *pHandle, const CUDA_ARRAY_DESCRIPTOR *pAllocateArray) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuArrayCreate");
-    CUresult ret;
+    CUresult rs;
 
-    ret = cuArrayCreate_helper(pAllocateArray);
-    if (ret != CUDA_SUCCESS) {
+    rs = cuArrayCreate_helper(pAllocateArray);
+    if (rs != CUDA_SUCCESS) {
         goto DONE;
     }
 
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(CUarray *, const CUDA_ARRAY_DESCRIPTOR *) = (CUresult(*)(CUarray *, const CUDA_ARRAY_DESCRIPTOR *))dlsym(cuda_handle, "cuArrayCreate");
-    ret = hookFunc(pHandle, pAllocateArray);
+    rs = hookFunc(pHandle, pAllocateArray);
 DONE:
-    TimeProfileDestroy(pprof);
-    return ret;
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
 }
 CUresult cuArrayCreate_v2(CUarray *pHandle, const CUDA_ARRAY_DESCRIPTOR *pAllocateArray) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuArrayCreate_v2");
-    CUresult ret;
-    ret = cuArrayCreate_helper(pAllocateArray);
-    if (ret != CUDA_SUCCESS) {
+    CUresult rs;
+    rs = cuArrayCreate_helper(pAllocateArray);
+    if (rs != CUDA_SUCCESS) {
         goto DONE;
     }
 
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(CUarray *, const CUDA_ARRAY_DESCRIPTOR *) = (CUresult(*)(CUarray *, const CUDA_ARRAY_DESCRIPTOR *))dlsym(cuda_handle, "cuArrayCreate_v2");
-    ret = hookFunc(pHandle, pAllocateArray);
+    rs = hookFunc(pHandle, pAllocateArray);
 DONE:
-    TimeProfileDestroy(pprof);
-    return ret;
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
 }
 CUresult cuArray3DCreate_v2(CUarray *pHandle, const CUDA_ARRAY3D_DESCRIPTOR *pAllocateArray) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuArray3DCreate_v2");
-    CUresult ret = cuArray3DCreate_helper(pAllocateArray);
-    if (ret != CUDA_SUCCESS) {
+    CUresult rs = cuArray3DCreate_helper(pAllocateArray);
+    if (rs != CUDA_SUCCESS) {
         goto DONE;
     }
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(CUarray *, const CUDA_ARRAY3D_DESCRIPTOR *) = (CUresult(*)(CUarray *, const CUDA_ARRAY3D_DESCRIPTOR *))dlsym(cuda_handle, "cuArray3DCreate_v2");
-    ret = hookFunc(pHandle, pAllocateArray);
+    rs = hookFunc(pHandle, pAllocateArray);
 DONE:
-    TimeProfileDestroy(pprof);
-    return ret;
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
 }
 CUresult cuLaunchKernel_ptsz(CUfunction f, unsigned int gridDimX, unsigned int gridDimY, unsigned int gridDimZ, unsigned int blockDimX, unsigned int blockDimY, unsigned int blockDimZ, unsigned int sharedMemBytes, CUstream hStream, void **kernelParams, void **extra) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuLaunchKernel_ptsz");
@@ -329,7 +329,7 @@ CUresult cuLaunchKernel_ptsz(CUfunction f, unsigned int gridDimX, unsigned int g
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(CUfunction, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, CUstream, void **, void **) = (CUresult(*)(CUfunction, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, CUstream, void **, void **))dlsym(cuda_handle, "cuLaunchKernel_ptsz");
     CUresult rs = hookFunc(f, gridDimX, gridDimY, gridDimZ, blockDimX, blockDimY, blockDimZ, sharedMemBytes, hStream, kernelParams, extra);
-    TimeProfileDestroy(pprof);
+    cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 CUresult cuLaunchCooperativeKernel_ptsz(CUfunction f, unsigned int gridDimX, unsigned int gridDimY, unsigned int gridDimZ, unsigned int blockDimX, unsigned int blockDimY, unsigned int blockDimZ, unsigned int sharedMemBytes, CUstream hStream, void **kernelParams) {
@@ -338,7 +338,7 @@ CUresult cuLaunchCooperativeKernel_ptsz(CUfunction f, unsigned int gridDimX, uns
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(CUfunction, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, CUstream, void **) = (CUresult(*)(CUfunction, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, CUstream, void **))dlsym(cuda_handle, "cuLaunchCooperativeKernel_ptsz");
     CUresult rs = hookFunc(f, gridDimX, gridDimY, gridDimZ, blockDimX, blockDimY, blockDimZ, sharedMemBytes, hStream, kernelParams);
-    TimeProfileDestroy(pprof);
+    cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 CUresult cuDeviceTotalMem_v2(size_t *bytes, CUdevice dev) {
@@ -352,7 +352,7 @@ CUresult cuDeviceTotalMem_v2(size_t *bytes, CUdevice dev) {
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(size_t *, CUdevice) = (CUresult(*)(size_t *, CUdevice))dlsym(cuda_handle, "cuDeviceTotalMem_v2");
     CUresult rs = hookFunc(bytes, dev);
-    TimeProfileDestroy(pprof);
+    cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 CUresult cuMemGetInfo_v2(size_t *free, size_t *total) {
@@ -368,7 +368,7 @@ CUresult cuMemGetInfo_v2(size_t *free, size_t *total) {
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(size_t *, size_t *) = (CUresult(*)(size_t *, size_t *))dlsym(cuda_handle, "cuMemGetInfo_v2");
     CUresult rs = hookFunc(free, total);
-    TimeProfileDestroy(pprof);
+    cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 CUresult cuMemAllocPitch_v2(CUdeviceptr *dptr, size_t *pPitch, size_t WidthInBytes, size_t Height, unsigned int ElementSizeBytes) {
@@ -376,21 +376,21 @@ CUresult cuMemAllocPitch_v2(CUdeviceptr *dptr, size_t *pPitch, size_t WidthInByt
 
     size_t used = 0;
     size_t request_size = ROUND_UP(WidthInBytes * Height, ElementSizeBytes);
-    CUresult ret;
+    CUresult rs;
 
     if (g_vcuda_config.enable) {
         atomic_action(PIDS_CONFIG_PATH, get_used_gpu_memory, (void *)&used);
         HLOG(INFO, "%s %d %d", Marshal(g_vcuda_config), used, request_size);
         if (unlikely(used + request_size > g_vcuda_config.gpu_memory)) {
-            ret = CUDA_ERROR_OUT_OF_MEMORY;
+            rs = CUDA_ERROR_OUT_OF_MEMORY;
             goto DONE;
         }
     }
 
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
     CUresult (*hookFunc)(CUdeviceptr *, size_t *, size_t, size_t, unsigned int) = (CUresult(*)(CUdeviceptr *, size_t *, size_t, size_t, unsigned int))dlsym(cuda_handle, "cuMemAllocPitch_v2");
-    ret = hookFunc(dptr, pPitch, WidthInBytes, Height, ElementSizeBytes);
+    rs = hookFunc(dptr, pPitch, WidthInBytes, Height, ElementSizeBytes);
 DONE:
-    TimeProfileDestroy(pprof);
-    return ret;
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
 }

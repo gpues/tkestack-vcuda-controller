@@ -43,7 +43,7 @@ $ret$ $func_name$($func_param$) {
     $ret$ (*hookFunc)($param_type$) = ($ret$(*)($param_type$)) dlsym($type$_handle, "$func_name$");
     HOOK_CHECK(hookFunc);
     $ret$ rs = hookFunc($param_name_strip$);
-    TimeProfileDestroy(pprof);
+    $type$TimeProfileDestroy(pprof, rs);
     return rs;
 }
 """
