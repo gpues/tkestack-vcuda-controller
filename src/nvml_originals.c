@@ -1,21 +1,11 @@
 
-// auto generate 294 apis
+// auto generate 286 apis
 
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
 #include <dlfcn.h>
 #include "include/base.h"
-
-const  char * nvmlErrorString(nvmlReturn_t result) {
-    HOOK_TRACE_PROFILE *pprof = TimeProfile("nvmlErrorString");
-    void *nvml_handle = dlopen(NvmlSo(), RTLD_GLOBAL | RTLD_LAZY);
-    const  char * (*hookFunc)(nvmlReturn_t) = (const  char *(*)(nvmlReturn_t)) dlsym(nvml_handle, "nvmlErrorString");
-    HOOK_CHECK(hookFunc);
-    const  char * rs = hookFunc(result);
-    TimeProfileDestroy(pprof);
-    return rs;
-}
 
 nvmlReturn_t nvmlComputeInstanceDestroy(nvmlComputeInstance_t computeInstance) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("nvmlComputeInstanceDestroy");
@@ -507,16 +497,6 @@ nvmlReturn_t nvmlDeviceGetDetailedEccErrors(nvmlDevice_t device, nvmlMemoryError
     return rs;
 }
 
-nvmlReturn_t nvmlDeviceGetDeviceHandleFromMigDeviceHandle(nvmlDevice_t migDevice, nvmlDevice_t * device) {
-    HOOK_TRACE_PROFILE *pprof = TimeProfile("nvmlDeviceGetDeviceHandleFromMigDeviceHandle");
-    void *nvml_handle = dlopen(NvmlSo(), RTLD_GLOBAL | RTLD_LAZY);
-    nvmlReturn_t (*hookFunc)(nvmlDevice_t, nvmlDevice_t *) = (nvmlReturn_t(*)(nvmlDevice_t, nvmlDevice_t *)) dlsym(nvml_handle, "nvmlDeviceGetDeviceHandleFromMigDeviceHandle");
-    HOOK_CHECK(hookFunc);
-    nvmlReturn_t rs = hookFunc(migDevice, device);
-    nvmlTimeProfileDestroy(pprof, rs);
-    return rs;
-}
-
 nvmlReturn_t nvmlDeviceGetDisplayActive(nvmlDevice_t device, nvmlEnableState_t * isActive) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("nvmlDeviceGetDisplayActive");
     void *nvml_handle = dlopen(NvmlSo(), RTLD_GLOBAL | RTLD_LAZY);
@@ -917,16 +897,6 @@ nvmlReturn_t nvmlDeviceGetHostVgpuMode(nvmlDevice_t device, nvmlHostVgpuMode_t *
     return rs;
 }
 
-nvmlReturn_t nvmlDeviceGetIndex(nvmlDevice_t device, unsigned int * index) {
-    HOOK_TRACE_PROFILE *pprof = TimeProfile("nvmlDeviceGetIndex");
-    void *nvml_handle = dlopen(NvmlSo(), RTLD_GLOBAL | RTLD_LAZY);
-    nvmlReturn_t (*hookFunc)(nvmlDevice_t, unsigned int *) = (nvmlReturn_t(*)(nvmlDevice_t, unsigned int *)) dlsym(nvml_handle, "nvmlDeviceGetIndex");
-    HOOK_CHECK(hookFunc);
-    nvmlReturn_t rs = hookFunc(device, index);
-    nvmlTimeProfileDestroy(pprof, rs);
-    return rs;
-}
-
 nvmlReturn_t nvmlDeviceGetInforomConfigurationChecksum(nvmlDevice_t device, unsigned int * checksum) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("nvmlDeviceGetInforomConfigurationChecksum");
     void *nvml_handle = dlopen(NvmlSo(), RTLD_GLOBAL | RTLD_LAZY);
@@ -963,36 +933,6 @@ nvmlReturn_t nvmlDeviceGetIrqNum(nvmlDevice_t device, unsigned int * irqNum) {
     nvmlReturn_t (*hookFunc)(nvmlDevice_t, unsigned int *) = (nvmlReturn_t(*)(nvmlDevice_t, unsigned int *)) dlsym(nvml_handle, "nvmlDeviceGetIrqNum");
     HOOK_CHECK(hookFunc);
     nvmlReturn_t rs = hookFunc(device, irqNum);
-    nvmlTimeProfileDestroy(pprof, rs);
-    return rs;
-}
-
-nvmlReturn_t nvmlDeviceGetMPSComputeRunningProcesses(nvmlDevice_t device, unsigned int * infoCount, nvmlProcessInfo_v1_t * infos) {
-    HOOK_TRACE_PROFILE *pprof = TimeProfile("nvmlDeviceGetMPSComputeRunningProcesses");
-    void *nvml_handle = dlopen(NvmlSo(), RTLD_GLOBAL | RTLD_LAZY);
-    nvmlReturn_t (*hookFunc)(nvmlDevice_t, unsigned int *, nvmlProcessInfo_v1_t *) = (nvmlReturn_t(*)(nvmlDevice_t, unsigned int *, nvmlProcessInfo_v1_t *)) dlsym(nvml_handle, "nvmlDeviceGetMPSComputeRunningProcesses");
-    HOOK_CHECK(hookFunc);
-    nvmlReturn_t rs = hookFunc(device, infoCount, infos);
-    nvmlTimeProfileDestroy(pprof, rs);
-    return rs;
-}
-
-nvmlReturn_t nvmlDeviceGetMPSComputeRunningProcesses_v2(nvmlDevice_t device, unsigned int * infoCount, nvmlProcessInfo_v2_t * infos) {
-    HOOK_TRACE_PROFILE *pprof = TimeProfile("nvmlDeviceGetMPSComputeRunningProcesses_v2");
-    void *nvml_handle = dlopen(NvmlSo(), RTLD_GLOBAL | RTLD_LAZY);
-    nvmlReturn_t (*hookFunc)(nvmlDevice_t, unsigned int *, nvmlProcessInfo_v2_t *) = (nvmlReturn_t(*)(nvmlDevice_t, unsigned int *, nvmlProcessInfo_v2_t *)) dlsym(nvml_handle, "nvmlDeviceGetMPSComputeRunningProcesses_v2");
-    HOOK_CHECK(hookFunc);
-    nvmlReturn_t rs = hookFunc(device, infoCount, infos);
-    nvmlTimeProfileDestroy(pprof, rs);
-    return rs;
-}
-
-nvmlReturn_t nvmlDeviceGetMPSComputeRunningProcesses_v3(nvmlDevice_t device, unsigned int * infoCount, nvmlProcessInfo_t * infos) {
-    HOOK_TRACE_PROFILE *pprof = TimeProfile("nvmlDeviceGetMPSComputeRunningProcesses_v3");
-    void *nvml_handle = dlopen(NvmlSo(), RTLD_GLOBAL | RTLD_LAZY);
-    nvmlReturn_t (*hookFunc)(nvmlDevice_t, unsigned int *, nvmlProcessInfo_t *) = (nvmlReturn_t(*)(nvmlDevice_t, unsigned int *, nvmlProcessInfo_t *)) dlsym(nvml_handle, "nvmlDeviceGetMPSComputeRunningProcesses_v3");
-    HOOK_CHECK(hookFunc);
-    nvmlReturn_t rs = hookFunc(device, infoCount, infos);
     nvmlTimeProfileDestroy(pprof, rs);
     return rs;
 }
@@ -1101,16 +1041,6 @@ nvmlReturn_t nvmlDeviceGetMemoryInfo(nvmlDevice_t device, nvmlMemory_t * memory)
     HOOK_TRACE_PROFILE *pprof = TimeProfile("nvmlDeviceGetMemoryInfo");
     void *nvml_handle = dlopen(NvmlSo(), RTLD_GLOBAL | RTLD_LAZY);
     nvmlReturn_t (*hookFunc)(nvmlDevice_t, nvmlMemory_t *) = (nvmlReturn_t(*)(nvmlDevice_t, nvmlMemory_t *)) dlsym(nvml_handle, "nvmlDeviceGetMemoryInfo");
-    HOOK_CHECK(hookFunc);
-    nvmlReturn_t rs = hookFunc(device, memory);
-    nvmlTimeProfileDestroy(pprof, rs);
-    return rs;
-}
-
-nvmlReturn_t nvmlDeviceGetMemoryInfo_v2(nvmlDevice_t device, nvmlMemory_v2_t * memory) {
-    HOOK_TRACE_PROFILE *pprof = TimeProfile("nvmlDeviceGetMemoryInfo_v2");
-    void *nvml_handle = dlopen(NvmlSo(), RTLD_GLOBAL | RTLD_LAZY);
-    nvmlReturn_t (*hookFunc)(nvmlDevice_t, nvmlMemory_v2_t *) = (nvmlReturn_t(*)(nvmlDevice_t, nvmlMemory_v2_t *)) dlsym(nvml_handle, "nvmlDeviceGetMemoryInfo_v2");
     HOOK_CHECK(hookFunc);
     nvmlReturn_t rs = hookFunc(device, memory);
     nvmlTimeProfileDestroy(pprof, rs);
@@ -1793,16 +1723,6 @@ nvmlReturn_t nvmlDeviceGetVirtualizationMode(nvmlDevice_t device, nvmlGpuVirtual
     nvmlReturn_t (*hookFunc)(nvmlDevice_t, nvmlGpuVirtualizationMode_t *) = (nvmlReturn_t(*)(nvmlDevice_t, nvmlGpuVirtualizationMode_t *)) dlsym(nvml_handle, "nvmlDeviceGetVirtualizationMode");
     HOOK_CHECK(hookFunc);
     nvmlReturn_t rs = hookFunc(device, pVirtualMode);
-    nvmlTimeProfileDestroy(pprof, rs);
-    return rs;
-}
-
-nvmlReturn_t nvmlDeviceIsMigDeviceHandle(nvmlDevice_t device, unsigned int * isMigDevice) {
-    HOOK_TRACE_PROFILE *pprof = TimeProfile("nvmlDeviceIsMigDeviceHandle");
-    void *nvml_handle = dlopen(NvmlSo(), RTLD_GLOBAL | RTLD_LAZY);
-    nvmlReturn_t (*hookFunc)(nvmlDevice_t, unsigned int *) = (nvmlReturn_t(*)(nvmlDevice_t, unsigned int *)) dlsym(nvml_handle, "nvmlDeviceIsMigDeviceHandle");
-    HOOK_CHECK(hookFunc);
-    nvmlReturn_t rs = hookFunc(device, isMigDevice);
     nvmlTimeProfileDestroy(pprof, rs);
     return rs;
 }

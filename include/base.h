@@ -79,7 +79,6 @@ typedef enum {
 #define CONTROLLER_CONFIG_PATH (VCUDA_CONFIG_PATH "/" CONTROLLER_CONFIG_NAME)
 #define RPC_CLIENT_PATH "/usr/local/nvidia/bin/"
 #define DRIVER_VERSION_PROC_PATH "/proc/driver/nvidia/version"
-
 char *NvmlSo();
 char *CudaSo();
 #define DataLength 10000
@@ -115,6 +114,7 @@ void get_used_gpu_utilization(int, void *);
 void initialization();
 void rate_limiter(unsigned int, unsigned int);
 void change_token(int);
+void set_so_path_once();
 void read_controller_configuration();
 char *load_file(char *filename);
 int int_match(const void *, const void *);
@@ -147,3 +147,9 @@ typedef struct {
     unsigned int Type; // 是否大于100份
 } cudaCache;
 nvmlReturn_t UnMarshalCudaCache(ProcessType t, unsigned int *processCount, cudaCache *cc);
+
+#define DRIVER_VERSION_PROC_PATH "/proc/driver/nvidia/version"
+#define DRIVER_VERSION_MATCH_PATTERN "([0-9]+)(\\.[0-9]+)+"
+#define NVML_LIBRARY_PREFIX "libnvidia-ml.so"
+#define CUDA_LIBRARY_PREFIX "libcuda.so"
+

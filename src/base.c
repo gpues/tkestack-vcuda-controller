@@ -4,6 +4,7 @@
 #include <errno.h>
 #include <pthread.h>
 #include <stdlib.h>
+#include <regex.h>
 #include <sys/fcntl.h>
 #include <sys/time.h>
 
@@ -18,13 +19,6 @@ char *curr_time() {
     static char now_time[64];
     now_time[strftime(now_time, sizeof(now_time), "%Y-%m-%d %H:%M:%S", time_info)] = '\0';
     return now_time;
-}
-
-char *CudaSo() {
-    return "/lib/x86_64-linux-gnu/libcuda.so.1";
-}
-char *NvmlSo() {
-    return "/lib/x86_64-linux-gnu/libnvidia-ml.so.1";
 }
 
 void nvmlTimeProfileDestroy(HOOK_TRACE_PROFILE *obj, nvmlReturn_t rs) {
@@ -46,7 +40,7 @@ HOOK_TRACE_PROFILE *TimeProfile(char *name) {
     HOOK_TRACE_PROFILE *wrapper = malloc(sizeof(HOOK_TRACE_PROFILE));
     wrapper->name = name;
     wrapper->start = clock();
-    //    HLOG(INFO, "enter %s", name);
+    HLOG(INFO, "enter %s", name);
     return wrapper;
 }
 char *Marshal(resource_data_t t) {
@@ -567,4 +561,67 @@ nvmlReturn_t UnMarshalCudaCache(ProcessType t, unsigned int *processCount, cudaC
     //    for (int l = 0; l < processCount; l++) {
     //        printf("%d %d %s %d\n", cc[l].PID, cc[l].MemoryUsed, cc[l].Name, cc[l].Type);
     //    }
+}
+
+static void matchRegex(const char *pattern, const char *matchString, char *version) {
+    regex_t regex;
+    int reti;
+    regmatch_t matches[1];
+    char msgbuf[512];
+
+    reti = regcomp(&regex, pattern, REG_EXTENDED);
+    if (reti) {
+        HLOG(FATAL, "Could not compile regex: %s", DRIVER_VERSION_MATCH_PATTERN);
+        return;
+    }
+
+    reti = regexec(&regex, matchString, 1, matches, 0);
+    switch (reti) {
+        case 0:
+            strncpy(version, matchString + matches[0].rm_so, matches[0].rm_eo - matches[0].rm_so);
+            version[matches[0].rm_eo - matches[0].rm_so] = '\0';
+            break;
+        case REG_NOMATCH:
+            HLOG(FATAL, "Regex does not match for string: %s", matchString);
+            break;
+        default:
+            regerror(reti, &regex, msgbuf, sizeof(msgbuf));
+            HLOG(FATAL, "Regex match failed: %s", msgbuf);
+    }
+    regfree(&regex);
+    return;
+}
+
+char NVML_LIBRARY[FILENAME_MAX] = "";
+char CUDA_LIBRARY[FILENAME_MAX] = "";
+
+char *CudaSo() {
+    return CUDA_LIBRARY;
+}
+char *NvmlSo() {
+    return NVML_LIBRARY;
+}
+void set_so_path_once() {
+    char *line = NULL;
+    size_t len = 0;
+
+    FILE *fp = fopen(DRIVER_VERSION_PROC_PATH, "r");
+    if (fp == NULL) {
+        HLOG(INFO, "can't open %s, error %s", DRIVER_VERSION_PROC_PATH, strerror(errno));
+        return;
+    }
+    char driver_version[FILENAME_MAX] = "";
+    while ((getline(&line, &len, fp) != -1)) {
+        if (strncmp(line, "NVRM", 4) == 0) {
+            matchRegex(DRIVER_VERSION_MATCH_PATTERN, line, driver_version);
+            break;
+        }
+    }
+    snprintf(NVML_LIBRARY, FILENAME_MAX - 1, "%s.%s", NVML_LIBRARY_PREFIX, driver_version);
+    NVML_LIBRARY[FILENAME_MAX - 1] = '\0';
+
+    snprintf(CUDA_LIBRARY, FILENAME_MAX - 1, "%s.%s", CUDA_LIBRARY_PREFIX, driver_version);
+    CUDA_LIBRARY[FILENAME_MAX - 1] = '\0';
+
+    fclose(fp);
 }

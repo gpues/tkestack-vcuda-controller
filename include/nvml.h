@@ -1,5 +1,3 @@
-/*** NVML VERSION: 11.8.86 ***/
-/*** From https://api.anaconda.org/download/nvidia/cuda-nvml-dev/11.8.86/linux-64/cuda-nvml-dev-11.8.86-0.tar.bz2 ***/
 /*
  * Copyright 1993-2022 NVIDIA Corporation.  All rights reserved.
  *
@@ -139,7 +137,7 @@ typedef struct nvmlPciInfo_st {
     unsigned int pciDeviceId;                                //!< The combined 16-bit device id and 16-bit vendor id
 
     // Added in NVML 2.285 API
-    unsigned int pciSubSystemId;                    //!< The 32-bit Sub System Device ID
+    unsigned int pciSubSystemId; //!< The 32-bit Sub System Device ID
 
     char busId[NVML_DEVICE_PCI_BUS_ID_BUFFER_SIZE]; //!< The tuple domain:bus:device.function PCI identifier (&amp; NULL terminator)
 } nvmlPciInfo_t;
@@ -485,12 +483,12 @@ typedef struct nvmlSample_st {
  * Represents type of perf policy for which violation times can be queried
  */
 typedef enum nvmlPerfPolicyType_enum {
-    NVML_PERF_POLICY_POWER = 0,              //!< How long did power violations cause the GPU to be below application clocks
-    NVML_PERF_POLICY_THERMAL = 1,            //!< How long did thermal violations cause the GPU to be below application clocks
-    NVML_PERF_POLICY_SYNC_BOOST = 2,         //!< How long did sync boost cause the GPU to be below application clocks
-    NVML_PERF_POLICY_BOARD_LIMIT = 3,        //!< How long did the board limit cause the GPU to be below application clocks
-    NVML_PERF_POLICY_LOW_UTILIZATION = 4,    //!< How long did low utilization cause the GPU to be below application clocks
-    NVML_PERF_POLICY_RELIABILITY = 5,        //!< How long did the board reliability limit cause the GPU to be below application clocks
+    NVML_PERF_POLICY_POWER = 0,           //!< How long did power violations cause the GPU to be below application clocks
+    NVML_PERF_POLICY_THERMAL = 1,         //!< How long did thermal violations cause the GPU to be below application clocks
+    NVML_PERF_POLICY_SYNC_BOOST = 2,      //!< How long did sync boost cause the GPU to be below application clocks
+    NVML_PERF_POLICY_BOARD_LIMIT = 3,     //!< How long did the board limit cause the GPU to be below application clocks
+    NVML_PERF_POLICY_LOW_UTILIZATION = 4, //!< How long did low utilization cause the GPU to be below application clocks
+    NVML_PERF_POLICY_RELIABILITY = 5,     //!< How long did the board reliability limit cause the GPU to be below application clocks
 
     NVML_PERF_POLICY_TOTAL_APP_CLOCKS = 10,  //!< Total time the GPU was held below application clocks by any limiter (0 - 5 above)
     NVML_PERF_POLICY_TOTAL_BASE_CLOCKS = 11, //!< Total time the GPU was held below base clocks
@@ -828,13 +826,13 @@ typedef enum nvmlPStates_enum {
  * Each GOM is designed to meet specific user needs.
  */
 typedef enum nvmlGom_enum {
-    NVML_GOM_ALL_ON = 0,  //!< Everything is enabled and running at full speed
+    NVML_GOM_ALL_ON = 0, //!< Everything is enabled and running at full speed
 
     NVML_GOM_COMPUTE = 1, //!< Designed for running only compute tasks. Graphics operations
                           //!< are not allowed
 
-    NVML_GOM_LOW_DP = 2   //!< Designed for running graphics applications that don't require
-                          //!< high bandwidth double precision
+    NVML_GOM_LOW_DP = 2 //!< Designed for running graphics applications that don't require
+                        //!< high bandwidth double precision
 } nvmlGpuOperationMode_t;
 
 /**
@@ -865,7 +863,7 @@ typedef enum nvmlReturn_enum {
     NVML_ERROR_INSUFFICIENT_POWER = 8,         //!< A device's external power cables are not properly attached
     NVML_ERROR_DRIVER_NOT_LOADED = 9,          //!< NVIDIA driver is not loaded
     NVML_ERROR_TIMEOUT = 10,                   //!< User provided timeout passed
-    NVML_ERROR_IRQ_ISSUE = 11,                 //!< NVIDIA Kernel detected an interrup t issue with a GPU
+    NVML_ERROR_IRQ_ISSUE = 11,                 //!< NVIDIA Kernel detected an interrupt issue with a GPU
     NVML_ERROR_LIBRARY_NOT_FOUND = 12,         //!< NVML Shared Library couldn't be found or loaded
     NVML_ERROR_FUNCTION_NOT_FOUND = 13,        //!< Local version of NVML doesn't implement this function
     NVML_ERROR_CORRUPTED_INFOROM = 14,         //!< infoROM is corrupted
@@ -1158,17 +1156,17 @@ typedef struct nvmlGridLicensableFeatures_st {
 /**
  * Simplified chip architecture
  */
-#define NVML_DEVICE_ARCH_KEPLER 2           // Devices based on the NVIDIA Kepler architecture
-#define NVML_DEVICE_ARCH_MAXWELL 3          // Devices based on the NVIDIA Maxwell architecture
-#define NVML_DEVICE_ARCH_PASCAL 4           // Devices based on the NVIDIA Pascal architecture
-#define NVML_DEVICE_ARCH_VOLTA 5            // Devices based on the NVIDIA Volta architecture
-#define NVML_DEVICE_ARCH_TURING 6           // Devices based on the NVIDIA Turing architecture
+#define NVML_DEVICE_ARCH_KEPLER 2  // Devices based on the NVIDIA Kepler architecture
+#define NVML_DEVICE_ARCH_MAXWELL 3 // Devices based on the NVIDIA Maxwell architecture
+#define NVML_DEVICE_ARCH_PASCAL 4  // Devices based on the NVIDIA Pascal architecture
+#define NVML_DEVICE_ARCH_VOLTA 5   // Devices based on the NVIDIA Volta architecture
+#define NVML_DEVICE_ARCH_TURING 6  // Devices based on the NVIDIA Turing architecture
 
-#define NVML_DEVICE_ARCH_AMPERE 7           // Devices based on the NVIDIA Ampere architecture
+#define NVML_DEVICE_ARCH_AMPERE 7 // Devices based on the NVIDIA Ampere architecture
 
-#define NVML_DEVICE_ARCH_ADA 8              // Devices based on the NVIDIA Ada architecture
+#define NVML_DEVICE_ARCH_ADA 8 // Devices based on the NVIDIA Ada architecture
 
-#define NVML_DEVICE_ARCH_HOPPER 9           // Devices based on the NVIDIA Hopper architecture
+#define NVML_DEVICE_ARCH_HOPPER 9 // Devices based on the NVIDIA Hopper architecture
 
 #define NVML_DEVICE_ARCH_UNKNOWN 0xffffffff // Anything else, presumably something newer
 
@@ -1224,7 +1222,7 @@ typedef enum nvmlGpuUtilizationDomainId_t {
 } nvmlGpuUtilizationDomainId_t;
 
 typedef struct nvmlGpuDynamicPstatesInfo_st {
-    unsigned int flags;            //!< Reserved for future use
+    unsigned int flags; //!< Reserved for future use
     struct {
         unsigned int bIsPresent;   //!< Set if this utilization domain is present on this GPU
         unsigned int percentage;   //!< Percentage of time where the domain is considered busy in the last 1-second interval
@@ -1362,18 +1360,18 @@ typedef struct nvmlGpuDynamicPstatesInfo_st {
 #define NVML_FI_DEV_TOTAL_ENERGY_CONSUMPTION 83 //!< Total energy consumption for the GPU in mJ since the driver was last reloaded
 
 /* NVLink Speed */
-#define NVML_FI_DEV_NVLINK_SPEED_MBPS_L0 84         //!< NVLink Speed in MBps for Link 0
-#define NVML_FI_DEV_NVLINK_SPEED_MBPS_L1 85         //!< NVLink Speed in MBps for Link 1
-#define NVML_FI_DEV_NVLINK_SPEED_MBPS_L2 86         //!< NVLink Speed in MBps for Link 2
-#define NVML_FI_DEV_NVLINK_SPEED_MBPS_L3 87         //!< NVLink Speed in MBps for Link 3
-#define NVML_FI_DEV_NVLINK_SPEED_MBPS_L4 88         //!< NVLink Speed in MBps for Link 4
-#define NVML_FI_DEV_NVLINK_SPEED_MBPS_L5 89         //!< NVLink Speed in MBps for Link 5
-#define NVML_FI_DEV_NVLINK_SPEED_MBPS_COMMON 90     //!< Common NVLink Speed in MBps for active links
+#define NVML_FI_DEV_NVLINK_SPEED_MBPS_L0 84     //!< NVLink Speed in MBps for Link 0
+#define NVML_FI_DEV_NVLINK_SPEED_MBPS_L1 85     //!< NVLink Speed in MBps for Link 1
+#define NVML_FI_DEV_NVLINK_SPEED_MBPS_L2 86     //!< NVLink Speed in MBps for Link 2
+#define NVML_FI_DEV_NVLINK_SPEED_MBPS_L3 87     //!< NVLink Speed in MBps for Link 3
+#define NVML_FI_DEV_NVLINK_SPEED_MBPS_L4 88     //!< NVLink Speed in MBps for Link 4
+#define NVML_FI_DEV_NVLINK_SPEED_MBPS_L5 89     //!< NVLink Speed in MBps for Link 5
+#define NVML_FI_DEV_NVLINK_SPEED_MBPS_COMMON 90 //!< Common NVLink Speed in MBps for active links
 
-#define NVML_FI_DEV_NVLINK_LINK_COUNT 91            //!< Number of NVLinks present on the device
+#define NVML_FI_DEV_NVLINK_LINK_COUNT 91 //!< Number of NVLinks present on the device
 
-#define NVML_FI_DEV_RETIRED_PENDING_SBE 92          //!< If any pages are pending retirement due to SBE. 1=yes. 0=no.
-#define NVML_FI_DEV_RETIRED_PENDING_DBE 93          //!< If any pages are pending retirement due to DBE. 1=yes. 0=no.
+#define NVML_FI_DEV_RETIRED_PENDING_SBE 92 //!< If any pages are pending retirement due to SBE. 1=yes. 0=no.
+#define NVML_FI_DEV_RETIRED_PENDING_DBE 93 //!< If any pages are pending retirement due to DBE. 1=yes. 0=no.
 
 #define NVML_FI_DEV_PCIE_REPLAY_COUNTER 94          //!< PCIe replay counter
 #define NVML_FI_DEV_PCIE_REPLAY_ROLLOVER_COUNTER 95 //!< PCIe replay rollover counter
@@ -1810,25 +1808,25 @@ typedef struct nvmlEventData_st {
  * Describes accounting statistics of a process.
  */
 typedef struct nvmlAccountingStats_st {
-    unsigned int gpuUtilization;       //!< Percent of time over the process's lifetime during which one or more kernels was executing on the GPU.
-                                       //! Utilization stats just like returned by \ref nvmlDeviceGetUtilizationRates but for the life time of a
-                                       //! process (not just the last sample period).
-                                       //! Set to NVML_VALUE_NOT_AVAILABLE if nvmlDeviceGetUtilizationRates is not supported
+    unsigned int gpuUtilization; //!< Percent of time over the process's lifetime during which one or more kernels was executing on the GPU.
+                                 //! Utilization stats just like returned by \ref nvmlDeviceGetUtilizationRates but for the life time of a
+                                 //! process (not just the last sample period).
+                                 //! Set to NVML_VALUE_NOT_AVAILABLE if nvmlDeviceGetUtilizationRates is not supported
 
-    unsigned int memoryUtilization;    //!< Percent of time over the process's lifetime during which global (device) memory was being read or written.
-                                       //! Set to NVML_VALUE_NOT_AVAILABLE if nvmlDeviceGetUtilizationRates is not supported
+    unsigned int memoryUtilization; //!< Percent of time over the process's lifetime during which global (device) memory was being read or written.
+                                    //! Set to NVML_VALUE_NOT_AVAILABLE if nvmlDeviceGetUtilizationRates is not supported
 
     unsigned long long maxMemoryUsage; //!< Maximum total memory in bytes that was ever allocated by the process.
                                        //! Set to NVML_VALUE_NOT_AVAILABLE if nvmlProcessInfo_t->usedGpuMemory is not supported
 
-    unsigned long long time;           //!< Amount of time in ms during which the compute context was active. The time is reported as 0 if
-                                       //!< the process is not terminated
+    unsigned long long time; //!< Amount of time in ms during which the compute context was active. The time is reported as 0 if
+                             //!< the process is not terminated
 
-    unsigned long long startTime;      //!< CPU Timestamp in usec representing start time for the process
+    unsigned long long startTime; //!< CPU Timestamp in usec representing start time for the process
 
-    unsigned int isRunning;            //!< Flag to represent if the process is running (1 for running, 0 for terminated)
+    unsigned int isRunning; //!< Flag to represent if the process is running (1 for running, 0 for terminated)
 
-    unsigned int reserved[5];          //!< Reserved for future use
+    unsigned int reserved[5]; //!< Reserved for future use
 } nvmlAccountingStats_t;
 
 /** @} */

@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
 #include "include/base.h"
 
 resource_data_t g_vcuda_config = {
@@ -31,8 +30,8 @@ char *load_file(char *filename) {
         size_t line_len = strlen(line);
         char *new_text = realloc(text, len + line_len + 1); // 重新分配足够的空间来存储当前文本
         if (new_text == NULL) {
-            free(text);                                     // 释放原始缓冲区的内存
-            fclose(file);                                   // 关闭文件
+            free(text);   // 释放原始缓冲区的内存
+            fclose(file); // 关闭文件
             HLOG(FATAL, "内存分配失败");
         }
         text = new_text;
@@ -54,13 +53,16 @@ void read_controller_configuration() {
     HLOG(DEBUG, "hard limit mode  : %d", g_vcuda_config.hard_limit);
     HLOG(DEBUG, "enable mode      : %d", g_vcuda_config.enable);
 }
-//static pthread_once_t g_cuda_config_set = PTHREAD_ONCE_INIT;
-//static pthread_once_t g_cuda_set = PTHREAD_ONCE_INIT;
-//static pthread_once_t g_init_set = PTHREAD_ONCE_INIT;
+// static pthread_once_t g_cuda_config_set = PTHREAD_ONCE_INIT;
+// static pthread_once_t g_cuda_set = PTHREAD_ONCE_INIT;
+// static pthread_once_t g_init_set = PTHREAD_ONCE_INIT;
+static pthread_once_t g_init_driver_version = PTHREAD_ONCE_INIT;
 void load_necessary_data() {
-//    pthread_once(&g_cuda_config_set, read_controller_configuration);
+    pthread_once(&g_init_driver_version, set_so_path_once);
+    //    pthread_once(&g_cuda_config_set, set_so_path_once);
 }
+
 void cudaNecessary() {
-//    pthread_once(&g_cuda_set, write_cuda_config);
-//    pthread_once(&g_init_set, initialization);
+    //    pthread_once(&g_cuda_set, write_cuda_config);
+    //    pthread_once(&g_init_set, initialization);
 }

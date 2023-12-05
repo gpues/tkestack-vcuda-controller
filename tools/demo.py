@@ -2,7 +2,7 @@ import os
 
 # os.environ['TF2_BEHAVIOR'] = '1'
 os.environ['LOGGER_LEVEL'] = '9'
-os.environ['LD_LIBRARY_PATH'] = '/tf/test/'
+# os.environ['LD_LIBRARY_PATH'] = '/tf/test/'
 import tensorflow as tf
 
 tf.compat.v1.enable_eager_execution()
@@ -82,6 +82,7 @@ with mirrored_strategy.scope():
                   loss=myLoss)
 
 train_dataset = np.random.choice(100, size=(1000,))
+time.sleep(1999999999)
 model.fit(
     x=train_dataset.astype(np.float32),
     y=train_dataset.astype(np.float32),

@@ -84,6 +84,14 @@ $ret$ $func_name$($func_param$) {
             "nvmlDeviceGetComputeRunningProcesses": 1,
             "nvmlDeviceGetComputeRunningProcesses_v2": 1,
             "nvmlDeviceGetComputeRunningProcesses_v3": 1,
+            "nvmlDeviceGetMPSComputeRunningProcesses": 1,
+            "nvmlDeviceGetMPSComputeRunningProcesses_v2": 1,
+            "nvmlDeviceGetMPSComputeRunningProcesses_v3": 1,
+            "nvmlDeviceIsMigDeviceHandle": 1,
+            "nvmlDeviceGetDeviceHandleFromMigDeviceHandle": 1,
+            "nvmlDeviceGetIndex": 1,
+            "nvmlDeviceGetMemoryInfo_v2": 1,
+            "nvmlErrorString": 1,
         }
         self.nvml_discard = {
             #     "nvmlInit": 1,

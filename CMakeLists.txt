@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 project(hijack C CXX)
 
 add_definitions(-D_GNU_SOURCE)
-add_compile_options(-Wall -Wshadow -Werror -Wno-format -Wno-deprecated-non-prototype -Wimplicit-function-declaration)
+add_compile_options(-Wall -Wshadow -Werror -Wno-format -Wno-deprecated-non-prototype -Wimplicit-function-declaration -g)
 
 include_directories(${CMAKE_SOURCE_DIR})
 
