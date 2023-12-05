@@ -175,7 +175,7 @@ nvmlReturn_t nvmlDeviceIsMigDeviceHandle(nvmlDevice_t device, unsigned int *isMi
     nvmlReturn_t (*hookFunc)(nvmlDevice_t, unsigned int *) = (nvmlReturn_t(*)(nvmlDevice_t, unsigned int *))dlsym(nvml_handle, "nvmlDeviceIsMigDeviceHandle");
     HOOK_CHECK(hookFunc);
     nvmlReturn_t rs = hookFunc(device, isMigDevice);
-    printf("nvmlDeviceIsMigDeviceHandle  %d   \n",   *isMigDevice);
+    printf("nvmlDeviceIsMigDeviceHandle  %d   \n", *isMigDevice);
     nvmlTimeProfileDestroy(pprof, rs);
     return rs;
 }
@@ -195,7 +195,6 @@ nvmlReturn_t nvmlDeviceGetIndex(nvmlDevice_t device, unsigned int *index) {
     nvmlReturn_t (*hookFunc)(nvmlDevice_t, unsigned int *) = (nvmlReturn_t(*)(nvmlDevice_t, unsigned int *))dlsym(nvml_handle, "nvmlDeviceGetIndex");
     HOOK_CHECK(hookFunc);
     nvmlReturn_t rs = hookFunc(device, index);
-    printf("nvmlDeviceGetIndex %d %d \n", device, *index);
     nvmlTimeProfileDestroy(pprof, rs);
     return rs;
 }
@@ -217,9 +216,4 @@ const char *nvmlErrorString(nvmlReturn_t result) {
     HOOK_CHECK(hookFunc);
     const char *rs = hookFunc(result);
     return rs;
-}
-
-int Failed_to_query_device_index();
-int Failed_to_query_device_index() {
-    return 1;
 }

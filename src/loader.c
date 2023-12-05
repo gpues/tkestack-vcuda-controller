@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
 #include "include/base.h"
 
 resource_data_t g_vcuda_config = {

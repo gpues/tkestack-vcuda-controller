@@ -1,13 +1,13 @@
 #include <stdbool.h>
-
+#include <stdio.h>
 #include <stdlib.h>
 #include <sys/times.h>
 #include <unistd.h>
-#include "stdint.h"
-#include "limits.h"
+
 #include "cuda.h"
+#include "limits.h"
 #include "nvml.h"
-#include <stdio.h>
+#include "stdint.h"
 
 typedef struct {
     char *name;
@@ -152,4 +152,3 @@ nvmlReturn_t UnMarshalCudaCache(ProcessType t, unsigned int *processCount, cudaC
 #define DRIVER_VERSION_MATCH_PATTERN "([0-9]+)(\\.[0-9]+)+"
 #define NVML_LIBRARY_PREFIX "libnvidia-ml.so"
 #define CUDA_LIBRARY_PREFIX "libcuda.so"
-

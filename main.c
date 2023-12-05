@@ -18,11 +18,12 @@
 //
 // Created by thomas on 5/17/18.
 //
-#include <stdint.h>
 #include <fcntl.h>
+#include <stdint.h>
 #include <string.h>
 #include <sys/time.h>
 #include <unistd.h>
+
 #include "include/base.h"
 #include "include/json/cJSON.h"
 

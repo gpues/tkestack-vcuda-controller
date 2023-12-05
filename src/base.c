@@ -3,8 +3,8 @@
 #include <dlfcn.h>
 #include <errno.h>
 #include <pthread.h>
-#include <stdlib.h>
 #include <regex.h>
+#include <stdlib.h>
 #include <sys/fcntl.h>
 #include <sys/time.h>
 
