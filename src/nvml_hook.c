@@ -167,15 +167,12 @@ nvmlReturn_t nvmlDeviceGetMPSComputeRunningProcesses_v3(nvmlDevice_t device, uns
     return rs;
 }
 
-nvmlReturn_t nvmlDeviceGetSupportedEventTypes(nvmlDevice_t device, unsigned long long *eventTypes);
-
 nvmlReturn_t nvmlDeviceIsMigDeviceHandle(nvmlDevice_t device, unsigned int *isMigDevice) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("nvmlDeviceIsMigDeviceHandle");
     void *nvml_handle = dlopen(NvmlSo(), RTLD_GLOBAL | RTLD_LAZY);
     nvmlReturn_t (*hookFunc)(nvmlDevice_t, unsigned int *) = (nvmlReturn_t(*)(nvmlDevice_t, unsigned int *))dlsym(nvml_handle, "nvmlDeviceIsMigDeviceHandle");
     HOOK_CHECK(hookFunc);
     nvmlReturn_t rs = hookFunc(device, isMigDevice);
-    printf("nvmlDeviceIsMigDeviceHandle  %d   \n", *isMigDevice);
     nvmlTimeProfileDestroy(pprof, rs);
     return rs;
 }
@@ -185,7 +182,6 @@ nvmlReturn_t nvmlDeviceGetDeviceHandleFromMigDeviceHandle(nvmlDevice_t migDevice
     nvmlReturn_t (*hookFunc)(nvmlDevice_t, nvmlDevice_t *) = (nvmlReturn_t(*)(nvmlDevice_t, nvmlDevice_t *))dlsym(nvml_handle, "nvmlDeviceGetDeviceHandleFromMigDeviceHandle");
     HOOK_CHECK(hookFunc);
     nvmlReturn_t rs = hookFunc(migDevice, device);
-    printf("nvmlDeviceGetDeviceHandleFromMigDeviceHandle %d  \n", migDevice);
     nvmlTimeProfileDestroy(pprof, rs);
     return rs;
 }

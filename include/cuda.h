@@ -3206,6 +3206,7 @@ typedef struct CUmemAllocationProp_st {
         unsigned char reserved[4];
     } allocFlags;
 } CUmemAllocationProp_v1;
+
 typedef CUmemAllocationProp_v1 CUmemAllocationProp;
 
 /**

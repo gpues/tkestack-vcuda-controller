@@ -73,6 +73,16 @@ $ret$ $func_name$($func_param$) {
             "cuDeviceTotalMem_v2": 1,
             "cuMemAlloc_v2": 1,
             "cuMemGetInfo_v2": 1,
+            "cuVGPUViewAllocator": 1,
+            "cuMapMemory": 1,
+            "cuMemoryAllocate": 1,
+            "cuMemoryFree": 1,
+            "cuUnmapMemory": 1,
+            "cuMemFree": 1,
+            "cuMemFree_v2": 1,
+            "cuMemFreeHost": 1,
+            "cuArrayDestroy": 1,
+            "cuMipmappedArrayDestroy": 1,
         }
         self.nvml_hook = {
             "nvmlInitWithFlags": 1,
@@ -121,7 +131,7 @@ $ret$ $func_name$($func_param$) {
     def parse_header(self):
         with open(self.file, 'r') as f:
             data = f.read()
-        with open('./%s_append.txt' % self.type, 'r', encoding='utf8') as f:
+        with open('./%s_append.h' % self.type, 'r', encoding='utf8') as f:
             data += '\n' + f.read()
         self.header = CppHeader(data, argType='string')
         print("{} total func num: {}".format(self.type, len(self.header.functions)))

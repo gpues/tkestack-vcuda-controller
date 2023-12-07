@@ -40,12 +40,11 @@ HOOK_TRACE_PROFILE *TimeProfile(char *name) {
     HOOK_TRACE_PROFILE *wrapper = malloc(sizeof(HOOK_TRACE_PROFILE));
     wrapper->name = name;
     wrapper->start = clock();
-    HLOG(INFO, "enter %s", name);
+    //    HLOG(INFO, "enter %s", name);
     return wrapper;
 }
 char *Marshal(resource_data_t t) {
     cJSON *monitor = cJSON_CreateObject();
-
     cJSON_AddItemToObject(monitor, "pod_uid", cJSON_CreateString(t.pod_uid));
     cJSON_AddItemToObject(monitor, "hard_limit", cJSON_CreateNumber(t.hard_limit));
     cJSON_AddItemToObject(monitor, "occupied", cJSON_CreateString(t.occupied));

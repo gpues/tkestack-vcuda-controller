@@ -1,97 +1,96 @@
 
-// auto generate 351 apis
+// auto generate 390 apis
 
-#include <dlfcn.h>
 #include <stdio.h>
-#include <string.h>
 #include <unistd.h>
-
+#include <string.h>
+#include <dlfcn.h>
 #include "include/base.h"
 
-CUresult cuArray3DGetDescriptor(CUDA_ARRAY3D_DESCRIPTOR *pArrayDescriptor, CUarray hArray) {
+CUresult cuArray3DGetDescriptor(CUDA_ARRAY3D_DESCRIPTOR * pArrayDescriptor, CUarray hArray) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuArray3DGetDescriptor");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUDA_ARRAY3D_DESCRIPTOR *, CUarray) = (CUresult(*)(CUDA_ARRAY3D_DESCRIPTOR *, CUarray))dlsym(cuda_handle, "cuArray3DGetDescriptor");
+    CUresult (*hookFunc)(CUDA_ARRAY3D_DESCRIPTOR *, CUarray) = (CUresult(*)(CUDA_ARRAY3D_DESCRIPTOR *, CUarray)) dlsym(cuda_handle, "cuArray3DGetDescriptor");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pArrayDescriptor, hArray);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuArrayDestroy(CUarray hArray) {
-    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuArrayDestroy");
-    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUarray) = (CUresult(*)(CUarray))dlsym(cuda_handle, "cuArrayDestroy");
-    HOOK_CHECK(hookFunc);
-    CUresult rs = hookFunc(hArray);
-    cudaTimeProfileDestroy(pprof, rs);
-    return rs;
-}
-
-CUresult cuArrayGetDescriptor(CUDA_ARRAY_DESCRIPTOR *pArrayDescriptor, CUarray hArray) {
+CUresult cuArrayGetDescriptor(CUDA_ARRAY_DESCRIPTOR * pArrayDescriptor, CUarray hArray) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuArrayGetDescriptor");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUDA_ARRAY_DESCRIPTOR *, CUarray) = (CUresult(*)(CUDA_ARRAY_DESCRIPTOR *, CUarray))dlsym(cuda_handle, "cuArrayGetDescriptor");
+    CUresult (*hookFunc)(CUDA_ARRAY_DESCRIPTOR *, CUarray) = (CUresult(*)(CUDA_ARRAY_DESCRIPTOR *, CUarray)) dlsym(cuda_handle, "cuArrayGetDescriptor");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pArrayDescriptor, hArray);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuArrayGetMemoryRequirements(CUDA_ARRAY_MEMORY_REQUIREMENTS *memoryRequirements, CUarray array, CUdevice device) {
+CUresult cuArrayGetMemoryRequirements(CUDA_ARRAY_MEMORY_REQUIREMENTS * memoryRequirements, CUarray array, CUdevice device) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuArrayGetMemoryRequirements");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUDA_ARRAY_MEMORY_REQUIREMENTS *, CUarray, CUdevice) = (CUresult(*)(CUDA_ARRAY_MEMORY_REQUIREMENTS *, CUarray, CUdevice))dlsym(cuda_handle, "cuArrayGetMemoryRequirements");
+    CUresult (*hookFunc)(CUDA_ARRAY_MEMORY_REQUIREMENTS *, CUarray, CUdevice) = (CUresult(*)(CUDA_ARRAY_MEMORY_REQUIREMENTS *, CUarray, CUdevice)) dlsym(cuda_handle, "cuArrayGetMemoryRequirements");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(memoryRequirements, array, device);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuArrayGetPlane(CUarray *pPlaneArray, CUarray hArray, unsigned int planeIdx) {
+CUresult cuArrayGetPlane(CUarray * pPlaneArray, CUarray hArray, unsigned int planeIdx) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuArrayGetPlane");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUarray *, CUarray, unsigned int) = (CUresult(*)(CUarray *, CUarray, unsigned int))dlsym(cuda_handle, "cuArrayGetPlane");
+    CUresult (*hookFunc)(CUarray *, CUarray, unsigned int) = (CUresult(*)(CUarray *, CUarray, unsigned int)) dlsym(cuda_handle, "cuArrayGetPlane");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pPlaneArray, hArray, planeIdx);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuArrayGetSparseProperties(CUDA_ARRAY_SPARSE_PROPERTIES *sparseProperties, CUarray array) {
+CUresult cuArrayGetSparseProperties(CUDA_ARRAY_SPARSE_PROPERTIES * sparseProperties, CUarray array) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuArrayGetSparseProperties");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUDA_ARRAY_SPARSE_PROPERTIES *, CUarray) = (CUresult(*)(CUDA_ARRAY_SPARSE_PROPERTIES *, CUarray))dlsym(cuda_handle, "cuArrayGetSparseProperties");
+    CUresult (*hookFunc)(CUDA_ARRAY_SPARSE_PROPERTIES *, CUarray) = (CUresult(*)(CUDA_ARRAY_SPARSE_PROPERTIES *, CUarray)) dlsym(cuda_handle, "cuArrayGetSparseProperties");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(sparseProperties, array);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuCtxAttach(CUcontext *pctx, unsigned int flags) {
+CUresult cuCtxAttach(CUcontext * pctx, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxAttach");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUcontext *, unsigned int) = (CUresult(*)(CUcontext *, unsigned int))dlsym(cuda_handle, "cuCtxAttach");
+    CUresult (*hookFunc)(CUcontext *, unsigned int) = (CUresult(*)(CUcontext *, unsigned int)) dlsym(cuda_handle, "cuCtxAttach");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pctx, flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuCtxCreate(CUcontext *pctx, unsigned int flags, CUdevice dev) {
+CUresult cuCtxCreate(CUcontext * pctx, unsigned int flags, CUdevice dev) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxCreate");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUcontext *, unsigned int, CUdevice) = (CUresult(*)(CUcontext *, unsigned int, CUdevice))dlsym(cuda_handle, "cuCtxCreate");
+    CUresult (*hookFunc)(CUcontext *, unsigned int, CUdevice) = (CUresult(*)(CUcontext *, unsigned int, CUdevice)) dlsym(cuda_handle, "cuCtxCreate");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pctx, flags, dev);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuCtxCreate_v3(CUcontext *pctx, CUexecAffinityParam *paramsArray, int numParams, unsigned int flags, CUdevice dev) {
+CUresult cuCtxCreate_v2(CUcontext * pctx, unsigned int flags, CUdevice dev) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxCreate_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUcontext *, unsigned int, CUdevice) = (CUresult(*)(CUcontext *, unsigned int, CUdevice)) dlsym(cuda_handle, "cuCtxCreate_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(pctx, flags, dev);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuCtxCreate_v3(CUcontext * pctx, CUexecAffinityParam * paramsArray, int numParams, unsigned int flags, CUdevice dev) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxCreate_v3");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUcontext *, CUexecAffinityParam *, int, unsigned int, CUdevice) = (CUresult(*)(CUcontext *, CUexecAffinityParam *, int, unsigned int, CUdevice))dlsym(cuda_handle, "cuCtxCreate_v3");
+    CUresult (*hookFunc)(CUcontext *, CUexecAffinityParam *, int, unsigned int, CUdevice) = (CUresult(*)(CUcontext *, CUexecAffinityParam *, int, unsigned int, CUdevice)) dlsym(cuda_handle, "cuCtxCreate_v3");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pctx, paramsArray, numParams, flags, dev);
     cudaTimeProfileDestroy(pprof, rs);
@@ -101,7 +100,17 @@ CUresult cuCtxCreate_v3(CUcontext *pctx, CUexecAffinityParam *paramsArray, int n
 CUresult cuCtxDestroy(CUcontext ctx) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxDestroy");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUcontext) = (CUresult(*)(CUcontext))dlsym(cuda_handle, "cuCtxDestroy");
+    CUresult (*hookFunc)(CUcontext) = (CUresult(*)(CUcontext)) dlsym(cuda_handle, "cuCtxDestroy");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(ctx);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuCtxDestroy_v2(CUcontext ctx) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxDestroy_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUcontext) = (CUresult(*)(CUcontext)) dlsym(cuda_handle, "cuCtxDestroy_v2");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(ctx);
     cudaTimeProfileDestroy(pprof, rs);
@@ -111,7 +120,7 @@ CUresult cuCtxDestroy(CUcontext ctx) {
 CUresult cuCtxDetach(CUcontext ctx) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxDetach");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUcontext) = (CUresult(*)(CUcontext))dlsym(cuda_handle, "cuCtxDetach");
+    CUresult (*hookFunc)(CUcontext) = (CUresult(*)(CUcontext)) dlsym(cuda_handle, "cuCtxDetach");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(ctx);
     cudaTimeProfileDestroy(pprof, rs);
@@ -121,7 +130,7 @@ CUresult cuCtxDetach(CUcontext ctx) {
 CUresult cuCtxDisablePeerAccess(CUcontext peerContext) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxDisablePeerAccess");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUcontext) = (CUresult(*)(CUcontext))dlsym(cuda_handle, "cuCtxDisablePeerAccess");
+    CUresult (*hookFunc)(CUcontext) = (CUresult(*)(CUcontext)) dlsym(cuda_handle, "cuCtxDisablePeerAccess");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(peerContext);
     cudaTimeProfileDestroy(pprof, rs);
@@ -131,107 +140,117 @@ CUresult cuCtxDisablePeerAccess(CUcontext peerContext) {
 CUresult cuCtxEnablePeerAccess(CUcontext peerContext, unsigned int Flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxEnablePeerAccess");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUcontext, unsigned int) = (CUresult(*)(CUcontext, unsigned int))dlsym(cuda_handle, "cuCtxEnablePeerAccess");
+    CUresult (*hookFunc)(CUcontext, unsigned int) = (CUresult(*)(CUcontext, unsigned int)) dlsym(cuda_handle, "cuCtxEnablePeerAccess");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(peerContext, Flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuCtxGetApiVersion(CUcontext ctx, unsigned int *version) {
+CUresult cuCtxGetApiVersion(CUcontext ctx, unsigned int * version) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxGetApiVersion");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUcontext, unsigned int *) = (CUresult(*)(CUcontext, unsigned int *))dlsym(cuda_handle, "cuCtxGetApiVersion");
+    CUresult (*hookFunc)(CUcontext, unsigned int *) = (CUresult(*)(CUcontext, unsigned int *)) dlsym(cuda_handle, "cuCtxGetApiVersion");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(ctx, version);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuCtxGetCacheConfig(CUfunc_cache *pconfig) {
+CUresult cuCtxGetCacheConfig(CUfunc_cache * pconfig) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxGetCacheConfig");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUfunc_cache *) = (CUresult(*)(CUfunc_cache *))dlsym(cuda_handle, "cuCtxGetCacheConfig");
+    CUresult (*hookFunc)(CUfunc_cache *) = (CUresult(*)(CUfunc_cache *)) dlsym(cuda_handle, "cuCtxGetCacheConfig");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pconfig);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuCtxGetCurrent(CUcontext *pctx) {
+CUresult cuCtxGetCurrent(CUcontext * pctx) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxGetCurrent");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUcontext *) = (CUresult(*)(CUcontext *))dlsym(cuda_handle, "cuCtxGetCurrent");
+    CUresult (*hookFunc)(CUcontext *) = (CUresult(*)(CUcontext *)) dlsym(cuda_handle, "cuCtxGetCurrent");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pctx);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuCtxGetDevice(CUdevice *device) {
+CUresult cuCtxGetDevice(CUdevice * device) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxGetDevice");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdevice *) = (CUresult(*)(CUdevice *))dlsym(cuda_handle, "cuCtxGetDevice");
+    CUresult (*hookFunc)(CUdevice *) = (CUresult(*)(CUdevice *)) dlsym(cuda_handle, "cuCtxGetDevice");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(device);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuCtxGetExecAffinity(CUexecAffinityParam *pExecAffinity, CUexecAffinityType type) {
+CUresult cuCtxGetExecAffinity(CUexecAffinityParam * pExecAffinity, CUexecAffinityType type) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxGetExecAffinity");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUexecAffinityParam *, CUexecAffinityType) = (CUresult(*)(CUexecAffinityParam *, CUexecAffinityType))dlsym(cuda_handle, "cuCtxGetExecAffinity");
+    CUresult (*hookFunc)(CUexecAffinityParam *, CUexecAffinityType) = (CUresult(*)(CUexecAffinityParam *, CUexecAffinityType)) dlsym(cuda_handle, "cuCtxGetExecAffinity");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pExecAffinity, type);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuCtxGetFlags(unsigned int *flags) {
+CUresult cuCtxGetFlags(unsigned int * flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxGetFlags");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(unsigned int *) = (CUresult(*)(unsigned int *))dlsym(cuda_handle, "cuCtxGetFlags");
+    CUresult (*hookFunc)(unsigned int *) = (CUresult(*)(unsigned int *)) dlsym(cuda_handle, "cuCtxGetFlags");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuCtxGetLimit(size_t *pvalue, CUlimit limit) {
+CUresult cuCtxGetLimit(size_t * pvalue, CUlimit limit) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxGetLimit");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(size_t *, CUlimit) = (CUresult(*)(size_t *, CUlimit))dlsym(cuda_handle, "cuCtxGetLimit");
+    CUresult (*hookFunc)(size_t *, CUlimit) = (CUresult(*)(size_t *, CUlimit)) dlsym(cuda_handle, "cuCtxGetLimit");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pvalue, limit);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuCtxGetSharedMemConfig(CUsharedconfig *pConfig) {
+CUresult cuCtxGetSharedMemConfig(CUsharedconfig * pConfig) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxGetSharedMemConfig");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUsharedconfig *) = (CUresult(*)(CUsharedconfig *))dlsym(cuda_handle, "cuCtxGetSharedMemConfig");
+    CUresult (*hookFunc)(CUsharedconfig *) = (CUresult(*)(CUsharedconfig *)) dlsym(cuda_handle, "cuCtxGetSharedMemConfig");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pConfig);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuCtxGetStreamPriorityRange(int *leastPriority, int *greatestPriority) {
+CUresult cuCtxGetStreamPriorityRange(int * leastPriority, int * greatestPriority) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxGetStreamPriorityRange");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(int *, int *) = (CUresult(*)(int *, int *))dlsym(cuda_handle, "cuCtxGetStreamPriorityRange");
+    CUresult (*hookFunc)(int *, int *) = (CUresult(*)(int *, int *)) dlsym(cuda_handle, "cuCtxGetStreamPriorityRange");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(leastPriority, greatestPriority);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuCtxPopCurrent(CUcontext *pctx) {
+CUresult cuCtxPopCurrent(CUcontext * pctx) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxPopCurrent");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUcontext *) = (CUresult(*)(CUcontext *))dlsym(cuda_handle, "cuCtxPopCurrent");
+    CUresult (*hookFunc)(CUcontext *) = (CUresult(*)(CUcontext *)) dlsym(cuda_handle, "cuCtxPopCurrent");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(pctx);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuCtxPopCurrent_v2(CUcontext * pctx) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxPopCurrent_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUcontext *) = (CUresult(*)(CUcontext *)) dlsym(cuda_handle, "cuCtxPopCurrent_v2");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pctx);
     cudaTimeProfileDestroy(pprof, rs);
@@ -241,7 +260,17 @@ CUresult cuCtxPopCurrent(CUcontext *pctx) {
 CUresult cuCtxPushCurrent(CUcontext ctx) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxPushCurrent");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUcontext) = (CUresult(*)(CUcontext))dlsym(cuda_handle, "cuCtxPushCurrent");
+    CUresult (*hookFunc)(CUcontext) = (CUresult(*)(CUcontext)) dlsym(cuda_handle, "cuCtxPushCurrent");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(ctx);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuCtxPushCurrent_v2(CUcontext ctx) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxPushCurrent_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUcontext) = (CUresult(*)(CUcontext)) dlsym(cuda_handle, "cuCtxPushCurrent_v2");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(ctx);
     cudaTimeProfileDestroy(pprof, rs);
@@ -251,7 +280,7 @@ CUresult cuCtxPushCurrent(CUcontext ctx) {
 CUresult cuCtxResetPersistingL2Cache() {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxResetPersistingL2Cache");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)() = (CUresult(*)())dlsym(cuda_handle, "cuCtxResetPersistingL2Cache");
+    CUresult (*hookFunc)() = (CUresult(*)()) dlsym(cuda_handle, "cuCtxResetPersistingL2Cache");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc();
     cudaTimeProfileDestroy(pprof, rs);
@@ -261,7 +290,7 @@ CUresult cuCtxResetPersistingL2Cache() {
 CUresult cuCtxSetCacheConfig(CUfunc_cache config) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxSetCacheConfig");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUfunc_cache) = (CUresult(*)(CUfunc_cache))dlsym(cuda_handle, "cuCtxSetCacheConfig");
+    CUresult (*hookFunc)(CUfunc_cache) = (CUresult(*)(CUfunc_cache)) dlsym(cuda_handle, "cuCtxSetCacheConfig");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(config);
     cudaTimeProfileDestroy(pprof, rs);
@@ -271,7 +300,7 @@ CUresult cuCtxSetCacheConfig(CUfunc_cache config) {
 CUresult cuCtxSetCurrent(CUcontext ctx) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxSetCurrent");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUcontext) = (CUresult(*)(CUcontext))dlsym(cuda_handle, "cuCtxSetCurrent");
+    CUresult (*hookFunc)(CUcontext) = (CUresult(*)(CUcontext)) dlsym(cuda_handle, "cuCtxSetCurrent");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(ctx);
     cudaTimeProfileDestroy(pprof, rs);
@@ -281,7 +310,7 @@ CUresult cuCtxSetCurrent(CUcontext ctx) {
 CUresult cuCtxSetLimit(CUlimit limit, size_t value) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxSetLimit");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUlimit, size_t) = (CUresult(*)(CUlimit, size_t))dlsym(cuda_handle, "cuCtxSetLimit");
+    CUresult (*hookFunc)(CUlimit, size_t) = (CUresult(*)(CUlimit, size_t)) dlsym(cuda_handle, "cuCtxSetLimit");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(limit, value);
     cudaTimeProfileDestroy(pprof, rs);
@@ -291,7 +320,7 @@ CUresult cuCtxSetLimit(CUlimit limit, size_t value) {
 CUresult cuCtxSetSharedMemConfig(CUsharedconfig config) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxSetSharedMemConfig");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUsharedconfig) = (CUresult(*)(CUsharedconfig))dlsym(cuda_handle, "cuCtxSetSharedMemConfig");
+    CUresult (*hookFunc)(CUsharedconfig) = (CUresult(*)(CUsharedconfig)) dlsym(cuda_handle, "cuCtxSetSharedMemConfig");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(config);
     cudaTimeProfileDestroy(pprof, rs);
@@ -301,7 +330,7 @@ CUresult cuCtxSetSharedMemConfig(CUsharedconfig config) {
 CUresult cuCtxSynchronize() {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuCtxSynchronize");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)() = (CUresult(*)())dlsym(cuda_handle, "cuCtxSynchronize");
+    CUresult (*hookFunc)() = (CUresult(*)()) dlsym(cuda_handle, "cuCtxSynchronize");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc();
     cudaTimeProfileDestroy(pprof, rs);
@@ -311,7 +340,7 @@ CUresult cuCtxSynchronize() {
 CUresult cuDestroyExternalMemory(CUexternalMemory extMem) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDestroyExternalMemory");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUexternalMemory) = (CUresult(*)(CUexternalMemory))dlsym(cuda_handle, "cuDestroyExternalMemory");
+    CUresult (*hookFunc)(CUexternalMemory) = (CUresult(*)(CUexternalMemory)) dlsym(cuda_handle, "cuDestroyExternalMemory");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(extMem);
     cudaTimeProfileDestroy(pprof, rs);
@@ -321,197 +350,197 @@ CUresult cuDestroyExternalMemory(CUexternalMemory extMem) {
 CUresult cuDestroyExternalSemaphore(CUexternalSemaphore extSem) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDestroyExternalSemaphore");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUexternalSemaphore) = (CUresult(*)(CUexternalSemaphore))dlsym(cuda_handle, "cuDestroyExternalSemaphore");
+    CUresult (*hookFunc)(CUexternalSemaphore) = (CUresult(*)(CUexternalSemaphore)) dlsym(cuda_handle, "cuDestroyExternalSemaphore");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(extSem);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDeviceCanAccessPeer(int *canAccessPeer, CUdevice dev, CUdevice peerDev) {
+CUresult cuDeviceCanAccessPeer(int * canAccessPeer, CUdevice dev, CUdevice peerDev) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceCanAccessPeer");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(int *, CUdevice, CUdevice) = (CUresult(*)(int *, CUdevice, CUdevice))dlsym(cuda_handle, "cuDeviceCanAccessPeer");
+    CUresult (*hookFunc)(int *, CUdevice, CUdevice) = (CUresult(*)(int *, CUdevice, CUdevice)) dlsym(cuda_handle, "cuDeviceCanAccessPeer");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(canAccessPeer, dev, peerDev);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDeviceComputeCapability(int *major, int *minor, CUdevice dev) {
+CUresult cuDeviceComputeCapability(int * major, int * minor, CUdevice dev) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceComputeCapability");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(int *, int *, CUdevice) = (CUresult(*)(int *, int *, CUdevice))dlsym(cuda_handle, "cuDeviceComputeCapability");
+    CUresult (*hookFunc)(int *, int *, CUdevice) = (CUresult(*)(int *, int *, CUdevice)) dlsym(cuda_handle, "cuDeviceComputeCapability");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(major, minor, dev);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDeviceGet(CUdevice *device, int ordinal) {
+CUresult cuDeviceGet(CUdevice * device, int ordinal) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceGet");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdevice *, int) = (CUresult(*)(CUdevice *, int))dlsym(cuda_handle, "cuDeviceGet");
+    CUresult (*hookFunc)(CUdevice *, int) = (CUresult(*)(CUdevice *, int)) dlsym(cuda_handle, "cuDeviceGet");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(device, ordinal);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDeviceGetAttribute(int *pi, CUdevice_attribute attrib, CUdevice dev) {
+CUresult cuDeviceGetAttribute(int * pi, CUdevice_attribute attrib, CUdevice dev) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceGetAttribute");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(int *, CUdevice_attribute, CUdevice) = (CUresult(*)(int *, CUdevice_attribute, CUdevice))dlsym(cuda_handle, "cuDeviceGetAttribute");
+    CUresult (*hookFunc)(int *, CUdevice_attribute, CUdevice) = (CUresult(*)(int *, CUdevice_attribute, CUdevice)) dlsym(cuda_handle, "cuDeviceGetAttribute");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pi, attrib, dev);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDeviceGetByPCIBusId(CUdevice *dev, const char *pciBusId) {
+CUresult cuDeviceGetByPCIBusId(CUdevice * dev, const char * pciBusId) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceGetByPCIBusId");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdevice *, const char *) = (CUresult(*)(CUdevice *, const char *))dlsym(cuda_handle, "cuDeviceGetByPCIBusId");
+    CUresult (*hookFunc)(CUdevice *, const char *) = (CUresult(*)(CUdevice *, const char *)) dlsym(cuda_handle, "cuDeviceGetByPCIBusId");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dev, pciBusId);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDeviceGetCount(int *count) {
+CUresult cuDeviceGetCount(int * count) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceGetCount");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(int *) = (CUresult(*)(int *))dlsym(cuda_handle, "cuDeviceGetCount");
+    CUresult (*hookFunc)(int *) = (CUresult(*)(int *)) dlsym(cuda_handle, "cuDeviceGetCount");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(count);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDeviceGetDefaultMemPool(CUmemoryPool *pool_out, CUdevice dev) {
+CUresult cuDeviceGetDefaultMemPool(CUmemoryPool * pool_out, CUdevice dev) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceGetDefaultMemPool");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmemoryPool *, CUdevice) = (CUresult(*)(CUmemoryPool *, CUdevice))dlsym(cuda_handle, "cuDeviceGetDefaultMemPool");
+    CUresult (*hookFunc)(CUmemoryPool *, CUdevice) = (CUresult(*)(CUmemoryPool *, CUdevice)) dlsym(cuda_handle, "cuDeviceGetDefaultMemPool");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pool_out, dev);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDeviceGetExecAffinitySupport(int *pi, CUexecAffinityType type, CUdevice dev) {
+CUresult cuDeviceGetExecAffinitySupport(int * pi, CUexecAffinityType type, CUdevice dev) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceGetExecAffinitySupport");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(int *, CUexecAffinityType, CUdevice) = (CUresult(*)(int *, CUexecAffinityType, CUdevice))dlsym(cuda_handle, "cuDeviceGetExecAffinitySupport");
+    CUresult (*hookFunc)(int *, CUexecAffinityType, CUdevice) = (CUresult(*)(int *, CUexecAffinityType, CUdevice)) dlsym(cuda_handle, "cuDeviceGetExecAffinitySupport");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pi, type, dev);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDeviceGetGraphMemAttribute(CUdevice device, CUgraphMem_attribute attr, void *value) {
+CUresult cuDeviceGetGraphMemAttribute(CUdevice device, CUgraphMem_attribute attr, void * value) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceGetGraphMemAttribute");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdevice, CUgraphMem_attribute, void *) = (CUresult(*)(CUdevice, CUgraphMem_attribute, void *))dlsym(cuda_handle, "cuDeviceGetGraphMemAttribute");
+    CUresult (*hookFunc)(CUdevice, CUgraphMem_attribute, void *) = (CUresult(*)(CUdevice, CUgraphMem_attribute, void *)) dlsym(cuda_handle, "cuDeviceGetGraphMemAttribute");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(device, attr, value);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDeviceGetLuid(char *luid, unsigned int *deviceNodeMask, CUdevice dev) {
+CUresult cuDeviceGetLuid(char * luid, unsigned int * deviceNodeMask, CUdevice dev) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceGetLuid");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(char *, unsigned int *, CUdevice) = (CUresult(*)(char *, unsigned int *, CUdevice))dlsym(cuda_handle, "cuDeviceGetLuid");
+    CUresult (*hookFunc)(char *, unsigned int *, CUdevice) = (CUresult(*)(char *, unsigned int *, CUdevice)) dlsym(cuda_handle, "cuDeviceGetLuid");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(luid, deviceNodeMask, dev);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDeviceGetMemPool(CUmemoryPool *pool, CUdevice dev) {
+CUresult cuDeviceGetMemPool(CUmemoryPool * pool, CUdevice dev) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceGetMemPool");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmemoryPool *, CUdevice) = (CUresult(*)(CUmemoryPool *, CUdevice))dlsym(cuda_handle, "cuDeviceGetMemPool");
+    CUresult (*hookFunc)(CUmemoryPool *, CUdevice) = (CUresult(*)(CUmemoryPool *, CUdevice)) dlsym(cuda_handle, "cuDeviceGetMemPool");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pool, dev);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDeviceGetName(char *name, int len, CUdevice dev) {
+CUresult cuDeviceGetName(char * name, int len, CUdevice dev) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceGetName");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(char *, int, CUdevice) = (CUresult(*)(char *, int, CUdevice))dlsym(cuda_handle, "cuDeviceGetName");
+    CUresult (*hookFunc)(char *, int, CUdevice) = (CUresult(*)(char *, int, CUdevice)) dlsym(cuda_handle, "cuDeviceGetName");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(name, len, dev);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDeviceGetNvSciSyncAttributes(void *nvSciSyncAttrList, CUdevice dev, int flags) {
+CUresult cuDeviceGetNvSciSyncAttributes(void * nvSciSyncAttrList, CUdevice dev, int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceGetNvSciSyncAttributes");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(void *, CUdevice, int) = (CUresult(*)(void *, CUdevice, int))dlsym(cuda_handle, "cuDeviceGetNvSciSyncAttributes");
+    CUresult (*hookFunc)(void *, CUdevice, int) = (CUresult(*)(void *, CUdevice, int)) dlsym(cuda_handle, "cuDeviceGetNvSciSyncAttributes");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(nvSciSyncAttrList, dev, flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDeviceGetP2PAttribute(int *value, CUdevice_P2PAttribute attrib, CUdevice srcDevice, CUdevice dstDevice) {
+CUresult cuDeviceGetP2PAttribute(int * value, CUdevice_P2PAttribute attrib, CUdevice srcDevice, CUdevice dstDevice) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceGetP2PAttribute");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(int *, CUdevice_P2PAttribute, CUdevice, CUdevice) = (CUresult(*)(int *, CUdevice_P2PAttribute, CUdevice, CUdevice))dlsym(cuda_handle, "cuDeviceGetP2PAttribute");
+    CUresult (*hookFunc)(int *, CUdevice_P2PAttribute, CUdevice, CUdevice) = (CUresult(*)(int *, CUdevice_P2PAttribute, CUdevice, CUdevice)) dlsym(cuda_handle, "cuDeviceGetP2PAttribute");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(value, attrib, srcDevice, dstDevice);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDeviceGetPCIBusId(char *pciBusId, int len, CUdevice dev) {
+CUresult cuDeviceGetPCIBusId(char * pciBusId, int len, CUdevice dev) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceGetPCIBusId");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(char *, int, CUdevice) = (CUresult(*)(char *, int, CUdevice))dlsym(cuda_handle, "cuDeviceGetPCIBusId");
+    CUresult (*hookFunc)(char *, int, CUdevice) = (CUresult(*)(char *, int, CUdevice)) dlsym(cuda_handle, "cuDeviceGetPCIBusId");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pciBusId, len, dev);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDeviceGetProperties(CUdevprop *prop, CUdevice dev) {
+CUresult cuDeviceGetProperties(CUdevprop * prop, CUdevice dev) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceGetProperties");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdevprop *, CUdevice) = (CUresult(*)(CUdevprop *, CUdevice))dlsym(cuda_handle, "cuDeviceGetProperties");
+    CUresult (*hookFunc)(CUdevprop *, CUdevice) = (CUresult(*)(CUdevprop *, CUdevice)) dlsym(cuda_handle, "cuDeviceGetProperties");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(prop, dev);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDeviceGetTexture1DLinearMaxWidth(size_t *maxWidthInElements, CUarray_format format, unsigned numChannels, CUdevice dev) {
+CUresult cuDeviceGetTexture1DLinearMaxWidth(size_t * maxWidthInElements, CUarray_format format, unsigned numChannels, CUdevice dev) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceGetTexture1DLinearMaxWidth");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(size_t *, CUarray_format, unsigned, CUdevice) = (CUresult(*)(size_t *, CUarray_format, unsigned, CUdevice))dlsym(cuda_handle, "cuDeviceGetTexture1DLinearMaxWidth");
+    CUresult (*hookFunc)(size_t *, CUarray_format, unsigned, CUdevice) = (CUresult(*)(size_t *, CUarray_format, unsigned, CUdevice)) dlsym(cuda_handle, "cuDeviceGetTexture1DLinearMaxWidth");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(maxWidthInElements, format, numChannels, dev);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDeviceGetUuid(CUuuid *uuid, CUdevice dev) {
+CUresult cuDeviceGetUuid(CUuuid * uuid, CUdevice dev) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceGetUuid");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUuuid *, CUdevice) = (CUresult(*)(CUuuid *, CUdevice))dlsym(cuda_handle, "cuDeviceGetUuid");
+    CUresult (*hookFunc)(CUuuid *, CUdevice) = (CUresult(*)(CUuuid *, CUdevice)) dlsym(cuda_handle, "cuDeviceGetUuid");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(uuid, dev);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDeviceGetUuid_v2(CUuuid *uuid, CUdevice dev) {
+CUresult cuDeviceGetUuid_v2(CUuuid * uuid, CUdevice dev) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceGetUuid_v2");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUuuid *, CUdevice) = (CUresult(*)(CUuuid *, CUdevice))dlsym(cuda_handle, "cuDeviceGetUuid_v2");
+    CUresult (*hookFunc)(CUuuid *, CUdevice) = (CUresult(*)(CUuuid *, CUdevice)) dlsym(cuda_handle, "cuDeviceGetUuid_v2");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(uuid, dev);
     cudaTimeProfileDestroy(pprof, rs);
@@ -521,17 +550,17 @@ CUresult cuDeviceGetUuid_v2(CUuuid *uuid, CUdevice dev) {
 CUresult cuDeviceGraphMemTrim(CUdevice device) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceGraphMemTrim");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdevice) = (CUresult(*)(CUdevice))dlsym(cuda_handle, "cuDeviceGraphMemTrim");
+    CUresult (*hookFunc)(CUdevice) = (CUresult(*)(CUdevice)) dlsym(cuda_handle, "cuDeviceGraphMemTrim");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(device);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDevicePrimaryCtxGetState(CUdevice dev, unsigned int *flags, int *active) {
+CUresult cuDevicePrimaryCtxGetState(CUdevice dev, unsigned int * flags, int * active) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDevicePrimaryCtxGetState");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdevice, unsigned int *, int *) = (CUresult(*)(CUdevice, unsigned int *, int *))dlsym(cuda_handle, "cuDevicePrimaryCtxGetState");
+    CUresult (*hookFunc)(CUdevice, unsigned int *, int *) = (CUresult(*)(CUdevice, unsigned int *, int *)) dlsym(cuda_handle, "cuDevicePrimaryCtxGetState");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dev, flags, active);
     cudaTimeProfileDestroy(pprof, rs);
@@ -541,7 +570,17 @@ CUresult cuDevicePrimaryCtxGetState(CUdevice dev, unsigned int *flags, int *acti
 CUresult cuDevicePrimaryCtxRelease(CUdevice dev) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDevicePrimaryCtxRelease");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdevice) = (CUresult(*)(CUdevice))dlsym(cuda_handle, "cuDevicePrimaryCtxRelease");
+    CUresult (*hookFunc)(CUdevice) = (CUresult(*)(CUdevice)) dlsym(cuda_handle, "cuDevicePrimaryCtxRelease");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(dev);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuDevicePrimaryCtxRelease_v2(CUdevice dev) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDevicePrimaryCtxRelease_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUdevice) = (CUresult(*)(CUdevice)) dlsym(cuda_handle, "cuDevicePrimaryCtxRelease_v2");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dev);
     cudaTimeProfileDestroy(pprof, rs);
@@ -551,17 +590,17 @@ CUresult cuDevicePrimaryCtxRelease(CUdevice dev) {
 CUresult cuDevicePrimaryCtxReset(CUdevice dev) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDevicePrimaryCtxReset");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdevice) = (CUresult(*)(CUdevice))dlsym(cuda_handle, "cuDevicePrimaryCtxReset");
+    CUresult (*hookFunc)(CUdevice) = (CUresult(*)(CUdevice)) dlsym(cuda_handle, "cuDevicePrimaryCtxReset");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dev);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDevicePrimaryCtxRetain(CUcontext *pctx, CUdevice dev) {
+CUresult cuDevicePrimaryCtxRetain(CUcontext * pctx, CUdevice dev) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDevicePrimaryCtxRetain");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUcontext *, CUdevice) = (CUresult(*)(CUcontext *, CUdevice))dlsym(cuda_handle, "cuDevicePrimaryCtxRetain");
+    CUresult (*hookFunc)(CUcontext *, CUdevice) = (CUresult(*)(CUcontext *, CUdevice)) dlsym(cuda_handle, "cuDevicePrimaryCtxRetain");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pctx, dev);
     cudaTimeProfileDestroy(pprof, rs);
@@ -571,17 +610,27 @@ CUresult cuDevicePrimaryCtxRetain(CUcontext *pctx, CUdevice dev) {
 CUresult cuDevicePrimaryCtxSetFlags(CUdevice dev, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDevicePrimaryCtxSetFlags");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdevice, unsigned int) = (CUresult(*)(CUdevice, unsigned int))dlsym(cuda_handle, "cuDevicePrimaryCtxSetFlags");
+    CUresult (*hookFunc)(CUdevice, unsigned int) = (CUresult(*)(CUdevice, unsigned int)) dlsym(cuda_handle, "cuDevicePrimaryCtxSetFlags");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dev, flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuDeviceSetGraphMemAttribute(CUdevice device, CUgraphMem_attribute attr, void *value) {
+CUresult cuDevicePrimaryCtxSetFlags_v2(CUdevice dev, unsigned int flags) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDevicePrimaryCtxSetFlags_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUdevice, unsigned int) = (CUresult(*)(CUdevice, unsigned int)) dlsym(cuda_handle, "cuDevicePrimaryCtxSetFlags_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(dev, flags);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuDeviceSetGraphMemAttribute(CUdevice device, CUgraphMem_attribute attr, void * value) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceSetGraphMemAttribute");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdevice, CUgraphMem_attribute, void *) = (CUresult(*)(CUdevice, CUgraphMem_attribute, void *))dlsym(cuda_handle, "cuDeviceSetGraphMemAttribute");
+    CUresult (*hookFunc)(CUdevice, CUgraphMem_attribute, void *) = (CUresult(*)(CUdevice, CUgraphMem_attribute, void *)) dlsym(cuda_handle, "cuDeviceSetGraphMemAttribute");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(device, attr, value);
     cudaTimeProfileDestroy(pprof, rs);
@@ -591,17 +640,17 @@ CUresult cuDeviceSetGraphMemAttribute(CUdevice device, CUgraphMem_attribute attr
 CUresult cuDeviceSetMemPool(CUdevice dev, CUmemoryPool pool) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuDeviceSetMemPool");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdevice, CUmemoryPool) = (CUresult(*)(CUdevice, CUmemoryPool))dlsym(cuda_handle, "cuDeviceSetMemPool");
+    CUresult (*hookFunc)(CUdevice, CUmemoryPool) = (CUresult(*)(CUdevice, CUmemoryPool)) dlsym(cuda_handle, "cuDeviceSetMemPool");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dev, pool);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuEventCreate(CUevent *phEvent, unsigned int Flags) {
+CUresult cuEventCreate(CUevent * phEvent, unsigned int Flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuEventCreate");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUevent *, unsigned int) = (CUresult(*)(CUevent *, unsigned int))dlsym(cuda_handle, "cuEventCreate");
+    CUresult (*hookFunc)(CUevent *, unsigned int) = (CUresult(*)(CUevent *, unsigned int)) dlsym(cuda_handle, "cuEventCreate");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phEvent, Flags);
     cudaTimeProfileDestroy(pprof, rs);
@@ -611,17 +660,27 @@ CUresult cuEventCreate(CUevent *phEvent, unsigned int Flags) {
 CUresult cuEventDestroy(CUevent hEvent) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuEventDestroy");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUevent) = (CUresult(*)(CUevent))dlsym(cuda_handle, "cuEventDestroy");
+    CUresult (*hookFunc)(CUevent) = (CUresult(*)(CUevent)) dlsym(cuda_handle, "cuEventDestroy");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hEvent);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuEventElapsedTime(float *pMilliseconds, CUevent hStart, CUevent hEnd) {
+CUresult cuEventDestroy_v2(CUevent hEvent) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuEventDestroy_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUevent) = (CUresult(*)(CUevent)) dlsym(cuda_handle, "cuEventDestroy_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(hEvent);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuEventElapsedTime(float * pMilliseconds, CUevent hStart, CUevent hEnd) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuEventElapsedTime");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(float *, CUevent, CUevent) = (CUresult(*)(float *, CUevent, CUevent))dlsym(cuda_handle, "cuEventElapsedTime");
+    CUresult (*hookFunc)(float *, CUevent, CUevent) = (CUresult(*)(float *, CUevent, CUevent)) dlsym(cuda_handle, "cuEventElapsedTime");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pMilliseconds, hStart, hEnd);
     cudaTimeProfileDestroy(pprof, rs);
@@ -631,7 +690,7 @@ CUresult cuEventElapsedTime(float *pMilliseconds, CUevent hStart, CUevent hEnd) 
 CUresult cuEventQuery(CUevent hEvent) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuEventQuery");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUevent) = (CUresult(*)(CUevent))dlsym(cuda_handle, "cuEventQuery");
+    CUresult (*hookFunc)(CUevent) = (CUresult(*)(CUevent)) dlsym(cuda_handle, "cuEventQuery");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hEvent);
     cudaTimeProfileDestroy(pprof, rs);
@@ -641,7 +700,7 @@ CUresult cuEventQuery(CUevent hEvent) {
 CUresult cuEventRecord(CUevent hEvent, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuEventRecord");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUevent, CUstream) = (CUresult(*)(CUevent, CUstream))dlsym(cuda_handle, "cuEventRecord");
+    CUresult (*hookFunc)(CUevent, CUstream) = (CUresult(*)(CUevent, CUstream)) dlsym(cuda_handle, "cuEventRecord");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hEvent, hStream);
     cudaTimeProfileDestroy(pprof, rs);
@@ -651,7 +710,7 @@ CUresult cuEventRecord(CUevent hEvent, CUstream hStream) {
 CUresult cuEventRecordWithFlags(CUevent hEvent, CUstream hStream, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuEventRecordWithFlags");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUevent, CUstream, unsigned int) = (CUresult(*)(CUevent, CUstream, unsigned int))dlsym(cuda_handle, "cuEventRecordWithFlags");
+    CUresult (*hookFunc)(CUevent, CUstream, unsigned int) = (CUresult(*)(CUevent, CUstream, unsigned int)) dlsym(cuda_handle, "cuEventRecordWithFlags");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hEvent, hStream, flags);
     cudaTimeProfileDestroy(pprof, rs);
@@ -661,27 +720,27 @@ CUresult cuEventRecordWithFlags(CUevent hEvent, CUstream hStream, unsigned int f
 CUresult cuEventSynchronize(CUevent hEvent) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuEventSynchronize");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUevent) = (CUresult(*)(CUevent))dlsym(cuda_handle, "cuEventSynchronize");
+    CUresult (*hookFunc)(CUevent) = (CUresult(*)(CUevent)) dlsym(cuda_handle, "cuEventSynchronize");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hEvent);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuExternalMemoryGetMappedBuffer(CUdeviceptr *devPtr, CUexternalMemory extMem, const CUDA_EXTERNAL_MEMORY_BUFFER_DESC *bufferDesc) {
+CUresult cuExternalMemoryGetMappedBuffer(CUdeviceptr * devPtr, CUexternalMemory extMem, const CUDA_EXTERNAL_MEMORY_BUFFER_DESC * bufferDesc) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuExternalMemoryGetMappedBuffer");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr *, CUexternalMemory, const CUDA_EXTERNAL_MEMORY_BUFFER_DESC *) = (CUresult(*)(CUdeviceptr *, CUexternalMemory, const CUDA_EXTERNAL_MEMORY_BUFFER_DESC *))dlsym(cuda_handle, "cuExternalMemoryGetMappedBuffer");
+    CUresult (*hookFunc)(CUdeviceptr *, CUexternalMemory, const CUDA_EXTERNAL_MEMORY_BUFFER_DESC *) = (CUresult(*)(CUdeviceptr *, CUexternalMemory, const CUDA_EXTERNAL_MEMORY_BUFFER_DESC *)) dlsym(cuda_handle, "cuExternalMemoryGetMappedBuffer");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(devPtr, extMem, bufferDesc);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuExternalMemoryGetMappedMipmappedArray(CUmipmappedArray *mipmap, CUexternalMemory extMem, const CUDA_EXTERNAL_MEMORY_MIPMAPPED_ARRAY_DESC *mipmapDesc) {
+CUresult cuExternalMemoryGetMappedMipmappedArray(CUmipmappedArray * mipmap, CUexternalMemory extMem, const CUDA_EXTERNAL_MEMORY_MIPMAPPED_ARRAY_DESC * mipmapDesc) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuExternalMemoryGetMappedMipmappedArray");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmipmappedArray *, CUexternalMemory, const CUDA_EXTERNAL_MEMORY_MIPMAPPED_ARRAY_DESC *) = (CUresult(*)(CUmipmappedArray *, CUexternalMemory, const CUDA_EXTERNAL_MEMORY_MIPMAPPED_ARRAY_DESC *))dlsym(cuda_handle, "cuExternalMemoryGetMappedMipmappedArray");
+    CUresult (*hookFunc)(CUmipmappedArray *, CUexternalMemory, const CUDA_EXTERNAL_MEMORY_MIPMAPPED_ARRAY_DESC *) = (CUresult(*)(CUmipmappedArray *, CUexternalMemory, const CUDA_EXTERNAL_MEMORY_MIPMAPPED_ARRAY_DESC *)) dlsym(cuda_handle, "cuExternalMemoryGetMappedMipmappedArray");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(mipmap, extMem, mipmapDesc);
     cudaTimeProfileDestroy(pprof, rs);
@@ -691,27 +750,27 @@ CUresult cuExternalMemoryGetMappedMipmappedArray(CUmipmappedArray *mipmap, CUext
 CUresult cuFlushGPUDirectRDMAWrites(CUflushGPUDirectRDMAWritesTarget target, CUflushGPUDirectRDMAWritesScope scope) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuFlushGPUDirectRDMAWrites");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUflushGPUDirectRDMAWritesTarget, CUflushGPUDirectRDMAWritesScope) = (CUresult(*)(CUflushGPUDirectRDMAWritesTarget, CUflushGPUDirectRDMAWritesScope))dlsym(cuda_handle, "cuFlushGPUDirectRDMAWrites");
+    CUresult (*hookFunc)(CUflushGPUDirectRDMAWritesTarget, CUflushGPUDirectRDMAWritesScope) = (CUresult(*)(CUflushGPUDirectRDMAWritesTarget, CUflushGPUDirectRDMAWritesScope)) dlsym(cuda_handle, "cuFlushGPUDirectRDMAWrites");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(target, scope);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuFuncGetAttribute(int *pi, CUfunction_attribute attrib, CUfunction hfunc) {
+CUresult cuFuncGetAttribute(int * pi, CUfunction_attribute attrib, CUfunction hfunc) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuFuncGetAttribute");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(int *, CUfunction_attribute, CUfunction) = (CUresult(*)(int *, CUfunction_attribute, CUfunction))dlsym(cuda_handle, "cuFuncGetAttribute");
+    CUresult (*hookFunc)(int *, CUfunction_attribute, CUfunction) = (CUresult(*)(int *, CUfunction_attribute, CUfunction)) dlsym(cuda_handle, "cuFuncGetAttribute");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pi, attrib, hfunc);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuFuncGetModule(CUmodule *hmod, CUfunction hfunc) {
+CUresult cuFuncGetModule(CUmodule * hmod, CUfunction hfunc) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuFuncGetModule");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmodule *, CUfunction) = (CUresult(*)(CUmodule *, CUfunction))dlsym(cuda_handle, "cuFuncGetModule");
+    CUresult (*hookFunc)(CUmodule *, CUfunction) = (CUresult(*)(CUmodule *, CUfunction)) dlsym(cuda_handle, "cuFuncGetModule");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hmod, hfunc);
     cudaTimeProfileDestroy(pprof, rs);
@@ -721,7 +780,7 @@ CUresult cuFuncGetModule(CUmodule *hmod, CUfunction hfunc) {
 CUresult cuFuncSetAttribute(CUfunction hfunc, CUfunction_attribute attrib, int value) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuFuncSetAttribute");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUfunction, CUfunction_attribute, int) = (CUresult(*)(CUfunction, CUfunction_attribute, int))dlsym(cuda_handle, "cuFuncSetAttribute");
+    CUresult (*hookFunc)(CUfunction, CUfunction_attribute, int) = (CUresult(*)(CUfunction, CUfunction_attribute, int)) dlsym(cuda_handle, "cuFuncSetAttribute");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hfunc, attrib, value);
     cudaTimeProfileDestroy(pprof, rs);
@@ -731,7 +790,7 @@ CUresult cuFuncSetAttribute(CUfunction hfunc, CUfunction_attribute attrib, int v
 CUresult cuFuncSetCacheConfig(CUfunction hfunc, CUfunc_cache config) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuFuncSetCacheConfig");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUfunction, CUfunc_cache) = (CUresult(*)(CUfunction, CUfunc_cache))dlsym(cuda_handle, "cuFuncSetCacheConfig");
+    CUresult (*hookFunc)(CUfunction, CUfunc_cache) = (CUresult(*)(CUfunction, CUfunc_cache)) dlsym(cuda_handle, "cuFuncSetCacheConfig");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hfunc, config);
     cudaTimeProfileDestroy(pprof, rs);
@@ -741,7 +800,7 @@ CUresult cuFuncSetCacheConfig(CUfunction hfunc, CUfunc_cache config) {
 CUresult cuFuncSetSharedMemConfig(CUfunction hfunc, CUsharedconfig config) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuFuncSetSharedMemConfig");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUfunction, CUsharedconfig) = (CUresult(*)(CUfunction, CUsharedconfig))dlsym(cuda_handle, "cuFuncSetSharedMemConfig");
+    CUresult (*hookFunc)(CUfunction, CUsharedconfig) = (CUresult(*)(CUfunction, CUsharedconfig)) dlsym(cuda_handle, "cuFuncSetSharedMemConfig");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hfunc, config);
     cudaTimeProfileDestroy(pprof, rs);
@@ -751,237 +810,287 @@ CUresult cuFuncSetSharedMemConfig(CUfunction hfunc, CUsharedconfig config) {
 CUresult cuFuncSetSharedSize(CUfunction hfunc, unsigned int bytes) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuFuncSetSharedSize");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUfunction, unsigned int) = (CUresult(*)(CUfunction, unsigned int))dlsym(cuda_handle, "cuFuncSetSharedSize");
+    CUresult (*hookFunc)(CUfunction, unsigned int) = (CUresult(*)(CUfunction, unsigned int)) dlsym(cuda_handle, "cuFuncSetSharedSize");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hfunc, bytes);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGetErrorName(CUresult error, const char **pStr) {
+CUresult cuGetErrorName(CUresult error, const char * * pStr) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGetErrorName");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUresult, const char **) = (CUresult(*)(CUresult, const char **))dlsym(cuda_handle, "cuGetErrorName");
+    CUresult (*hookFunc)(CUresult, const char * *) = (CUresult(*)(CUresult, const char * *)) dlsym(cuda_handle, "cuGetErrorName");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(error, pStr);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGetErrorString(CUresult error, const char **pStr) {
+CUresult cuGetErrorString(CUresult error, const char * * pStr) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGetErrorString");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUresult, const char **) = (CUresult(*)(CUresult, const char **))dlsym(cuda_handle, "cuGetErrorString");
+    CUresult (*hookFunc)(CUresult, const char * *) = (CUresult(*)(CUresult, const char * *)) dlsym(cuda_handle, "cuGetErrorString");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(error, pStr);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGetExportTable(const void **ppExportTable, const CUuuid *pExportTableId) {
+CUresult cuGetExportTable(const void * * ppExportTable, const CUuuid * pExportTableId) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGetExportTable");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(const void **, const CUuuid *) = (CUresult(*)(const void **, const CUuuid *))dlsym(cuda_handle, "cuGetExportTable");
+    CUresult (*hookFunc)(const void * *, const CUuuid *) = (CUresult(*)(const void * *, const CUuuid *)) dlsym(cuda_handle, "cuGetExportTable");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(ppExportTable, pExportTableId);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphAddBatchMemOpNode(CUgraphNode *phGraphNode, CUgraph hGraph, const CUgraphNode *dependencies, size_t numDependencies, const CUDA_BATCH_MEM_OP_NODE_PARAMS *nodeParams) {
+CUresult cuGetProcAddress_alt(const char * symbol, void * * pfn, int cudaVersion, cuuint64_t flags, CUdriverProcAddressQueryResult * symbolStatus) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGetProcAddress_alt");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(const char *, void * *, int, cuuint64_t, CUdriverProcAddressQueryResult *) = (CUresult(*)(const char *, void * *, int, cuuint64_t, CUdriverProcAddressQueryResult *)) dlsym(cuda_handle, "cuGetProcAddress_alt");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(symbol, pfn, cudaVersion, flags, symbolStatus);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuGetProcAddress_v2(const char * symbol, void * * funcPtr, int driverVersion, cuuint64_t flags, CUdriverProcAddressQueryResult * symbolStatus) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGetProcAddress_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(const char *, void * *, int, cuuint64_t, CUdriverProcAddressQueryResult *) = (CUresult(*)(const char *, void * *, int, cuuint64_t, CUdriverProcAddressQueryResult *)) dlsym(cuda_handle, "cuGetProcAddress_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(symbol, funcPtr, driverVersion, flags, symbolStatus);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuGetProcAddress_v2_alt(const char * symbol, void * * funcPtr, int driverVersion, cuuint64_t flags, CUdriverProcAddressQueryResult * symbolStatus) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGetProcAddress_v2_alt");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(const char *, void * *, int, cuuint64_t, CUdriverProcAddressQueryResult *) = (CUresult(*)(const char *, void * *, int, cuuint64_t, CUdriverProcAddressQueryResult *)) dlsym(cuda_handle, "cuGetProcAddress_v2_alt");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(symbol, funcPtr, driverVersion, flags, symbolStatus);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuGetProcAddress_v2_ptsz(const char * symbol, void * * funcPtr, int driverVersion, cuuint64_t flags, CUdriverProcAddressQueryResult * symbolStatus) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGetProcAddress_v2_ptsz");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(const char *, void * *, int, cuuint64_t, CUdriverProcAddressQueryResult *) = (CUresult(*)(const char *, void * *, int, cuuint64_t, CUdriverProcAddressQueryResult *)) dlsym(cuda_handle, "cuGetProcAddress_v2_ptsz");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(symbol, funcPtr, driverVersion, flags, symbolStatus);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuGraphAddBatchMemOpNode(CUgraphNode * phGraphNode, CUgraph hGraph, const CUgraphNode * dependencies, size_t numDependencies, const CUDA_BATCH_MEM_OP_NODE_PARAMS * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphAddBatchMemOpNode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_BATCH_MEM_OP_NODE_PARAMS *) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_BATCH_MEM_OP_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphAddBatchMemOpNode");
+    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_BATCH_MEM_OP_NODE_PARAMS *) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_BATCH_MEM_OP_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphAddBatchMemOpNode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phGraphNode, hGraph, dependencies, numDependencies, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphAddChildGraphNode(CUgraphNode *phGraphNode, CUgraph hGraph, const CUgraphNode *dependencies, size_t numDependencies, CUgraph childGraph) {
+CUresult cuGraphAddChildGraphNode(CUgraphNode * phGraphNode, CUgraph hGraph, const CUgraphNode * dependencies, size_t numDependencies, CUgraph childGraph) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphAddChildGraphNode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, CUgraph) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, CUgraph))dlsym(cuda_handle, "cuGraphAddChildGraphNode");
+    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, CUgraph) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, CUgraph)) dlsym(cuda_handle, "cuGraphAddChildGraphNode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phGraphNode, hGraph, dependencies, numDependencies, childGraph);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphAddDependencies(CUgraph hGraph, const CUgraphNode *from, const CUgraphNode *to, size_t numDependencies) {
+CUresult cuGraphAddDependencies(CUgraph hGraph, const CUgraphNode * from, const CUgraphNode * to, size_t numDependencies) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphAddDependencies");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraph, const CUgraphNode *, const CUgraphNode *, size_t) = (CUresult(*)(CUgraph, const CUgraphNode *, const CUgraphNode *, size_t))dlsym(cuda_handle, "cuGraphAddDependencies");
+    CUresult (*hookFunc)(CUgraph, const CUgraphNode *, const CUgraphNode *, size_t) = (CUresult(*)(CUgraph, const CUgraphNode *, const CUgraphNode *, size_t)) dlsym(cuda_handle, "cuGraphAddDependencies");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraph, from, to, numDependencies);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphAddEmptyNode(CUgraphNode *phGraphNode, CUgraph hGraph, const CUgraphNode *dependencies, size_t numDependencies) {
+CUresult cuGraphAddEmptyNode(CUgraphNode * phGraphNode, CUgraph hGraph, const CUgraphNode * dependencies, size_t numDependencies) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphAddEmptyNode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t))dlsym(cuda_handle, "cuGraphAddEmptyNode");
+    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t)) dlsym(cuda_handle, "cuGraphAddEmptyNode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phGraphNode, hGraph, dependencies, numDependencies);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphAddEventRecordNode(CUgraphNode *phGraphNode, CUgraph hGraph, const CUgraphNode *dependencies, size_t numDependencies, CUevent event) {
+CUresult cuGraphAddEventRecordNode(CUgraphNode * phGraphNode, CUgraph hGraph, const CUgraphNode * dependencies, size_t numDependencies, CUevent event) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphAddEventRecordNode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, CUevent) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, CUevent))dlsym(cuda_handle, "cuGraphAddEventRecordNode");
+    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, CUevent) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, CUevent)) dlsym(cuda_handle, "cuGraphAddEventRecordNode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phGraphNode, hGraph, dependencies, numDependencies, event);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphAddEventWaitNode(CUgraphNode *phGraphNode, CUgraph hGraph, const CUgraphNode *dependencies, size_t numDependencies, CUevent event) {
+CUresult cuGraphAddEventWaitNode(CUgraphNode * phGraphNode, CUgraph hGraph, const CUgraphNode * dependencies, size_t numDependencies, CUevent event) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphAddEventWaitNode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, CUevent) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, CUevent))dlsym(cuda_handle, "cuGraphAddEventWaitNode");
+    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, CUevent) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, CUevent)) dlsym(cuda_handle, "cuGraphAddEventWaitNode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phGraphNode, hGraph, dependencies, numDependencies, event);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphAddExternalSemaphoresSignalNode(CUgraphNode *phGraphNode, CUgraph hGraph, const CUgraphNode *dependencies, size_t numDependencies, const CUDA_EXT_SEM_SIGNAL_NODE_PARAMS *nodeParams) {
+CUresult cuGraphAddExternalSemaphoresSignalNode(CUgraphNode * phGraphNode, CUgraph hGraph, const CUgraphNode * dependencies, size_t numDependencies, const CUDA_EXT_SEM_SIGNAL_NODE_PARAMS * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphAddExternalSemaphoresSignalNode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_EXT_SEM_SIGNAL_NODE_PARAMS *) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_EXT_SEM_SIGNAL_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphAddExternalSemaphoresSignalNode");
+    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_EXT_SEM_SIGNAL_NODE_PARAMS *) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_EXT_SEM_SIGNAL_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphAddExternalSemaphoresSignalNode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phGraphNode, hGraph, dependencies, numDependencies, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphAddExternalSemaphoresWaitNode(CUgraphNode *phGraphNode, CUgraph hGraph, const CUgraphNode *dependencies, size_t numDependencies, const CUDA_EXT_SEM_WAIT_NODE_PARAMS *nodeParams) {
+CUresult cuGraphAddExternalSemaphoresWaitNode(CUgraphNode * phGraphNode, CUgraph hGraph, const CUgraphNode * dependencies, size_t numDependencies, const CUDA_EXT_SEM_WAIT_NODE_PARAMS * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphAddExternalSemaphoresWaitNode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_EXT_SEM_WAIT_NODE_PARAMS *) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_EXT_SEM_WAIT_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphAddExternalSemaphoresWaitNode");
+    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_EXT_SEM_WAIT_NODE_PARAMS *) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_EXT_SEM_WAIT_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphAddExternalSemaphoresWaitNode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phGraphNode, hGraph, dependencies, numDependencies, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphAddHostNode(CUgraphNode *phGraphNode, CUgraph hGraph, const CUgraphNode *dependencies, size_t numDependencies, const CUDA_HOST_NODE_PARAMS *nodeParams) {
+CUresult cuGraphAddHostNode(CUgraphNode * phGraphNode, CUgraph hGraph, const CUgraphNode * dependencies, size_t numDependencies, const CUDA_HOST_NODE_PARAMS * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphAddHostNode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_HOST_NODE_PARAMS *) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_HOST_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphAddHostNode");
+    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_HOST_NODE_PARAMS *) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_HOST_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphAddHostNode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phGraphNode, hGraph, dependencies, numDependencies, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphAddKernelNode(CUgraphNode *phGraphNode, CUgraph hGraph, const CUgraphNode *dependencies, size_t numDependencies, const CUDA_KERNEL_NODE_PARAMS *nodeParams) {
+CUresult cuGraphAddKernelNode(CUgraphNode * phGraphNode, CUgraph hGraph, const CUgraphNode * dependencies, size_t numDependencies, const CUDA_KERNEL_NODE_PARAMS * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphAddKernelNode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_KERNEL_NODE_PARAMS *) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_KERNEL_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphAddKernelNode");
+    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_KERNEL_NODE_PARAMS *) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_KERNEL_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphAddKernelNode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phGraphNode, hGraph, dependencies, numDependencies, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphAddMemAllocNode(CUgraphNode *phGraphNode, CUgraph hGraph, const CUgraphNode *dependencies, size_t numDependencies, CUDA_MEM_ALLOC_NODE_PARAMS *nodeParams) {
+CUresult cuGraphAddKernelNode_v2(CUgraphNode * phGraphNode, CUgraph hGraph, const CUgraphNode * dependencies, size_t numDependencies, const CUDA_KERNEL_NODE_PARAMS * nodeParams) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphAddKernelNode_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_KERNEL_NODE_PARAMS *) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_KERNEL_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphAddKernelNode_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(phGraphNode, hGraph, dependencies, numDependencies, nodeParams);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuGraphAddMemAllocNode(CUgraphNode * phGraphNode, CUgraph hGraph, const CUgraphNode * dependencies, size_t numDependencies, CUDA_MEM_ALLOC_NODE_PARAMS * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphAddMemAllocNode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, CUDA_MEM_ALLOC_NODE_PARAMS *) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, CUDA_MEM_ALLOC_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphAddMemAllocNode");
+    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, CUDA_MEM_ALLOC_NODE_PARAMS *) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, CUDA_MEM_ALLOC_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphAddMemAllocNode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phGraphNode, hGraph, dependencies, numDependencies, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphAddMemFreeNode(CUgraphNode *phGraphNode, CUgraph hGraph, const CUgraphNode *dependencies, size_t numDependencies, CUdeviceptr dptr) {
+CUresult cuGraphAddMemFreeNode(CUgraphNode * phGraphNode, CUgraph hGraph, const CUgraphNode * dependencies, size_t numDependencies, CUdeviceptr dptr) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphAddMemFreeNode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, CUdeviceptr) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, CUdeviceptr))dlsym(cuda_handle, "cuGraphAddMemFreeNode");
+    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, CUdeviceptr) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, CUdeviceptr)) dlsym(cuda_handle, "cuGraphAddMemFreeNode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phGraphNode, hGraph, dependencies, numDependencies, dptr);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphAddMemcpyNode(CUgraphNode *phGraphNode, CUgraph hGraph, const CUgraphNode *dependencies, size_t numDependencies, const CUDA_MEMCPY3D *copyParams, CUcontext ctx) {
+CUresult cuGraphAddMemcpyNode(CUgraphNode * phGraphNode, CUgraph hGraph, const CUgraphNode * dependencies, size_t numDependencies, const CUDA_MEMCPY3D * copyParams, CUcontext ctx) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphAddMemcpyNode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_MEMCPY3D *, CUcontext) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_MEMCPY3D *, CUcontext))dlsym(cuda_handle, "cuGraphAddMemcpyNode");
+    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_MEMCPY3D *, CUcontext) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_MEMCPY3D *, CUcontext)) dlsym(cuda_handle, "cuGraphAddMemcpyNode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phGraphNode, hGraph, dependencies, numDependencies, copyParams, ctx);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphAddMemsetNode(CUgraphNode *phGraphNode, CUgraph hGraph, const CUgraphNode *dependencies, size_t numDependencies, const CUDA_MEMSET_NODE_PARAMS *memsetParams, CUcontext ctx) {
+CUresult cuGraphAddMemsetNode(CUgraphNode * phGraphNode, CUgraph hGraph, const CUgraphNode * dependencies, size_t numDependencies, const CUDA_MEMSET_NODE_PARAMS * memsetParams, CUcontext ctx) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphAddMemsetNode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_MEMSET_NODE_PARAMS *, CUcontext) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_MEMSET_NODE_PARAMS *, CUcontext))dlsym(cuda_handle, "cuGraphAddMemsetNode");
+    CUresult (*hookFunc)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_MEMSET_NODE_PARAMS *, CUcontext) = (CUresult(*)(CUgraphNode *, CUgraph, const CUgraphNode *, size_t, const CUDA_MEMSET_NODE_PARAMS *, CUcontext)) dlsym(cuda_handle, "cuGraphAddMemsetNode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phGraphNode, hGraph, dependencies, numDependencies, memsetParams, ctx);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphBatchMemOpNodeGetParams(CUgraphNode hNode, CUDA_BATCH_MEM_OP_NODE_PARAMS *nodeParams_out) {
+CUresult cuGraphBatchMemOpNodeGetParams(CUgraphNode hNode, CUDA_BATCH_MEM_OP_NODE_PARAMS * nodeParams_out) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphBatchMemOpNodeGetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, CUDA_BATCH_MEM_OP_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, CUDA_BATCH_MEM_OP_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphBatchMemOpNodeGetParams");
+    CUresult (*hookFunc)(CUgraphNode, CUDA_BATCH_MEM_OP_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, CUDA_BATCH_MEM_OP_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphBatchMemOpNodeGetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, nodeParams_out);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphBatchMemOpNodeSetParams(CUgraphNode hNode, const CUDA_BATCH_MEM_OP_NODE_PARAMS *nodeParams) {
+CUresult cuGraphBatchMemOpNodeSetParams(CUgraphNode hNode, const CUDA_BATCH_MEM_OP_NODE_PARAMS * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphBatchMemOpNodeSetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, const CUDA_BATCH_MEM_OP_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, const CUDA_BATCH_MEM_OP_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphBatchMemOpNodeSetParams");
+    CUresult (*hookFunc)(CUgraphNode, const CUDA_BATCH_MEM_OP_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, const CUDA_BATCH_MEM_OP_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphBatchMemOpNodeSetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphChildGraphNodeGetGraph(CUgraphNode hNode, CUgraph *phGraph) {
+CUresult cuGraphChildGraphNodeGetGraph(CUgraphNode hNode, CUgraph * phGraph) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphChildGraphNodeGetGraph");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, CUgraph *) = (CUresult(*)(CUgraphNode, CUgraph *))dlsym(cuda_handle, "cuGraphChildGraphNodeGetGraph");
+    CUresult (*hookFunc)(CUgraphNode, CUgraph *) = (CUresult(*)(CUgraphNode, CUgraph *)) dlsym(cuda_handle, "cuGraphChildGraphNodeGetGraph");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, phGraph);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphClone(CUgraph *phGraphClone, CUgraph originalGraph) {
+CUresult cuGraphClone(CUgraph * phGraphClone, CUgraph originalGraph) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphClone");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraph *, CUgraph) = (CUresult(*)(CUgraph *, CUgraph))dlsym(cuda_handle, "cuGraphClone");
+    CUresult (*hookFunc)(CUgraph *, CUgraph) = (CUresult(*)(CUgraph *, CUgraph)) dlsym(cuda_handle, "cuGraphClone");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phGraphClone, originalGraph);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphCreate(CUgraph *phGraph, unsigned int flags) {
+CUresult cuGraphCreate(CUgraph * phGraph, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphCreate");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraph *, unsigned int) = (CUresult(*)(CUgraph *, unsigned int))dlsym(cuda_handle, "cuGraphCreate");
+    CUresult (*hookFunc)(CUgraph *, unsigned int) = (CUresult(*)(CUgraph *, unsigned int)) dlsym(cuda_handle, "cuGraphCreate");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phGraph, flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphDebugDotPrint(CUgraph hGraph, const char *path, unsigned int flags) {
+CUresult cuGraphDebugDotPrint(CUgraph hGraph, const char * path, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphDebugDotPrint");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraph, const char *, unsigned int) = (CUresult(*)(CUgraph, const char *, unsigned int))dlsym(cuda_handle, "cuGraphDebugDotPrint");
+    CUresult (*hookFunc)(CUgraph, const char *, unsigned int) = (CUresult(*)(CUgraph, const char *, unsigned int)) dlsym(cuda_handle, "cuGraphDebugDotPrint");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraph, path, flags);
     cudaTimeProfileDestroy(pprof, rs);
@@ -991,7 +1100,7 @@ CUresult cuGraphDebugDotPrint(CUgraph hGraph, const char *path, unsigned int fla
 CUresult cuGraphDestroy(CUgraph hGraph) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphDestroy");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraph) = (CUresult(*)(CUgraph))dlsym(cuda_handle, "cuGraphDestroy");
+    CUresult (*hookFunc)(CUgraph) = (CUresult(*)(CUgraph)) dlsym(cuda_handle, "cuGraphDestroy");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraph);
     cudaTimeProfileDestroy(pprof, rs);
@@ -1001,17 +1110,17 @@ CUresult cuGraphDestroy(CUgraph hGraph) {
 CUresult cuGraphDestroyNode(CUgraphNode hNode) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphDestroyNode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode) = (CUresult(*)(CUgraphNode))dlsym(cuda_handle, "cuGraphDestroyNode");
+    CUresult (*hookFunc)(CUgraphNode) = (CUresult(*)(CUgraphNode)) dlsym(cuda_handle, "cuGraphDestroyNode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphEventRecordNodeGetEvent(CUgraphNode hNode, CUevent *event_out) {
+CUresult cuGraphEventRecordNodeGetEvent(CUgraphNode hNode, CUevent * event_out) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphEventRecordNodeGetEvent");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, CUevent *) = (CUresult(*)(CUgraphNode, CUevent *))dlsym(cuda_handle, "cuGraphEventRecordNodeGetEvent");
+    CUresult (*hookFunc)(CUgraphNode, CUevent *) = (CUresult(*)(CUgraphNode, CUevent *)) dlsym(cuda_handle, "cuGraphEventRecordNodeGetEvent");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, event_out);
     cudaTimeProfileDestroy(pprof, rs);
@@ -1021,17 +1130,17 @@ CUresult cuGraphEventRecordNodeGetEvent(CUgraphNode hNode, CUevent *event_out) {
 CUresult cuGraphEventRecordNodeSetEvent(CUgraphNode hNode, CUevent event) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphEventRecordNodeSetEvent");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, CUevent) = (CUresult(*)(CUgraphNode, CUevent))dlsym(cuda_handle, "cuGraphEventRecordNodeSetEvent");
+    CUresult (*hookFunc)(CUgraphNode, CUevent) = (CUresult(*)(CUgraphNode, CUevent)) dlsym(cuda_handle, "cuGraphEventRecordNodeSetEvent");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, event);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphEventWaitNodeGetEvent(CUgraphNode hNode, CUevent *event_out) {
+CUresult cuGraphEventWaitNodeGetEvent(CUgraphNode hNode, CUevent * event_out) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphEventWaitNodeGetEvent");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, CUevent *) = (CUresult(*)(CUgraphNode, CUevent *))dlsym(cuda_handle, "cuGraphEventWaitNodeGetEvent");
+    CUresult (*hookFunc)(CUgraphNode, CUevent *) = (CUresult(*)(CUgraphNode, CUevent *)) dlsym(cuda_handle, "cuGraphEventWaitNodeGetEvent");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, event_out);
     cudaTimeProfileDestroy(pprof, rs);
@@ -1041,17 +1150,17 @@ CUresult cuGraphEventWaitNodeGetEvent(CUgraphNode hNode, CUevent *event_out) {
 CUresult cuGraphEventWaitNodeSetEvent(CUgraphNode hNode, CUevent event) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphEventWaitNodeSetEvent");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, CUevent) = (CUresult(*)(CUgraphNode, CUevent))dlsym(cuda_handle, "cuGraphEventWaitNodeSetEvent");
+    CUresult (*hookFunc)(CUgraphNode, CUevent) = (CUresult(*)(CUgraphNode, CUevent)) dlsym(cuda_handle, "cuGraphEventWaitNodeSetEvent");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, event);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphExecBatchMemOpNodeSetParams(CUgraphExec hGraphExec, CUgraphNode hNode, const CUDA_BATCH_MEM_OP_NODE_PARAMS *nodeParams) {
+CUresult cuGraphExecBatchMemOpNodeSetParams(CUgraphExec hGraphExec, CUgraphNode hNode, const CUDA_BATCH_MEM_OP_NODE_PARAMS * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphExecBatchMemOpNodeSetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, const CUDA_BATCH_MEM_OP_NODE_PARAMS *) = (CUresult(*)(CUgraphExec, CUgraphNode, const CUDA_BATCH_MEM_OP_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphExecBatchMemOpNodeSetParams");
+    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, const CUDA_BATCH_MEM_OP_NODE_PARAMS *) = (CUresult(*)(CUgraphExec, CUgraphNode, const CUDA_BATCH_MEM_OP_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphExecBatchMemOpNodeSetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraphExec, hNode, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
@@ -1061,7 +1170,7 @@ CUresult cuGraphExecBatchMemOpNodeSetParams(CUgraphExec hGraphExec, CUgraphNode 
 CUresult cuGraphExecChildGraphNodeSetParams(CUgraphExec hGraphExec, CUgraphNode hNode, CUgraph childGraph) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphExecChildGraphNodeSetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, CUgraph) = (CUresult(*)(CUgraphExec, CUgraphNode, CUgraph))dlsym(cuda_handle, "cuGraphExecChildGraphNodeSetParams");
+    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, CUgraph) = (CUresult(*)(CUgraphExec, CUgraphNode, CUgraph)) dlsym(cuda_handle, "cuGraphExecChildGraphNodeSetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraphExec, hNode, childGraph);
     cudaTimeProfileDestroy(pprof, rs);
@@ -1071,7 +1180,7 @@ CUresult cuGraphExecChildGraphNodeSetParams(CUgraphExec hGraphExec, CUgraphNode 
 CUresult cuGraphExecDestroy(CUgraphExec hGraphExec) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphExecDestroy");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphExec) = (CUresult(*)(CUgraphExec))dlsym(cuda_handle, "cuGraphExecDestroy");
+    CUresult (*hookFunc)(CUgraphExec) = (CUresult(*)(CUgraphExec)) dlsym(cuda_handle, "cuGraphExecDestroy");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraphExec);
     cudaTimeProfileDestroy(pprof, rs);
@@ -1081,7 +1190,7 @@ CUresult cuGraphExecDestroy(CUgraphExec hGraphExec) {
 CUresult cuGraphExecEventRecordNodeSetEvent(CUgraphExec hGraphExec, CUgraphNode hNode, CUevent event) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphExecEventRecordNodeSetEvent");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, CUevent) = (CUresult(*)(CUgraphExec, CUgraphNode, CUevent))dlsym(cuda_handle, "cuGraphExecEventRecordNodeSetEvent");
+    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, CUevent) = (CUresult(*)(CUgraphExec, CUgraphNode, CUevent)) dlsym(cuda_handle, "cuGraphExecEventRecordNodeSetEvent");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraphExec, hNode, event);
     cudaTimeProfileDestroy(pprof, rs);
@@ -1091,187 +1200,187 @@ CUresult cuGraphExecEventRecordNodeSetEvent(CUgraphExec hGraphExec, CUgraphNode 
 CUresult cuGraphExecEventWaitNodeSetEvent(CUgraphExec hGraphExec, CUgraphNode hNode, CUevent event) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphExecEventWaitNodeSetEvent");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, CUevent) = (CUresult(*)(CUgraphExec, CUgraphNode, CUevent))dlsym(cuda_handle, "cuGraphExecEventWaitNodeSetEvent");
+    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, CUevent) = (CUresult(*)(CUgraphExec, CUgraphNode, CUevent)) dlsym(cuda_handle, "cuGraphExecEventWaitNodeSetEvent");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraphExec, hNode, event);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphExecExternalSemaphoresSignalNodeSetParams(CUgraphExec hGraphExec, CUgraphNode hNode, const CUDA_EXT_SEM_SIGNAL_NODE_PARAMS *nodeParams) {
+CUresult cuGraphExecExternalSemaphoresSignalNodeSetParams(CUgraphExec hGraphExec, CUgraphNode hNode, const CUDA_EXT_SEM_SIGNAL_NODE_PARAMS * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphExecExternalSemaphoresSignalNodeSetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, const CUDA_EXT_SEM_SIGNAL_NODE_PARAMS *) = (CUresult(*)(CUgraphExec, CUgraphNode, const CUDA_EXT_SEM_SIGNAL_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphExecExternalSemaphoresSignalNodeSetParams");
+    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, const CUDA_EXT_SEM_SIGNAL_NODE_PARAMS *) = (CUresult(*)(CUgraphExec, CUgraphNode, const CUDA_EXT_SEM_SIGNAL_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphExecExternalSemaphoresSignalNodeSetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraphExec, hNode, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphExecExternalSemaphoresWaitNodeSetParams(CUgraphExec hGraphExec, CUgraphNode hNode, const CUDA_EXT_SEM_WAIT_NODE_PARAMS *nodeParams) {
+CUresult cuGraphExecExternalSemaphoresWaitNodeSetParams(CUgraphExec hGraphExec, CUgraphNode hNode, const CUDA_EXT_SEM_WAIT_NODE_PARAMS * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphExecExternalSemaphoresWaitNodeSetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, const CUDA_EXT_SEM_WAIT_NODE_PARAMS *) = (CUresult(*)(CUgraphExec, CUgraphNode, const CUDA_EXT_SEM_WAIT_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphExecExternalSemaphoresWaitNodeSetParams");
+    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, const CUDA_EXT_SEM_WAIT_NODE_PARAMS *) = (CUresult(*)(CUgraphExec, CUgraphNode, const CUDA_EXT_SEM_WAIT_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphExecExternalSemaphoresWaitNodeSetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraphExec, hNode, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphExecHostNodeSetParams(CUgraphExec hGraphExec, CUgraphNode hNode, const CUDA_HOST_NODE_PARAMS *nodeParams) {
+CUresult cuGraphExecHostNodeSetParams(CUgraphExec hGraphExec, CUgraphNode hNode, const CUDA_HOST_NODE_PARAMS * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphExecHostNodeSetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, const CUDA_HOST_NODE_PARAMS *) = (CUresult(*)(CUgraphExec, CUgraphNode, const CUDA_HOST_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphExecHostNodeSetParams");
+    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, const CUDA_HOST_NODE_PARAMS *) = (CUresult(*)(CUgraphExec, CUgraphNode, const CUDA_HOST_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphExecHostNodeSetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraphExec, hNode, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphExecKernelNodeSetParams(CUgraphExec hGraphExec, CUgraphNode hNode, const CUDA_KERNEL_NODE_PARAMS *nodeParams) {
+CUresult cuGraphExecKernelNodeSetParams(CUgraphExec hGraphExec, CUgraphNode hNode, const CUDA_KERNEL_NODE_PARAMS * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphExecKernelNodeSetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, const CUDA_KERNEL_NODE_PARAMS *) = (CUresult(*)(CUgraphExec, CUgraphNode, const CUDA_KERNEL_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphExecKernelNodeSetParams");
+    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, const CUDA_KERNEL_NODE_PARAMS *) = (CUresult(*)(CUgraphExec, CUgraphNode, const CUDA_KERNEL_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphExecKernelNodeSetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraphExec, hNode, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphExecMemcpyNodeSetParams(CUgraphExec hGraphExec, CUgraphNode hNode, const CUDA_MEMCPY3D *copyParams, CUcontext ctx) {
+CUresult cuGraphExecMemcpyNodeSetParams(CUgraphExec hGraphExec, CUgraphNode hNode, const CUDA_MEMCPY3D * copyParams, CUcontext ctx) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphExecMemcpyNodeSetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, const CUDA_MEMCPY3D *, CUcontext) = (CUresult(*)(CUgraphExec, CUgraphNode, const CUDA_MEMCPY3D *, CUcontext))dlsym(cuda_handle, "cuGraphExecMemcpyNodeSetParams");
+    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, const CUDA_MEMCPY3D *, CUcontext) = (CUresult(*)(CUgraphExec, CUgraphNode, const CUDA_MEMCPY3D *, CUcontext)) dlsym(cuda_handle, "cuGraphExecMemcpyNodeSetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraphExec, hNode, copyParams, ctx);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphExecMemsetNodeSetParams(CUgraphExec hGraphExec, CUgraphNode hNode, const CUDA_MEMSET_NODE_PARAMS *memsetParams, CUcontext ctx) {
+CUresult cuGraphExecMemsetNodeSetParams(CUgraphExec hGraphExec, CUgraphNode hNode, const CUDA_MEMSET_NODE_PARAMS * memsetParams, CUcontext ctx) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphExecMemsetNodeSetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, const CUDA_MEMSET_NODE_PARAMS *, CUcontext) = (CUresult(*)(CUgraphExec, CUgraphNode, const CUDA_MEMSET_NODE_PARAMS *, CUcontext))dlsym(cuda_handle, "cuGraphExecMemsetNodeSetParams");
+    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, const CUDA_MEMSET_NODE_PARAMS *, CUcontext) = (CUresult(*)(CUgraphExec, CUgraphNode, const CUDA_MEMSET_NODE_PARAMS *, CUcontext)) dlsym(cuda_handle, "cuGraphExecMemsetNodeSetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraphExec, hNode, memsetParams, ctx);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphExecUpdate(CUgraphExec hGraphExec, CUgraph hGraph, CUgraphNode *hErrorNode_out, CUgraphExecUpdateResult *updateResult_out) {
+CUresult cuGraphExecUpdate(CUgraphExec hGraphExec, CUgraph hGraph, CUgraphNode * hErrorNode_out, CUgraphExecUpdateResult * updateResult_out) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphExecUpdate");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphExec, CUgraph, CUgraphNode *, CUgraphExecUpdateResult *) = (CUresult(*)(CUgraphExec, CUgraph, CUgraphNode *, CUgraphExecUpdateResult *))dlsym(cuda_handle, "cuGraphExecUpdate");
+    CUresult (*hookFunc)(CUgraphExec, CUgraph, CUgraphNode *, CUgraphExecUpdateResult *) = (CUresult(*)(CUgraphExec, CUgraph, CUgraphNode *, CUgraphExecUpdateResult *)) dlsym(cuda_handle, "cuGraphExecUpdate");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraphExec, hGraph, hErrorNode_out, updateResult_out);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphExternalSemaphoresSignalNodeGetParams(CUgraphNode hNode, CUDA_EXT_SEM_SIGNAL_NODE_PARAMS *params_out) {
+CUresult cuGraphExternalSemaphoresSignalNodeGetParams(CUgraphNode hNode, CUDA_EXT_SEM_SIGNAL_NODE_PARAMS * params_out) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphExternalSemaphoresSignalNodeGetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, CUDA_EXT_SEM_SIGNAL_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, CUDA_EXT_SEM_SIGNAL_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphExternalSemaphoresSignalNodeGetParams");
+    CUresult (*hookFunc)(CUgraphNode, CUDA_EXT_SEM_SIGNAL_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, CUDA_EXT_SEM_SIGNAL_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphExternalSemaphoresSignalNodeGetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, params_out);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphExternalSemaphoresSignalNodeSetParams(CUgraphNode hNode, const CUDA_EXT_SEM_SIGNAL_NODE_PARAMS *nodeParams) {
+CUresult cuGraphExternalSemaphoresSignalNodeSetParams(CUgraphNode hNode, const CUDA_EXT_SEM_SIGNAL_NODE_PARAMS * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphExternalSemaphoresSignalNodeSetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, const CUDA_EXT_SEM_SIGNAL_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, const CUDA_EXT_SEM_SIGNAL_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphExternalSemaphoresSignalNodeSetParams");
+    CUresult (*hookFunc)(CUgraphNode, const CUDA_EXT_SEM_SIGNAL_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, const CUDA_EXT_SEM_SIGNAL_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphExternalSemaphoresSignalNodeSetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphExternalSemaphoresWaitNodeGetParams(CUgraphNode hNode, CUDA_EXT_SEM_WAIT_NODE_PARAMS *params_out) {
+CUresult cuGraphExternalSemaphoresWaitNodeGetParams(CUgraphNode hNode, CUDA_EXT_SEM_WAIT_NODE_PARAMS * params_out) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphExternalSemaphoresWaitNodeGetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, CUDA_EXT_SEM_WAIT_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, CUDA_EXT_SEM_WAIT_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphExternalSemaphoresWaitNodeGetParams");
+    CUresult (*hookFunc)(CUgraphNode, CUDA_EXT_SEM_WAIT_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, CUDA_EXT_SEM_WAIT_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphExternalSemaphoresWaitNodeGetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, params_out);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphExternalSemaphoresWaitNodeSetParams(CUgraphNode hNode, const CUDA_EXT_SEM_WAIT_NODE_PARAMS *nodeParams) {
+CUresult cuGraphExternalSemaphoresWaitNodeSetParams(CUgraphNode hNode, const CUDA_EXT_SEM_WAIT_NODE_PARAMS * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphExternalSemaphoresWaitNodeSetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, const CUDA_EXT_SEM_WAIT_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, const CUDA_EXT_SEM_WAIT_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphExternalSemaphoresWaitNodeSetParams");
+    CUresult (*hookFunc)(CUgraphNode, const CUDA_EXT_SEM_WAIT_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, const CUDA_EXT_SEM_WAIT_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphExternalSemaphoresWaitNodeSetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphGetEdges(CUgraph hGraph, CUgraphNode *from, CUgraphNode *to, size_t *numEdges) {
+CUresult cuGraphGetEdges(CUgraph hGraph, CUgraphNode * from, CUgraphNode * to, size_t * numEdges) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphGetEdges");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraph, CUgraphNode *, CUgraphNode *, size_t *) = (CUresult(*)(CUgraph, CUgraphNode *, CUgraphNode *, size_t *))dlsym(cuda_handle, "cuGraphGetEdges");
+    CUresult (*hookFunc)(CUgraph, CUgraphNode *, CUgraphNode *, size_t *) = (CUresult(*)(CUgraph, CUgraphNode *, CUgraphNode *, size_t *)) dlsym(cuda_handle, "cuGraphGetEdges");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraph, from, to, numEdges);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphGetNodes(CUgraph hGraph, CUgraphNode *nodes, size_t *numNodes) {
+CUresult cuGraphGetNodes(CUgraph hGraph, CUgraphNode * nodes, size_t * numNodes) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphGetNodes");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraph, CUgraphNode *, size_t *) = (CUresult(*)(CUgraph, CUgraphNode *, size_t *))dlsym(cuda_handle, "cuGraphGetNodes");
+    CUresult (*hookFunc)(CUgraph, CUgraphNode *, size_t *) = (CUresult(*)(CUgraph, CUgraphNode *, size_t *)) dlsym(cuda_handle, "cuGraphGetNodes");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraph, nodes, numNodes);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphGetRootNodes(CUgraph hGraph, CUgraphNode *rootNodes, size_t *numRootNodes) {
+CUresult cuGraphGetRootNodes(CUgraph hGraph, CUgraphNode * rootNodes, size_t * numRootNodes) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphGetRootNodes");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraph, CUgraphNode *, size_t *) = (CUresult(*)(CUgraph, CUgraphNode *, size_t *))dlsym(cuda_handle, "cuGraphGetRootNodes");
+    CUresult (*hookFunc)(CUgraph, CUgraphNode *, size_t *) = (CUresult(*)(CUgraph, CUgraphNode *, size_t *)) dlsym(cuda_handle, "cuGraphGetRootNodes");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraph, rootNodes, numRootNodes);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphHostNodeGetParams(CUgraphNode hNode, CUDA_HOST_NODE_PARAMS *nodeParams) {
+CUresult cuGraphHostNodeGetParams(CUgraphNode hNode, CUDA_HOST_NODE_PARAMS * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphHostNodeGetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, CUDA_HOST_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, CUDA_HOST_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphHostNodeGetParams");
+    CUresult (*hookFunc)(CUgraphNode, CUDA_HOST_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, CUDA_HOST_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphHostNodeGetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphHostNodeSetParams(CUgraphNode hNode, const CUDA_HOST_NODE_PARAMS *nodeParams) {
+CUresult cuGraphHostNodeSetParams(CUgraphNode hNode, const CUDA_HOST_NODE_PARAMS * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphHostNodeSetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, const CUDA_HOST_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, const CUDA_HOST_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphHostNodeSetParams");
+    CUresult (*hookFunc)(CUgraphNode, const CUDA_HOST_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, const CUDA_HOST_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphHostNodeSetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphInstantiate(CUgraphExec *phGraphExec, CUgraph hGraph, CUgraphNode *phErrorNode, char *logBuffer, size_t bufferSize) {
+CUresult cuGraphInstantiate(CUgraphExec * phGraphExec, CUgraph hGraph, CUgraphNode * phErrorNode, char * logBuffer, size_t bufferSize) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphInstantiate");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphExec *, CUgraph, CUgraphNode *, char *, size_t) = (CUresult(*)(CUgraphExec *, CUgraph, CUgraphNode *, char *, size_t))dlsym(cuda_handle, "cuGraphInstantiate");
+    CUresult (*hookFunc)(CUgraphExec *, CUgraph, CUgraphNode *, char *, size_t) = (CUresult(*)(CUgraphExec *, CUgraph, CUgraphNode *, char *, size_t)) dlsym(cuda_handle, "cuGraphInstantiate");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phGraphExec, hGraph, phErrorNode, logBuffer, bufferSize);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphInstantiateWithFlags(CUgraphExec *phGraphExec, CUgraph hGraph, unsigned long long flags) {
+CUresult cuGraphInstantiateWithFlags(CUgraphExec * phGraphExec, CUgraph hGraph, unsigned long long flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphInstantiateWithFlags");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphExec *, CUgraph, unsigned long long) = (CUresult(*)(CUgraphExec *, CUgraph, unsigned long long))dlsym(cuda_handle, "cuGraphInstantiateWithFlags");
+    CUresult (*hookFunc)(CUgraphExec *, CUgraph, unsigned long long) = (CUresult(*)(CUgraphExec *, CUgraph, unsigned long long)) dlsym(cuda_handle, "cuGraphInstantiateWithFlags");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phGraphExec, hGraph, flags);
     cudaTimeProfileDestroy(pprof, rs);
@@ -1281,47 +1390,67 @@ CUresult cuGraphInstantiateWithFlags(CUgraphExec *phGraphExec, CUgraph hGraph, u
 CUresult cuGraphKernelNodeCopyAttributes(CUgraphNode dst, CUgraphNode src) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphKernelNodeCopyAttributes");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, CUgraphNode) = (CUresult(*)(CUgraphNode, CUgraphNode))dlsym(cuda_handle, "cuGraphKernelNodeCopyAttributes");
+    CUresult (*hookFunc)(CUgraphNode, CUgraphNode) = (CUresult(*)(CUgraphNode, CUgraphNode)) dlsym(cuda_handle, "cuGraphKernelNodeCopyAttributes");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dst, src);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphKernelNodeGetAttribute(CUgraphNode hNode, CUkernelNodeAttrID attr, CUkernelNodeAttrValue *value_out) {
+CUresult cuGraphKernelNodeGetAttribute(CUgraphNode hNode, CUkernelNodeAttrID attr, CUkernelNodeAttrValue * value_out) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphKernelNodeGetAttribute");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, CUkernelNodeAttrID, CUkernelNodeAttrValue *) = (CUresult(*)(CUgraphNode, CUkernelNodeAttrID, CUkernelNodeAttrValue *))dlsym(cuda_handle, "cuGraphKernelNodeGetAttribute");
+    CUresult (*hookFunc)(CUgraphNode, CUkernelNodeAttrID, CUkernelNodeAttrValue *) = (CUresult(*)(CUgraphNode, CUkernelNodeAttrID, CUkernelNodeAttrValue *)) dlsym(cuda_handle, "cuGraphKernelNodeGetAttribute");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, attr, value_out);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphKernelNodeGetParams(CUgraphNode hNode, CUDA_KERNEL_NODE_PARAMS *nodeParams) {
+CUresult cuGraphKernelNodeGetParams(CUgraphNode hNode, CUDA_KERNEL_NODE_PARAMS * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphKernelNodeGetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, CUDA_KERNEL_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, CUDA_KERNEL_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphKernelNodeGetParams");
+    CUresult (*hookFunc)(CUgraphNode, CUDA_KERNEL_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, CUDA_KERNEL_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphKernelNodeGetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphKernelNodeSetAttribute(CUgraphNode hNode, CUkernelNodeAttrID attr, const CUkernelNodeAttrValue *value) {
+CUresult cuGraphKernelNodeGetParams_v2(CUgraphNode hNode, CUDA_KERNEL_NODE_PARAMS * nodeParams) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphKernelNodeGetParams_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUgraphNode, CUDA_KERNEL_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, CUDA_KERNEL_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphKernelNodeGetParams_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(hNode, nodeParams);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuGraphKernelNodeSetAttribute(CUgraphNode hNode, CUkernelNodeAttrID attr, const CUkernelNodeAttrValue * value) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphKernelNodeSetAttribute");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, CUkernelNodeAttrID, const CUkernelNodeAttrValue *) = (CUresult(*)(CUgraphNode, CUkernelNodeAttrID, const CUkernelNodeAttrValue *))dlsym(cuda_handle, "cuGraphKernelNodeSetAttribute");
+    CUresult (*hookFunc)(CUgraphNode, CUkernelNodeAttrID, const CUkernelNodeAttrValue *) = (CUresult(*)(CUgraphNode, CUkernelNodeAttrID, const CUkernelNodeAttrValue *)) dlsym(cuda_handle, "cuGraphKernelNodeSetAttribute");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, attr, value);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphKernelNodeSetParams(CUgraphNode hNode, const CUDA_KERNEL_NODE_PARAMS *nodeParams) {
+CUresult cuGraphKernelNodeSetParams(CUgraphNode hNode, const CUDA_KERNEL_NODE_PARAMS * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphKernelNodeSetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, const CUDA_KERNEL_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, const CUDA_KERNEL_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphKernelNodeSetParams");
+    CUresult (*hookFunc)(CUgraphNode, const CUDA_KERNEL_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, const CUDA_KERNEL_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphKernelNodeSetParams");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(hNode, nodeParams);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuGraphKernelNodeSetParams_v2(CUgraphNode hNode, const CUDA_KERNEL_NODE_PARAMS * nodeParams) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphKernelNodeSetParams_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUgraphNode, const CUDA_KERNEL_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, const CUDA_KERNEL_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphKernelNodeSetParams_v2");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
@@ -1331,117 +1460,117 @@ CUresult cuGraphKernelNodeSetParams(CUgraphNode hNode, const CUDA_KERNEL_NODE_PA
 CUresult cuGraphLaunch(CUgraphExec hGraphExec, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphLaunch");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphExec, CUstream) = (CUresult(*)(CUgraphExec, CUstream))dlsym(cuda_handle, "cuGraphLaunch");
+    CUresult (*hookFunc)(CUgraphExec, CUstream) = (CUresult(*)(CUgraphExec, CUstream)) dlsym(cuda_handle, "cuGraphLaunch");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraphExec, hStream);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphMemAllocNodeGetParams(CUgraphNode hNode, CUDA_MEM_ALLOC_NODE_PARAMS *params_out) {
+CUresult cuGraphMemAllocNodeGetParams(CUgraphNode hNode, CUDA_MEM_ALLOC_NODE_PARAMS * params_out) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphMemAllocNodeGetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, CUDA_MEM_ALLOC_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, CUDA_MEM_ALLOC_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphMemAllocNodeGetParams");
+    CUresult (*hookFunc)(CUgraphNode, CUDA_MEM_ALLOC_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, CUDA_MEM_ALLOC_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphMemAllocNodeGetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, params_out);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphMemFreeNodeGetParams(CUgraphNode hNode, CUdeviceptr *dptr_out) {
+CUresult cuGraphMemFreeNodeGetParams(CUgraphNode hNode, CUdeviceptr * dptr_out) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphMemFreeNodeGetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, CUdeviceptr *) = (CUresult(*)(CUgraphNode, CUdeviceptr *))dlsym(cuda_handle, "cuGraphMemFreeNodeGetParams");
+    CUresult (*hookFunc)(CUgraphNode, CUdeviceptr *) = (CUresult(*)(CUgraphNode, CUdeviceptr *)) dlsym(cuda_handle, "cuGraphMemFreeNodeGetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, dptr_out);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphMemcpyNodeGetParams(CUgraphNode hNode, CUDA_MEMCPY3D *nodeParams) {
+CUresult cuGraphMemcpyNodeGetParams(CUgraphNode hNode, CUDA_MEMCPY3D * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphMemcpyNodeGetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, CUDA_MEMCPY3D *) = (CUresult(*)(CUgraphNode, CUDA_MEMCPY3D *))dlsym(cuda_handle, "cuGraphMemcpyNodeGetParams");
+    CUresult (*hookFunc)(CUgraphNode, CUDA_MEMCPY3D *) = (CUresult(*)(CUgraphNode, CUDA_MEMCPY3D *)) dlsym(cuda_handle, "cuGraphMemcpyNodeGetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphMemcpyNodeSetParams(CUgraphNode hNode, const CUDA_MEMCPY3D *nodeParams) {
+CUresult cuGraphMemcpyNodeSetParams(CUgraphNode hNode, const CUDA_MEMCPY3D * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphMemcpyNodeSetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, const CUDA_MEMCPY3D *) = (CUresult(*)(CUgraphNode, const CUDA_MEMCPY3D *))dlsym(cuda_handle, "cuGraphMemcpyNodeSetParams");
+    CUresult (*hookFunc)(CUgraphNode, const CUDA_MEMCPY3D *) = (CUresult(*)(CUgraphNode, const CUDA_MEMCPY3D *)) dlsym(cuda_handle, "cuGraphMemcpyNodeSetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphMemsetNodeGetParams(CUgraphNode hNode, CUDA_MEMSET_NODE_PARAMS *nodeParams) {
+CUresult cuGraphMemsetNodeGetParams(CUgraphNode hNode, CUDA_MEMSET_NODE_PARAMS * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphMemsetNodeGetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, CUDA_MEMSET_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, CUDA_MEMSET_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphMemsetNodeGetParams");
+    CUresult (*hookFunc)(CUgraphNode, CUDA_MEMSET_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, CUDA_MEMSET_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphMemsetNodeGetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphMemsetNodeSetParams(CUgraphNode hNode, const CUDA_MEMSET_NODE_PARAMS *nodeParams) {
+CUresult cuGraphMemsetNodeSetParams(CUgraphNode hNode, const CUDA_MEMSET_NODE_PARAMS * nodeParams) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphMemsetNodeSetParams");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, const CUDA_MEMSET_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, const CUDA_MEMSET_NODE_PARAMS *))dlsym(cuda_handle, "cuGraphMemsetNodeSetParams");
+    CUresult (*hookFunc)(CUgraphNode, const CUDA_MEMSET_NODE_PARAMS *) = (CUresult(*)(CUgraphNode, const CUDA_MEMSET_NODE_PARAMS *)) dlsym(cuda_handle, "cuGraphMemsetNodeSetParams");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, nodeParams);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphNodeFindInClone(CUgraphNode *phNode, CUgraphNode hOriginalNode, CUgraph hClonedGraph) {
+CUresult cuGraphNodeFindInClone(CUgraphNode * phNode, CUgraphNode hOriginalNode, CUgraph hClonedGraph) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphNodeFindInClone");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode *, CUgraphNode, CUgraph) = (CUresult(*)(CUgraphNode *, CUgraphNode, CUgraph))dlsym(cuda_handle, "cuGraphNodeFindInClone");
+    CUresult (*hookFunc)(CUgraphNode *, CUgraphNode, CUgraph) = (CUresult(*)(CUgraphNode *, CUgraphNode, CUgraph)) dlsym(cuda_handle, "cuGraphNodeFindInClone");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phNode, hOriginalNode, hClonedGraph);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphNodeGetDependencies(CUgraphNode hNode, CUgraphNode *dependencies, size_t *numDependencies) {
+CUresult cuGraphNodeGetDependencies(CUgraphNode hNode, CUgraphNode * dependencies, size_t * numDependencies) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphNodeGetDependencies");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, CUgraphNode *, size_t *) = (CUresult(*)(CUgraphNode, CUgraphNode *, size_t *))dlsym(cuda_handle, "cuGraphNodeGetDependencies");
+    CUresult (*hookFunc)(CUgraphNode, CUgraphNode *, size_t *) = (CUresult(*)(CUgraphNode, CUgraphNode *, size_t *)) dlsym(cuda_handle, "cuGraphNodeGetDependencies");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, dependencies, numDependencies);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphNodeGetDependentNodes(CUgraphNode hNode, CUgraphNode *dependentNodes, size_t *numDependentNodes) {
+CUresult cuGraphNodeGetDependentNodes(CUgraphNode hNode, CUgraphNode * dependentNodes, size_t * numDependentNodes) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphNodeGetDependentNodes");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, CUgraphNode *, size_t *) = (CUresult(*)(CUgraphNode, CUgraphNode *, size_t *))dlsym(cuda_handle, "cuGraphNodeGetDependentNodes");
+    CUresult (*hookFunc)(CUgraphNode, CUgraphNode *, size_t *) = (CUresult(*)(CUgraphNode, CUgraphNode *, size_t *)) dlsym(cuda_handle, "cuGraphNodeGetDependentNodes");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, dependentNodes, numDependentNodes);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphNodeGetEnabled(CUgraphExec hGraphExec, CUgraphNode hNode, unsigned int *isEnabled) {
+CUresult cuGraphNodeGetEnabled(CUgraphExec hGraphExec, CUgraphNode hNode, unsigned int * isEnabled) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphNodeGetEnabled");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, unsigned int *) = (CUresult(*)(CUgraphExec, CUgraphNode, unsigned int *))dlsym(cuda_handle, "cuGraphNodeGetEnabled");
+    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, unsigned int *) = (CUresult(*)(CUgraphExec, CUgraphNode, unsigned int *)) dlsym(cuda_handle, "cuGraphNodeGetEnabled");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraphExec, hNode, isEnabled);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphNodeGetType(CUgraphNode hNode, CUgraphNodeType *type) {
+CUresult cuGraphNodeGetType(CUgraphNode hNode, CUgraphNodeType * type) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphNodeGetType");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphNode, CUgraphNodeType *) = (CUresult(*)(CUgraphNode, CUgraphNodeType *))dlsym(cuda_handle, "cuGraphNodeGetType");
+    CUresult (*hookFunc)(CUgraphNode, CUgraphNodeType *) = (CUresult(*)(CUgraphNode, CUgraphNodeType *)) dlsym(cuda_handle, "cuGraphNodeGetType");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hNode, type);
     cudaTimeProfileDestroy(pprof, rs);
@@ -1451,7 +1580,7 @@ CUresult cuGraphNodeGetType(CUgraphNode hNode, CUgraphNodeType *type) {
 CUresult cuGraphNodeSetEnabled(CUgraphExec hGraphExec, CUgraphNode hNode, unsigned int isEnabled) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphNodeSetEnabled");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, unsigned int) = (CUresult(*)(CUgraphExec, CUgraphNode, unsigned int))dlsym(cuda_handle, "cuGraphNodeSetEnabled");
+    CUresult (*hookFunc)(CUgraphExec, CUgraphNode, unsigned int) = (CUresult(*)(CUgraphExec, CUgraphNode, unsigned int)) dlsym(cuda_handle, "cuGraphNodeSetEnabled");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraphExec, hNode, isEnabled);
     cudaTimeProfileDestroy(pprof, rs);
@@ -1461,17 +1590,17 @@ CUresult cuGraphNodeSetEnabled(CUgraphExec hGraphExec, CUgraphNode hNode, unsign
 CUresult cuGraphReleaseUserObject(CUgraph graph, CUuserObject object, unsigned int count) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphReleaseUserObject");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraph, CUuserObject, unsigned int) = (CUresult(*)(CUgraph, CUuserObject, unsigned int))dlsym(cuda_handle, "cuGraphReleaseUserObject");
+    CUresult (*hookFunc)(CUgraph, CUuserObject, unsigned int) = (CUresult(*)(CUgraph, CUuserObject, unsigned int)) dlsym(cuda_handle, "cuGraphReleaseUserObject");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(graph, object, count);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphRemoveDependencies(CUgraph hGraph, const CUgraphNode *from, const CUgraphNode *to, size_t numDependencies) {
+CUresult cuGraphRemoveDependencies(CUgraph hGraph, const CUgraphNode * from, const CUgraphNode * to, size_t numDependencies) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphRemoveDependencies");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraph, const CUgraphNode *, const CUgraphNode *, size_t) = (CUresult(*)(CUgraph, const CUgraphNode *, const CUgraphNode *, size_t))dlsym(cuda_handle, "cuGraphRemoveDependencies");
+    CUresult (*hookFunc)(CUgraph, const CUgraphNode *, const CUgraphNode *, size_t) = (CUresult(*)(CUgraph, const CUgraphNode *, const CUgraphNode *, size_t)) dlsym(cuda_handle, "cuGraphRemoveDependencies");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraph, from, to, numDependencies);
     cudaTimeProfileDestroy(pprof, rs);
@@ -1481,7 +1610,7 @@ CUresult cuGraphRemoveDependencies(CUgraph hGraph, const CUgraphNode *from, cons
 CUresult cuGraphRetainUserObject(CUgraph graph, CUuserObject object, unsigned int count, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphRetainUserObject");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraph, CUuserObject, unsigned int, unsigned int) = (CUresult(*)(CUgraph, CUuserObject, unsigned int, unsigned int))dlsym(cuda_handle, "cuGraphRetainUserObject");
+    CUresult (*hookFunc)(CUgraph, CUuserObject, unsigned int, unsigned int) = (CUresult(*)(CUgraph, CUuserObject, unsigned int, unsigned int)) dlsym(cuda_handle, "cuGraphRetainUserObject");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(graph, object, count, flags);
     cudaTimeProfileDestroy(pprof, rs);
@@ -1491,37 +1620,37 @@ CUresult cuGraphRetainUserObject(CUgraph graph, CUuserObject object, unsigned in
 CUresult cuGraphUpload(CUgraphExec hGraphExec, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphUpload");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphExec, CUstream) = (CUresult(*)(CUgraphExec, CUstream))dlsym(cuda_handle, "cuGraphUpload");
+    CUresult (*hookFunc)(CUgraphExec, CUstream) = (CUresult(*)(CUgraphExec, CUstream)) dlsym(cuda_handle, "cuGraphUpload");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hGraphExec, hStream);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphicsMapResources(unsigned int count, CUgraphicsResource *resources, CUstream hStream) {
+CUresult cuGraphicsMapResources(unsigned int count, CUgraphicsResource * resources, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphicsMapResources");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(unsigned int, CUgraphicsResource *, CUstream) = (CUresult(*)(unsigned int, CUgraphicsResource *, CUstream))dlsym(cuda_handle, "cuGraphicsMapResources");
+    CUresult (*hookFunc)(unsigned int, CUgraphicsResource *, CUstream) = (CUresult(*)(unsigned int, CUgraphicsResource *, CUstream)) dlsym(cuda_handle, "cuGraphicsMapResources");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(count, resources, hStream);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphicsResourceGetMappedMipmappedArray(CUmipmappedArray *pMipmappedArray, CUgraphicsResource resource) {
+CUresult cuGraphicsResourceGetMappedMipmappedArray(CUmipmappedArray * pMipmappedArray, CUgraphicsResource resource) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphicsResourceGetMappedMipmappedArray");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmipmappedArray *, CUgraphicsResource) = (CUresult(*)(CUmipmappedArray *, CUgraphicsResource))dlsym(cuda_handle, "cuGraphicsResourceGetMappedMipmappedArray");
+    CUresult (*hookFunc)(CUmipmappedArray *, CUgraphicsResource) = (CUresult(*)(CUmipmappedArray *, CUgraphicsResource)) dlsym(cuda_handle, "cuGraphicsResourceGetMappedMipmappedArray");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pMipmappedArray, resource);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphicsResourceGetMappedPointer(CUdeviceptr *pDevPtr, size_t *pSize, CUgraphicsResource resource) {
+CUresult cuGraphicsResourceGetMappedPointer(CUdeviceptr * pDevPtr, size_t * pSize, CUgraphicsResource resource) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphicsResourceGetMappedPointer");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr *, size_t *, CUgraphicsResource) = (CUresult(*)(CUdeviceptr *, size_t *, CUgraphicsResource))dlsym(cuda_handle, "cuGraphicsResourceGetMappedPointer");
+    CUresult (*hookFunc)(CUdeviceptr *, size_t *, CUgraphicsResource) = (CUresult(*)(CUdeviceptr *, size_t *, CUgraphicsResource)) dlsym(cuda_handle, "cuGraphicsResourceGetMappedPointer");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pDevPtr, pSize, resource);
     cudaTimeProfileDestroy(pprof, rs);
@@ -1531,27 +1660,27 @@ CUresult cuGraphicsResourceGetMappedPointer(CUdeviceptr *pDevPtr, size_t *pSize,
 CUresult cuGraphicsResourceSetMapFlags(CUgraphicsResource resource, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphicsResourceSetMapFlags");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphicsResource, unsigned int) = (CUresult(*)(CUgraphicsResource, unsigned int))dlsym(cuda_handle, "cuGraphicsResourceSetMapFlags");
+    CUresult (*hookFunc)(CUgraphicsResource, unsigned int) = (CUresult(*)(CUgraphicsResource, unsigned int)) dlsym(cuda_handle, "cuGraphicsResourceSetMapFlags");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(resource, flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphicsSubResourceGetMappedArray(CUarray *pArray, CUgraphicsResource resource, unsigned int arrayIndex, unsigned int mipLevel) {
+CUresult cuGraphicsSubResourceGetMappedArray(CUarray * pArray, CUgraphicsResource resource, unsigned int arrayIndex, unsigned int mipLevel) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphicsSubResourceGetMappedArray");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUarray *, CUgraphicsResource, unsigned int, unsigned int) = (CUresult(*)(CUarray *, CUgraphicsResource, unsigned int, unsigned int))dlsym(cuda_handle, "cuGraphicsSubResourceGetMappedArray");
+    CUresult (*hookFunc)(CUarray *, CUgraphicsResource, unsigned int, unsigned int) = (CUresult(*)(CUarray *, CUgraphicsResource, unsigned int, unsigned int)) dlsym(cuda_handle, "cuGraphicsSubResourceGetMappedArray");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pArray, resource, arrayIndex, mipLevel);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuGraphicsUnmapResources(unsigned int count, CUgraphicsResource *resources, CUstream hStream) {
+CUresult cuGraphicsUnmapResources(unsigned int count, CUgraphicsResource * resources, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphicsUnmapResources");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(unsigned int, CUgraphicsResource *, CUstream) = (CUresult(*)(unsigned int, CUgraphicsResource *, CUstream))dlsym(cuda_handle, "cuGraphicsUnmapResources");
+    CUresult (*hookFunc)(unsigned int, CUgraphicsResource *, CUstream) = (CUresult(*)(unsigned int, CUgraphicsResource *, CUstream)) dlsym(cuda_handle, "cuGraphicsUnmapResources");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(count, resources, hStream);
     cudaTimeProfileDestroy(pprof, rs);
@@ -1561,27 +1690,27 @@ CUresult cuGraphicsUnmapResources(unsigned int count, CUgraphicsResource *resour
 CUresult cuGraphicsUnregisterResource(CUgraphicsResource resource) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuGraphicsUnregisterResource");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUgraphicsResource) = (CUresult(*)(CUgraphicsResource))dlsym(cuda_handle, "cuGraphicsUnregisterResource");
+    CUresult (*hookFunc)(CUgraphicsResource) = (CUresult(*)(CUgraphicsResource)) dlsym(cuda_handle, "cuGraphicsUnregisterResource");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(resource);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuImportExternalMemory(CUexternalMemory *extMem_out, const CUDA_EXTERNAL_MEMORY_HANDLE_DESC *memHandleDesc) {
+CUresult cuImportExternalMemory(CUexternalMemory * extMem_out, const CUDA_EXTERNAL_MEMORY_HANDLE_DESC * memHandleDesc) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuImportExternalMemory");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUexternalMemory *, const CUDA_EXTERNAL_MEMORY_HANDLE_DESC *) = (CUresult(*)(CUexternalMemory *, const CUDA_EXTERNAL_MEMORY_HANDLE_DESC *))dlsym(cuda_handle, "cuImportExternalMemory");
+    CUresult (*hookFunc)(CUexternalMemory *, const CUDA_EXTERNAL_MEMORY_HANDLE_DESC *) = (CUresult(*)(CUexternalMemory *, const CUDA_EXTERNAL_MEMORY_HANDLE_DESC *)) dlsym(cuda_handle, "cuImportExternalMemory");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(extMem_out, memHandleDesc);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuImportExternalSemaphore(CUexternalSemaphore *extSem_out, const CUDA_EXTERNAL_SEMAPHORE_HANDLE_DESC *semHandleDesc) {
+CUresult cuImportExternalSemaphore(CUexternalSemaphore * extSem_out, const CUDA_EXTERNAL_SEMAPHORE_HANDLE_DESC * semHandleDesc) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuImportExternalSemaphore");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUexternalSemaphore *, const CUDA_EXTERNAL_SEMAPHORE_HANDLE_DESC *) = (CUresult(*)(CUexternalSemaphore *, const CUDA_EXTERNAL_SEMAPHORE_HANDLE_DESC *))dlsym(cuda_handle, "cuImportExternalSemaphore");
+    CUresult (*hookFunc)(CUexternalSemaphore *, const CUDA_EXTERNAL_SEMAPHORE_HANDLE_DESC *) = (CUresult(*)(CUexternalSemaphore *, const CUDA_EXTERNAL_SEMAPHORE_HANDLE_DESC *)) dlsym(cuda_handle, "cuImportExternalSemaphore");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(extSem_out, semHandleDesc);
     cudaTimeProfileDestroy(pprof, rs);
@@ -1591,117 +1720,157 @@ CUresult cuImportExternalSemaphore(CUexternalSemaphore *extSem_out, const CUDA_E
 CUresult cuIpcCloseMemHandle(CUdeviceptr dptr) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuIpcCloseMemHandle");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr) = (CUresult(*)(CUdeviceptr))dlsym(cuda_handle, "cuIpcCloseMemHandle");
+    CUresult (*hookFunc)(CUdeviceptr) = (CUresult(*)(CUdeviceptr)) dlsym(cuda_handle, "cuIpcCloseMemHandle");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dptr);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuIpcGetEventHandle(CUipcEventHandle *pHandle, CUevent event) {
+CUresult cuIpcGetEventHandle(CUipcEventHandle * pHandle, CUevent event) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuIpcGetEventHandle");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUipcEventHandle *, CUevent) = (CUresult(*)(CUipcEventHandle *, CUevent))dlsym(cuda_handle, "cuIpcGetEventHandle");
+    CUresult (*hookFunc)(CUipcEventHandle *, CUevent) = (CUresult(*)(CUipcEventHandle *, CUevent)) dlsym(cuda_handle, "cuIpcGetEventHandle");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pHandle, event);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuIpcGetMemHandle(CUipcMemHandle *pHandle, CUdeviceptr dptr) {
+CUresult cuIpcGetMemHandle(CUipcMemHandle * pHandle, CUdeviceptr dptr) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuIpcGetMemHandle");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUipcMemHandle *, CUdeviceptr) = (CUresult(*)(CUipcMemHandle *, CUdeviceptr))dlsym(cuda_handle, "cuIpcGetMemHandle");
+    CUresult (*hookFunc)(CUipcMemHandle *, CUdeviceptr) = (CUresult(*)(CUipcMemHandle *, CUdeviceptr)) dlsym(cuda_handle, "cuIpcGetMemHandle");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pHandle, dptr);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuIpcOpenEventHandle(CUevent *phEvent, CUipcEventHandle handle) {
+CUresult cuIpcOpenEventHandle(CUevent * phEvent, CUipcEventHandle handle) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuIpcOpenEventHandle");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUevent *, CUipcEventHandle) = (CUresult(*)(CUevent *, CUipcEventHandle))dlsym(cuda_handle, "cuIpcOpenEventHandle");
+    CUresult (*hookFunc)(CUevent *, CUipcEventHandle) = (CUresult(*)(CUevent *, CUipcEventHandle)) dlsym(cuda_handle, "cuIpcOpenEventHandle");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phEvent, handle);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuIpcOpenMemHandle(CUdeviceptr *pdptr, CUipcMemHandle handle, unsigned int Flags) {
+CUresult cuIpcOpenMemHandle(CUdeviceptr * pdptr, CUipcMemHandle handle, unsigned int Flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuIpcOpenMemHandle");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr *, CUipcMemHandle, unsigned int) = (CUresult(*)(CUdeviceptr *, CUipcMemHandle, unsigned int))dlsym(cuda_handle, "cuIpcOpenMemHandle");
+    CUresult (*hookFunc)(CUdeviceptr *, CUipcMemHandle, unsigned int) = (CUresult(*)(CUdeviceptr *, CUipcMemHandle, unsigned int)) dlsym(cuda_handle, "cuIpcOpenMemHandle");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pdptr, handle, Flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuLaunchCooperativeKernelMultiDevice(CUDA_LAUNCH_PARAMS *launchParamsList, unsigned int numDevices, unsigned int flags) {
+CUresult cuIpcOpenMemHandle_v2(CUdeviceptr * pdptr, CUipcMemHandle handle, unsigned int Flags) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuIpcOpenMemHandle_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUdeviceptr *, CUipcMemHandle, unsigned int) = (CUresult(*)(CUdeviceptr *, CUipcMemHandle, unsigned int)) dlsym(cuda_handle, "cuIpcOpenMemHandle_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(pdptr, handle, Flags);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuLaunchCooperativeKernelMultiDevice(CUDA_LAUNCH_PARAMS * launchParamsList, unsigned int numDevices, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuLaunchCooperativeKernelMultiDevice");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUDA_LAUNCH_PARAMS *, unsigned int, unsigned int) = (CUresult(*)(CUDA_LAUNCH_PARAMS *, unsigned int, unsigned int))dlsym(cuda_handle, "cuLaunchCooperativeKernelMultiDevice");
+    CUresult (*hookFunc)(CUDA_LAUNCH_PARAMS *, unsigned int, unsigned int) = (CUresult(*)(CUDA_LAUNCH_PARAMS *, unsigned int, unsigned int)) dlsym(cuda_handle, "cuLaunchCooperativeKernelMultiDevice");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(launchParamsList, numDevices, flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuLaunchHostFunc(CUstream hStream, CUhostFn fn, void *userData) {
+CUresult cuLaunchHostFunc(CUstream hStream, CUhostFn fn, void * userData) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuLaunchHostFunc");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUhostFn, void *) = (CUresult(*)(CUstream, CUhostFn, void *))dlsym(cuda_handle, "cuLaunchHostFunc");
+    CUresult (*hookFunc)(CUstream, CUhostFn, void *) = (CUresult(*)(CUstream, CUhostFn, void *)) dlsym(cuda_handle, "cuLaunchHostFunc");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hStream, fn, userData);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuLaunchKernelEx(const CUlaunchConfig *config, CUfunction f, void **kernelParams, void **extra) {
+CUresult cuLaunchKernelEx(const CUlaunchConfig * config, CUfunction f, void * * kernelParams, void * * extra) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuLaunchKernelEx");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(const CUlaunchConfig *, CUfunction, void **, void **) = (CUresult(*)(const CUlaunchConfig *, CUfunction, void **, void **))dlsym(cuda_handle, "cuLaunchKernelEx");
+    CUresult (*hookFunc)(const CUlaunchConfig *, CUfunction, void * *, void * *) = (CUresult(*)(const CUlaunchConfig *, CUfunction, void * *, void * *)) dlsym(cuda_handle, "cuLaunchKernelEx");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(config, f, kernelParams, extra);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuLinkAddData(CUlinkState state, CUjitInputType type, void *data, size_t size, const char *name, unsigned int numOptions, CUjit_option *options, void **optionValues) {
+CUresult cuLinkAddData(CUlinkState state, CUjitInputType type, void * data, size_t size, const char * name, unsigned int numOptions, CUjit_option * options, void * * optionValues) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuLinkAddData");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUlinkState, CUjitInputType, void *, size_t, const char *, unsigned int, CUjit_option *, void **) = (CUresult(*)(CUlinkState, CUjitInputType, void *, size_t, const char *, unsigned int, CUjit_option *, void **))dlsym(cuda_handle, "cuLinkAddData");
+    CUresult (*hookFunc)(CUlinkState, CUjitInputType, void *, size_t, const char *, unsigned int, CUjit_option *, void * *) = (CUresult(*)(CUlinkState, CUjitInputType, void *, size_t, const char *, unsigned int, CUjit_option *, void * *)) dlsym(cuda_handle, "cuLinkAddData");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(state, type, data, size, name, numOptions, options, optionValues);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuLinkAddFile(CUlinkState state, CUjitInputType type, const char *path, unsigned int numOptions, CUjit_option *options, void **optionValues) {
+CUresult cuLinkAddData_v2(CUlinkState state, CUjitInputType type, void * data, size_t size, const char * name, unsigned int numOptions, CUjit_option * options, void * * optionValues) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuLinkAddData_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUlinkState, CUjitInputType, void *, size_t, const char *, unsigned int, CUjit_option *, void * *) = (CUresult(*)(CUlinkState, CUjitInputType, void *, size_t, const char *, unsigned int, CUjit_option *, void * *)) dlsym(cuda_handle, "cuLinkAddData_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(state, type, data, size, name, numOptions, options, optionValues);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuLinkAddFile(CUlinkState state, CUjitInputType type, const char * path, unsigned int numOptions, CUjit_option * options, void * * optionValues) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuLinkAddFile");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUlinkState, CUjitInputType, const char *, unsigned int, CUjit_option *, void **) = (CUresult(*)(CUlinkState, CUjitInputType, const char *, unsigned int, CUjit_option *, void **))dlsym(cuda_handle, "cuLinkAddFile");
+    CUresult (*hookFunc)(CUlinkState, CUjitInputType, const char *, unsigned int, CUjit_option *, void * *) = (CUresult(*)(CUlinkState, CUjitInputType, const char *, unsigned int, CUjit_option *, void * *)) dlsym(cuda_handle, "cuLinkAddFile");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(state, type, path, numOptions, options, optionValues);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuLinkComplete(CUlinkState state, void **cubinOut, size_t *sizeOut) {
+CUresult cuLinkAddFile_v2(CUlinkState state, CUjitInputType type, const char * path, unsigned int numOptions, CUjit_option * options, void * * optionValues) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuLinkAddFile_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUlinkState, CUjitInputType, const char *, unsigned int, CUjit_option *, void * *) = (CUresult(*)(CUlinkState, CUjitInputType, const char *, unsigned int, CUjit_option *, void * *)) dlsym(cuda_handle, "cuLinkAddFile_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(state, type, path, numOptions, options, optionValues);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuLinkComplete(CUlinkState state, void * * cubinOut, size_t * sizeOut) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuLinkComplete");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUlinkState, void **, size_t *) = (CUresult(*)(CUlinkState, void **, size_t *))dlsym(cuda_handle, "cuLinkComplete");
+    CUresult (*hookFunc)(CUlinkState, void * *, size_t *) = (CUresult(*)(CUlinkState, void * *, size_t *)) dlsym(cuda_handle, "cuLinkComplete");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(state, cubinOut, sizeOut);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuLinkCreate(unsigned int numOptions, CUjit_option *options, void **optionValues, CUlinkState *stateOut) {
+CUresult cuLinkCreate(unsigned int numOptions, CUjit_option * options, void * * optionValues, CUlinkState * stateOut) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuLinkCreate");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(unsigned int, CUjit_option *, void **, CUlinkState *) = (CUresult(*)(unsigned int, CUjit_option *, void **, CUlinkState *))dlsym(cuda_handle, "cuLinkCreate");
+    CUresult (*hookFunc)(unsigned int, CUjit_option *, void * *, CUlinkState *) = (CUresult(*)(unsigned int, CUjit_option *, void * *, CUlinkState *)) dlsym(cuda_handle, "cuLinkCreate");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(numOptions, options, optionValues, stateOut);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuLinkCreate_v2(unsigned int numOptions, CUjit_option * options, void * * optionValues, CUlinkState * stateOut) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuLinkCreate_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(unsigned int, CUjit_option *, void * *, CUlinkState *) = (CUresult(*)(unsigned int, CUjit_option *, void * *, CUlinkState *)) dlsym(cuda_handle, "cuLinkCreate_v2");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(numOptions, options, optionValues, stateOut);
     cudaTimeProfileDestroy(pprof, rs);
@@ -1711,7 +1880,7 @@ CUresult cuLinkCreate(unsigned int numOptions, CUjit_option *options, void **opt
 CUresult cuLinkDestroy(CUlinkState state) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuLinkDestroy");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUlinkState) = (CUresult(*)(CUlinkState))dlsym(cuda_handle, "cuLinkDestroy");
+    CUresult (*hookFunc)(CUlinkState) = (CUresult(*)(CUlinkState)) dlsym(cuda_handle, "cuLinkDestroy");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(state);
     cudaTimeProfileDestroy(pprof, rs);
@@ -1721,17 +1890,17 @@ CUresult cuLinkDestroy(CUlinkState state) {
 CUresult cuMemAddressFree(CUdeviceptr ptr, size_t size) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemAddressFree");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, size_t) = (CUresult(*)(CUdeviceptr, size_t))dlsym(cuda_handle, "cuMemAddressFree");
+    CUresult (*hookFunc)(CUdeviceptr, size_t) = (CUresult(*)(CUdeviceptr, size_t)) dlsym(cuda_handle, "cuMemAddressFree");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(ptr, size);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemAddressReserve(CUdeviceptr *ptr, size_t size, size_t alignment, CUdeviceptr addr, unsigned long long flags) {
+CUresult cuMemAddressReserve(CUdeviceptr * ptr, size_t size, size_t alignment, CUdeviceptr addr, unsigned long long flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemAddressReserve");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr *, size_t, size_t, CUdeviceptr, unsigned long long) = (CUresult(*)(CUdeviceptr *, size_t, size_t, CUdeviceptr, unsigned long long))dlsym(cuda_handle, "cuMemAddressReserve");
+    CUresult (*hookFunc)(CUdeviceptr *, size_t, size_t, CUdeviceptr, unsigned long long) = (CUresult(*)(CUdeviceptr *, size_t, size_t, CUdeviceptr, unsigned long long)) dlsym(cuda_handle, "cuMemAddressReserve");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(ptr, size, alignment, addr, flags);
     cudaTimeProfileDestroy(pprof, rs);
@@ -1741,69 +1910,69 @@ CUresult cuMemAddressReserve(CUdeviceptr *ptr, size_t size, size_t alignment, CU
 CUresult cuMemAdvise(CUdeviceptr devPtr, size_t count, CUmem_advise advice, CUdevice device) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemAdvise");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, size_t, CUmem_advise, CUdevice) = (CUresult(*)(CUdeviceptr, size_t, CUmem_advise, CUdevice))dlsym(cuda_handle, "cuMemAdvise");
+    CUresult (*hookFunc)(CUdeviceptr, size_t, CUmem_advise, CUdevice) = (CUresult(*)(CUdeviceptr, size_t, CUmem_advise, CUdevice)) dlsym(cuda_handle, "cuMemAdvise");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(devPtr, count, advice, device);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemAllocAsync(CUdeviceptr *dptr, size_t bytesize, CUstream hStream) {
+CUresult cuMemAllocAsync(CUdeviceptr * dptr, size_t bytesize, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemAllocAsync");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr *, size_t, CUstream) = (CUresult(*)(CUdeviceptr *, size_t, CUstream))dlsym(cuda_handle, "cuMemAllocAsync");
+    CUresult (*hookFunc)(CUdeviceptr *, size_t, CUstream) = (CUresult(*)(CUdeviceptr *, size_t, CUstream)) dlsym(cuda_handle, "cuMemAllocAsync");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dptr, bytesize, hStream);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemAllocFromPoolAsync(CUdeviceptr *dptr, size_t bytesize, CUmemoryPool pool, CUstream hStream) {
+CUresult cuMemAllocFromPoolAsync(CUdeviceptr * dptr, size_t bytesize, CUmemoryPool pool, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemAllocFromPoolAsync");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr *, size_t, CUmemoryPool, CUstream) = (CUresult(*)(CUdeviceptr *, size_t, CUmemoryPool, CUstream))dlsym(cuda_handle, "cuMemAllocFromPoolAsync");
+    CUresult (*hookFunc)(CUdeviceptr *, size_t, CUmemoryPool, CUstream) = (CUresult(*)(CUdeviceptr *, size_t, CUmemoryPool, CUstream)) dlsym(cuda_handle, "cuMemAllocFromPoolAsync");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dptr, bytesize, pool, hStream);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemAllocHost(void **pp, size_t bytesize) {
+CUresult cuMemAllocHost(void * * pp, size_t bytesize) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemAllocHost");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(void **, size_t) = (CUresult(*)(void **, size_t))dlsym(cuda_handle, "cuMemAllocHost");
+    CUresult (*hookFunc)(void * *, size_t) = (CUresult(*)(void * *, size_t)) dlsym(cuda_handle, "cuMemAllocHost");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pp, bytesize);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemCreate(CUmemGenericAllocationHandle *handle, size_t size, const CUmemAllocationProp *prop, unsigned long long flags) {
+CUresult cuMemAllocHost_v2(void * * pp, size_t bytesize) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemAllocHost_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(void * *, size_t) = (CUresult(*)(void * *, size_t)) dlsym(cuda_handle, "cuMemAllocHost_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(pp, bytesize);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemCreate(CUmemGenericAllocationHandle * handle, size_t size, const CUmemAllocationProp * prop, unsigned long long flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemCreate");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmemGenericAllocationHandle *, size_t, const CUmemAllocationProp *, unsigned long long) = (CUresult(*)(CUmemGenericAllocationHandle *, size_t, const CUmemAllocationProp *, unsigned long long))dlsym(cuda_handle, "cuMemCreate");
+    CUresult (*hookFunc)(CUmemGenericAllocationHandle *, size_t, const CUmemAllocationProp *, unsigned long long) = (CUresult(*)(CUmemGenericAllocationHandle *, size_t, const CUmemAllocationProp *, unsigned long long)) dlsym(cuda_handle, "cuMemCreate");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(handle, size, prop, flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemExportToShareableHandle(void *shareableHandle, CUmemGenericAllocationHandle handle, CUmemAllocationHandleType handleType, unsigned long long flags) {
+CUresult cuMemExportToShareableHandle(void * shareableHandle, CUmemGenericAllocationHandle handle, CUmemAllocationHandleType handleType, unsigned long long flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemExportToShareableHandle");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(void *, CUmemGenericAllocationHandle, CUmemAllocationHandleType, unsigned long long) = (CUresult(*)(void *, CUmemGenericAllocationHandle, CUmemAllocationHandleType, unsigned long long))dlsym(cuda_handle, "cuMemExportToShareableHandle");
+    CUresult (*hookFunc)(void *, CUmemGenericAllocationHandle, CUmemAllocationHandleType, unsigned long long) = (CUresult(*)(void *, CUmemGenericAllocationHandle, CUmemAllocationHandleType, unsigned long long)) dlsym(cuda_handle, "cuMemExportToShareableHandle");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(shareableHandle, handle, handleType, flags);
-    cudaTimeProfileDestroy(pprof, rs);
-    return rs;
-}
-
-CUresult cuMemFree(CUdeviceptr dptr) {
-    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemFree");
-    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr) = (CUresult(*)(CUdeviceptr))dlsym(cuda_handle, "cuMemFree");
-    HOOK_CHECK(hookFunc);
-    CUresult rs = hookFunc(dptr);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
@@ -1811,127 +1980,147 @@ CUresult cuMemFree(CUdeviceptr dptr) {
 CUresult cuMemFreeAsync(CUdeviceptr dptr, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemFreeAsync");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, CUstream) = (CUresult(*)(CUdeviceptr, CUstream))dlsym(cuda_handle, "cuMemFreeAsync");
+    CUresult (*hookFunc)(CUdeviceptr, CUstream) = (CUresult(*)(CUdeviceptr, CUstream)) dlsym(cuda_handle, "cuMemFreeAsync");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dptr, hStream);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemFreeHost(void *p) {
-    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemFreeHost");
-    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(void *) = (CUresult(*)(void *))dlsym(cuda_handle, "cuMemFreeHost");
-    HOOK_CHECK(hookFunc);
-    CUresult rs = hookFunc(p);
-    cudaTimeProfileDestroy(pprof, rs);
-    return rs;
-}
-
-CUresult cuMemGetAccess(unsigned long long *flags, const CUmemLocation *location, CUdeviceptr ptr) {
+CUresult cuMemGetAccess(unsigned long long * flags, const CUmemLocation * location, CUdeviceptr ptr) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemGetAccess");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(unsigned long long *, const CUmemLocation *, CUdeviceptr) = (CUresult(*)(unsigned long long *, const CUmemLocation *, CUdeviceptr))dlsym(cuda_handle, "cuMemGetAccess");
+    CUresult (*hookFunc)(unsigned long long *, const CUmemLocation *, CUdeviceptr) = (CUresult(*)(unsigned long long *, const CUmemLocation *, CUdeviceptr)) dlsym(cuda_handle, "cuMemGetAccess");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(flags, location, ptr);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemGetAddressRange(CUdeviceptr *pbase, size_t *psize, CUdeviceptr dptr) {
+CUresult cuMemGetAddressRange(CUdeviceptr * pbase, size_t * psize, CUdeviceptr dptr) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemGetAddressRange");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr *, size_t *, CUdeviceptr) = (CUresult(*)(CUdeviceptr *, size_t *, CUdeviceptr))dlsym(cuda_handle, "cuMemGetAddressRange");
+    CUresult (*hookFunc)(CUdeviceptr *, size_t *, CUdeviceptr) = (CUresult(*)(CUdeviceptr *, size_t *, CUdeviceptr)) dlsym(cuda_handle, "cuMemGetAddressRange");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pbase, psize, dptr);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemGetAllocationGranularity(size_t *granularity, const CUmemAllocationProp *prop, CUmemAllocationGranularity_flags option) {
+CUresult cuMemGetAddressRange_v2(CUdeviceptr * pbase, size_t * psize, CUdeviceptr dptr) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemGetAddressRange_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUdeviceptr *, size_t *, CUdeviceptr) = (CUresult(*)(CUdeviceptr *, size_t *, CUdeviceptr)) dlsym(cuda_handle, "cuMemGetAddressRange_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(pbase, psize, dptr);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemGetAllocationGranularity(size_t * granularity, const CUmemAllocationProp * prop, CUmemAllocationGranularity_flags option) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemGetAllocationGranularity");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(size_t *, const CUmemAllocationProp *, CUmemAllocationGranularity_flags) = (CUresult(*)(size_t *, const CUmemAllocationProp *, CUmemAllocationGranularity_flags))dlsym(cuda_handle, "cuMemGetAllocationGranularity");
+    CUresult (*hookFunc)(size_t *, const CUmemAllocationProp *, CUmemAllocationGranularity_flags) = (CUresult(*)(size_t *, const CUmemAllocationProp *, CUmemAllocationGranularity_flags)) dlsym(cuda_handle, "cuMemGetAllocationGranularity");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(granularity, prop, option);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemGetAllocationPropertiesFromHandle(CUmemAllocationProp *prop, CUmemGenericAllocationHandle handle) {
+CUresult cuMemGetAllocationPropertiesFromHandle(CUmemAllocationProp * prop, CUmemGenericAllocationHandle handle) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemGetAllocationPropertiesFromHandle");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmemAllocationProp *, CUmemGenericAllocationHandle) = (CUresult(*)(CUmemAllocationProp *, CUmemGenericAllocationHandle))dlsym(cuda_handle, "cuMemGetAllocationPropertiesFromHandle");
+    CUresult (*hookFunc)(CUmemAllocationProp *, CUmemGenericAllocationHandle) = (CUresult(*)(CUmemAllocationProp *, CUmemGenericAllocationHandle)) dlsym(cuda_handle, "cuMemGetAllocationPropertiesFromHandle");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(prop, handle);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemGetHandleForAddressRange(void *handle, CUdeviceptr dptr, size_t size, CUmemRangeHandleType handleType, unsigned long long flags) {
+CUresult cuMemGetHandleForAddressRange(void * handle, CUdeviceptr dptr, size_t size, CUmemRangeHandleType handleType, unsigned long long flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemGetHandleForAddressRange");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(void *, CUdeviceptr, size_t, CUmemRangeHandleType, unsigned long long) = (CUresult(*)(void *, CUdeviceptr, size_t, CUmemRangeHandleType, unsigned long long))dlsym(cuda_handle, "cuMemGetHandleForAddressRange");
+    CUresult (*hookFunc)(void *, CUdeviceptr, size_t, CUmemRangeHandleType, unsigned long long) = (CUresult(*)(void *, CUdeviceptr, size_t, CUmemRangeHandleType, unsigned long long)) dlsym(cuda_handle, "cuMemGetHandleForAddressRange");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(handle, dptr, size, handleType, flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemHostAlloc(void **pp, size_t bytesize, unsigned int Flags) {
+CUresult cuMemHostAlloc(void * * pp, size_t bytesize, unsigned int Flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemHostAlloc");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(void **, size_t, unsigned int) = (CUresult(*)(void **, size_t, unsigned int))dlsym(cuda_handle, "cuMemHostAlloc");
+    CUresult (*hookFunc)(void * *, size_t, unsigned int) = (CUresult(*)(void * *, size_t, unsigned int)) dlsym(cuda_handle, "cuMemHostAlloc");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pp, bytesize, Flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemHostGetDevicePointer(CUdeviceptr *pdptr, void *p, unsigned int Flags) {
+CUresult cuMemHostGetDevicePointer(CUdeviceptr * pdptr, void * p, unsigned int Flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemHostGetDevicePointer");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr *, void *, unsigned int) = (CUresult(*)(CUdeviceptr *, void *, unsigned int))dlsym(cuda_handle, "cuMemHostGetDevicePointer");
+    CUresult (*hookFunc)(CUdeviceptr *, void *, unsigned int) = (CUresult(*)(CUdeviceptr *, void *, unsigned int)) dlsym(cuda_handle, "cuMemHostGetDevicePointer");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pdptr, p, Flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemHostGetFlags(unsigned int *pFlags, void *p) {
+CUresult cuMemHostGetDevicePointer_v2(CUdeviceptr * pdptr, void * p, unsigned int Flags) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemHostGetDevicePointer_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUdeviceptr *, void *, unsigned int) = (CUresult(*)(CUdeviceptr *, void *, unsigned int)) dlsym(cuda_handle, "cuMemHostGetDevicePointer_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(pdptr, p, Flags);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemHostGetFlags(unsigned int * pFlags, void * p) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemHostGetFlags");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(unsigned int *, void *) = (CUresult(*)(unsigned int *, void *))dlsym(cuda_handle, "cuMemHostGetFlags");
+    CUresult (*hookFunc)(unsigned int *, void *) = (CUresult(*)(unsigned int *, void *)) dlsym(cuda_handle, "cuMemHostGetFlags");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pFlags, p);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemHostRegister(void *p, size_t bytesize, unsigned int Flags) {
+CUresult cuMemHostRegister(void * p, size_t bytesize, unsigned int Flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemHostRegister");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(void *, size_t, unsigned int) = (CUresult(*)(void *, size_t, unsigned int))dlsym(cuda_handle, "cuMemHostRegister");
+    CUresult (*hookFunc)(void *, size_t, unsigned int) = (CUresult(*)(void *, size_t, unsigned int)) dlsym(cuda_handle, "cuMemHostRegister");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(p, bytesize, Flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemHostUnregister(void *p) {
+CUresult cuMemHostRegister_v2(void * p, size_t bytesize, unsigned int Flags) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemHostRegister_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(void *, size_t, unsigned int) = (CUresult(*)(void *, size_t, unsigned int)) dlsym(cuda_handle, "cuMemHostRegister_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(p, bytesize, Flags);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemHostUnregister(void * p) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemHostUnregister");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(void *) = (CUresult(*)(void *))dlsym(cuda_handle, "cuMemHostUnregister");
+    CUresult (*hookFunc)(void *) = (CUresult(*)(void *)) dlsym(cuda_handle, "cuMemHostUnregister");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(p);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemImportFromShareableHandle(CUmemGenericAllocationHandle *handle, void *osHandle, CUmemAllocationHandleType shHandleType) {
+CUresult cuMemImportFromShareableHandle(CUmemGenericAllocationHandle * handle, void * osHandle, CUmemAllocationHandleType shHandleType) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemImportFromShareableHandle");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmemGenericAllocationHandle *, void *, CUmemAllocationHandleType) = (CUresult(*)(CUmemGenericAllocationHandle *, void *, CUmemAllocationHandleType))dlsym(cuda_handle, "cuMemImportFromShareableHandle");
+    CUresult (*hookFunc)(CUmemGenericAllocationHandle *, void *, CUmemAllocationHandleType) = (CUresult(*)(CUmemGenericAllocationHandle *, void *, CUmemAllocationHandleType)) dlsym(cuda_handle, "cuMemImportFromShareableHandle");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(handle, osHandle, shHandleType);
     cudaTimeProfileDestroy(pprof, rs);
@@ -1941,27 +2130,27 @@ CUresult cuMemImportFromShareableHandle(CUmemGenericAllocationHandle *handle, vo
 CUresult cuMemMap(CUdeviceptr ptr, size_t size, size_t offset, CUmemGenericAllocationHandle handle, unsigned long long flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemMap");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, size_t, size_t, CUmemGenericAllocationHandle, unsigned long long) = (CUresult(*)(CUdeviceptr, size_t, size_t, CUmemGenericAllocationHandle, unsigned long long))dlsym(cuda_handle, "cuMemMap");
+    CUresult (*hookFunc)(CUdeviceptr, size_t, size_t, CUmemGenericAllocationHandle, unsigned long long) = (CUresult(*)(CUdeviceptr, size_t, size_t, CUmemGenericAllocationHandle, unsigned long long)) dlsym(cuda_handle, "cuMemMap");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(ptr, size, offset, handle, flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemMapArrayAsync(CUarrayMapInfo *mapInfoList, unsigned int count, CUstream hStream) {
+CUresult cuMemMapArrayAsync(CUarrayMapInfo * mapInfoList, unsigned int count, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemMapArrayAsync");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUarrayMapInfo *, unsigned int, CUstream) = (CUresult(*)(CUarrayMapInfo *, unsigned int, CUstream))dlsym(cuda_handle, "cuMemMapArrayAsync");
+    CUresult (*hookFunc)(CUarrayMapInfo *, unsigned int, CUstream) = (CUresult(*)(CUarrayMapInfo *, unsigned int, CUstream)) dlsym(cuda_handle, "cuMemMapArrayAsync");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(mapInfoList, count, hStream);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemPoolCreate(CUmemoryPool *pool, const CUmemPoolProps *poolProps) {
+CUresult cuMemPoolCreate(CUmemoryPool * pool, const CUmemPoolProps * poolProps) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemPoolCreate");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmemoryPool *, const CUmemPoolProps *) = (CUresult(*)(CUmemoryPool *, const CUmemPoolProps *))dlsym(cuda_handle, "cuMemPoolCreate");
+    CUresult (*hookFunc)(CUmemoryPool *, const CUmemPoolProps *) = (CUresult(*)(CUmemoryPool *, const CUmemPoolProps *)) dlsym(cuda_handle, "cuMemPoolCreate");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pool, poolProps);
     cudaTimeProfileDestroy(pprof, rs);
@@ -1971,87 +2160,87 @@ CUresult cuMemPoolCreate(CUmemoryPool *pool, const CUmemPoolProps *poolProps) {
 CUresult cuMemPoolDestroy(CUmemoryPool pool) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemPoolDestroy");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmemoryPool) = (CUresult(*)(CUmemoryPool))dlsym(cuda_handle, "cuMemPoolDestroy");
+    CUresult (*hookFunc)(CUmemoryPool) = (CUresult(*)(CUmemoryPool)) dlsym(cuda_handle, "cuMemPoolDestroy");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pool);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemPoolExportPointer(CUmemPoolPtrExportData *shareData_out, CUdeviceptr ptr) {
+CUresult cuMemPoolExportPointer(CUmemPoolPtrExportData * shareData_out, CUdeviceptr ptr) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemPoolExportPointer");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmemPoolPtrExportData *, CUdeviceptr) = (CUresult(*)(CUmemPoolPtrExportData *, CUdeviceptr))dlsym(cuda_handle, "cuMemPoolExportPointer");
+    CUresult (*hookFunc)(CUmemPoolPtrExportData *, CUdeviceptr) = (CUresult(*)(CUmemPoolPtrExportData *, CUdeviceptr)) dlsym(cuda_handle, "cuMemPoolExportPointer");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(shareData_out, ptr);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemPoolExportToShareableHandle(void *handle_out, CUmemoryPool pool, CUmemAllocationHandleType handleType, unsigned long long flags) {
+CUresult cuMemPoolExportToShareableHandle(void * handle_out, CUmemoryPool pool, CUmemAllocationHandleType handleType, unsigned long long flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemPoolExportToShareableHandle");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(void *, CUmemoryPool, CUmemAllocationHandleType, unsigned long long) = (CUresult(*)(void *, CUmemoryPool, CUmemAllocationHandleType, unsigned long long))dlsym(cuda_handle, "cuMemPoolExportToShareableHandle");
+    CUresult (*hookFunc)(void *, CUmemoryPool, CUmemAllocationHandleType, unsigned long long) = (CUresult(*)(void *, CUmemoryPool, CUmemAllocationHandleType, unsigned long long)) dlsym(cuda_handle, "cuMemPoolExportToShareableHandle");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(handle_out, pool, handleType, flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemPoolGetAccess(CUmemAccess_flags *flags, CUmemoryPool memPool, CUmemLocation *location) {
+CUresult cuMemPoolGetAccess(CUmemAccess_flags * flags, CUmemoryPool memPool, CUmemLocation * location) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemPoolGetAccess");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmemAccess_flags *, CUmemoryPool, CUmemLocation *) = (CUresult(*)(CUmemAccess_flags *, CUmemoryPool, CUmemLocation *))dlsym(cuda_handle, "cuMemPoolGetAccess");
+    CUresult (*hookFunc)(CUmemAccess_flags *, CUmemoryPool, CUmemLocation *) = (CUresult(*)(CUmemAccess_flags *, CUmemoryPool, CUmemLocation *)) dlsym(cuda_handle, "cuMemPoolGetAccess");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(flags, memPool, location);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemPoolGetAttribute(CUmemoryPool pool, CUmemPool_attribute attr, void *value) {
+CUresult cuMemPoolGetAttribute(CUmemoryPool pool, CUmemPool_attribute attr, void * value) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemPoolGetAttribute");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmemoryPool, CUmemPool_attribute, void *) = (CUresult(*)(CUmemoryPool, CUmemPool_attribute, void *))dlsym(cuda_handle, "cuMemPoolGetAttribute");
+    CUresult (*hookFunc)(CUmemoryPool, CUmemPool_attribute, void *) = (CUresult(*)(CUmemoryPool, CUmemPool_attribute, void *)) dlsym(cuda_handle, "cuMemPoolGetAttribute");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pool, attr, value);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemPoolImportFromShareableHandle(CUmemoryPool *pool_out, void *handle, CUmemAllocationHandleType handleType, unsigned long long flags) {
+CUresult cuMemPoolImportFromShareableHandle(CUmemoryPool * pool_out, void * handle, CUmemAllocationHandleType handleType, unsigned long long flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemPoolImportFromShareableHandle");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmemoryPool *, void *, CUmemAllocationHandleType, unsigned long long) = (CUresult(*)(CUmemoryPool *, void *, CUmemAllocationHandleType, unsigned long long))dlsym(cuda_handle, "cuMemPoolImportFromShareableHandle");
+    CUresult (*hookFunc)(CUmemoryPool *, void *, CUmemAllocationHandleType, unsigned long long) = (CUresult(*)(CUmemoryPool *, void *, CUmemAllocationHandleType, unsigned long long)) dlsym(cuda_handle, "cuMemPoolImportFromShareableHandle");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pool_out, handle, handleType, flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemPoolImportPointer(CUdeviceptr *ptr_out, CUmemoryPool pool, CUmemPoolPtrExportData *shareData) {
+CUresult cuMemPoolImportPointer(CUdeviceptr * ptr_out, CUmemoryPool pool, CUmemPoolPtrExportData * shareData) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemPoolImportPointer");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr *, CUmemoryPool, CUmemPoolPtrExportData *) = (CUresult(*)(CUdeviceptr *, CUmemoryPool, CUmemPoolPtrExportData *))dlsym(cuda_handle, "cuMemPoolImportPointer");
+    CUresult (*hookFunc)(CUdeviceptr *, CUmemoryPool, CUmemPoolPtrExportData *) = (CUresult(*)(CUdeviceptr *, CUmemoryPool, CUmemPoolPtrExportData *)) dlsym(cuda_handle, "cuMemPoolImportPointer");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(ptr_out, pool, shareData);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemPoolSetAccess(CUmemoryPool pool, const CUmemAccessDesc *map, size_t count) {
+CUresult cuMemPoolSetAccess(CUmemoryPool pool, const CUmemAccessDesc * map, size_t count) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemPoolSetAccess");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmemoryPool, const CUmemAccessDesc *, size_t) = (CUresult(*)(CUmemoryPool, const CUmemAccessDesc *, size_t))dlsym(cuda_handle, "cuMemPoolSetAccess");
+    CUresult (*hookFunc)(CUmemoryPool, const CUmemAccessDesc *, size_t) = (CUresult(*)(CUmemoryPool, const CUmemAccessDesc *, size_t)) dlsym(cuda_handle, "cuMemPoolSetAccess");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pool, map, count);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemPoolSetAttribute(CUmemoryPool pool, CUmemPool_attribute attr, void *value) {
+CUresult cuMemPoolSetAttribute(CUmemoryPool pool, CUmemPool_attribute attr, void * value) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemPoolSetAttribute");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmemoryPool, CUmemPool_attribute, void *) = (CUresult(*)(CUmemoryPool, CUmemPool_attribute, void *))dlsym(cuda_handle, "cuMemPoolSetAttribute");
+    CUresult (*hookFunc)(CUmemoryPool, CUmemPool_attribute, void *) = (CUresult(*)(CUmemoryPool, CUmemPool_attribute, void *)) dlsym(cuda_handle, "cuMemPoolSetAttribute");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pool, attr, value);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2061,7 +2250,7 @@ CUresult cuMemPoolSetAttribute(CUmemoryPool pool, CUmemPool_attribute attr, void
 CUresult cuMemPoolTrimTo(CUmemoryPool pool, size_t minBytesToKeep) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemPoolTrimTo");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmemoryPool, size_t) = (CUresult(*)(CUmemoryPool, size_t))dlsym(cuda_handle, "cuMemPoolTrimTo");
+    CUresult (*hookFunc)(CUmemoryPool, size_t) = (CUresult(*)(CUmemoryPool, size_t)) dlsym(cuda_handle, "cuMemPoolTrimTo");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pool, minBytesToKeep);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2071,27 +2260,27 @@ CUresult cuMemPoolTrimTo(CUmemoryPool pool, size_t minBytesToKeep) {
 CUresult cuMemPrefetchAsync(CUdeviceptr devPtr, size_t count, CUdevice dstDevice, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemPrefetchAsync");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, size_t, CUdevice, CUstream) = (CUresult(*)(CUdeviceptr, size_t, CUdevice, CUstream))dlsym(cuda_handle, "cuMemPrefetchAsync");
+    CUresult (*hookFunc)(CUdeviceptr, size_t, CUdevice, CUstream) = (CUresult(*)(CUdeviceptr, size_t, CUdevice, CUstream)) dlsym(cuda_handle, "cuMemPrefetchAsync");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(devPtr, count, dstDevice, hStream);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemRangeGetAttribute(void *data, size_t dataSize, CUmem_range_attribute attribute, CUdeviceptr devPtr, size_t count) {
+CUresult cuMemRangeGetAttribute(void * data, size_t dataSize, CUmem_range_attribute attribute, CUdeviceptr devPtr, size_t count) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemRangeGetAttribute");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(void *, size_t, CUmem_range_attribute, CUdeviceptr, size_t) = (CUresult(*)(void *, size_t, CUmem_range_attribute, CUdeviceptr, size_t))dlsym(cuda_handle, "cuMemRangeGetAttribute");
+    CUresult (*hookFunc)(void *, size_t, CUmem_range_attribute, CUdeviceptr, size_t) = (CUresult(*)(void *, size_t, CUmem_range_attribute, CUdeviceptr, size_t)) dlsym(cuda_handle, "cuMemRangeGetAttribute");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(data, dataSize, attribute, devPtr, count);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemRangeGetAttributes(void **data, size_t *dataSizes, CUmem_range_attribute *attributes, size_t numAttributes, CUdeviceptr devPtr, size_t count) {
+CUresult cuMemRangeGetAttributes(void * * data, size_t * dataSizes, CUmem_range_attribute * attributes, size_t numAttributes, CUdeviceptr devPtr, size_t count) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemRangeGetAttributes");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(void **, size_t *, CUmem_range_attribute *, size_t, CUdeviceptr, size_t) = (CUresult(*)(void **, size_t *, CUmem_range_attribute *, size_t, CUdeviceptr, size_t))dlsym(cuda_handle, "cuMemRangeGetAttributes");
+    CUresult (*hookFunc)(void * *, size_t *, CUmem_range_attribute *, size_t, CUdeviceptr, size_t) = (CUresult(*)(void * *, size_t *, CUmem_range_attribute *, size_t, CUdeviceptr, size_t)) dlsym(cuda_handle, "cuMemRangeGetAttributes");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(data, dataSizes, attributes, numAttributes, devPtr, count);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2101,27 +2290,27 @@ CUresult cuMemRangeGetAttributes(void **data, size_t *dataSizes, CUmem_range_att
 CUresult cuMemRelease(CUmemGenericAllocationHandle handle) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemRelease");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmemGenericAllocationHandle) = (CUresult(*)(CUmemGenericAllocationHandle))dlsym(cuda_handle, "cuMemRelease");
+    CUresult (*hookFunc)(CUmemGenericAllocationHandle) = (CUresult(*)(CUmemGenericAllocationHandle)) dlsym(cuda_handle, "cuMemRelease");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(handle);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemRetainAllocationHandle(CUmemGenericAllocationHandle *handle, void *addr) {
+CUresult cuMemRetainAllocationHandle(CUmemGenericAllocationHandle * handle, void * addr) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemRetainAllocationHandle");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmemGenericAllocationHandle *, void *) = (CUresult(*)(CUmemGenericAllocationHandle *, void *))dlsym(cuda_handle, "cuMemRetainAllocationHandle");
+    CUresult (*hookFunc)(CUmemGenericAllocationHandle *, void *) = (CUresult(*)(CUmemGenericAllocationHandle *, void *)) dlsym(cuda_handle, "cuMemRetainAllocationHandle");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(handle, addr);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemSetAccess(CUdeviceptr ptr, size_t size, const CUmemAccessDesc *desc, size_t count) {
+CUresult cuMemSetAccess(CUdeviceptr ptr, size_t size, const CUmemAccessDesc * desc, size_t count) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemSetAccess");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, size_t, const CUmemAccessDesc *, size_t) = (CUresult(*)(CUdeviceptr, size_t, const CUmemAccessDesc *, size_t))dlsym(cuda_handle, "cuMemSetAccess");
+    CUresult (*hookFunc)(CUdeviceptr, size_t, const CUmemAccessDesc *, size_t) = (CUresult(*)(CUdeviceptr, size_t, const CUmemAccessDesc *, size_t)) dlsym(cuda_handle, "cuMemSetAccess");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(ptr, size, desc, count);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2131,7 +2320,7 @@ CUresult cuMemSetAccess(CUdeviceptr ptr, size_t size, const CUmemAccessDesc *des
 CUresult cuMemUnmap(CUdeviceptr ptr, size_t size) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemUnmap");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, size_t) = (CUresult(*)(CUdeviceptr, size_t))dlsym(cuda_handle, "cuMemUnmap");
+    CUresult (*hookFunc)(CUdeviceptr, size_t) = (CUresult(*)(CUdeviceptr, size_t)) dlsym(cuda_handle, "cuMemUnmap");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(ptr, size);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2141,79 +2330,119 @@ CUresult cuMemUnmap(CUdeviceptr ptr, size_t size) {
 CUresult cuMemcpy(CUdeviceptr dst, CUdeviceptr src, size_t ByteCount) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpy");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, CUdeviceptr, size_t) = (CUresult(*)(CUdeviceptr, CUdeviceptr, size_t))dlsym(cuda_handle, "cuMemcpy");
+    CUresult (*hookFunc)(CUdeviceptr, CUdeviceptr, size_t) = (CUresult(*)(CUdeviceptr, CUdeviceptr, size_t)) dlsym(cuda_handle, "cuMemcpy");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dst, src, ByteCount);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemcpy2D(const CUDA_MEMCPY2D *pCopy) {
+CUresult cuMemcpy2D(const CUDA_MEMCPY2D * pCopy) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpy2D");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(const CUDA_MEMCPY2D *) = (CUresult(*)(const CUDA_MEMCPY2D *))dlsym(cuda_handle, "cuMemcpy2D");
+    CUresult (*hookFunc)(const CUDA_MEMCPY2D *) = (CUresult(*)(const CUDA_MEMCPY2D *)) dlsym(cuda_handle, "cuMemcpy2D");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pCopy);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemcpy2DAsync(const CUDA_MEMCPY2D *pCopy, CUstream hStream) {
+CUresult cuMemcpy2DAsync(const CUDA_MEMCPY2D * pCopy, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpy2DAsync");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(const CUDA_MEMCPY2D *, CUstream) = (CUresult(*)(const CUDA_MEMCPY2D *, CUstream))dlsym(cuda_handle, "cuMemcpy2DAsync");
+    CUresult (*hookFunc)(const CUDA_MEMCPY2D *, CUstream) = (CUresult(*)(const CUDA_MEMCPY2D *, CUstream)) dlsym(cuda_handle, "cuMemcpy2DAsync");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pCopy, hStream);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemcpy2DUnaligned(const CUDA_MEMCPY2D *pCopy) {
+CUresult cuMemcpy2DAsync_v2(const CUDA_MEMCPY2D * pCopy, CUstream hStream) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpy2DAsync_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(const CUDA_MEMCPY2D *, CUstream) = (CUresult(*)(const CUDA_MEMCPY2D *, CUstream)) dlsym(cuda_handle, "cuMemcpy2DAsync_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(pCopy, hStream);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemcpy2DUnaligned(const CUDA_MEMCPY2D * pCopy) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpy2DUnaligned");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(const CUDA_MEMCPY2D *) = (CUresult(*)(const CUDA_MEMCPY2D *))dlsym(cuda_handle, "cuMemcpy2DUnaligned");
+    CUresult (*hookFunc)(const CUDA_MEMCPY2D *) = (CUresult(*)(const CUDA_MEMCPY2D *)) dlsym(cuda_handle, "cuMemcpy2DUnaligned");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pCopy);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemcpy3D(const CUDA_MEMCPY3D *pCopy) {
+CUresult cuMemcpy2DUnaligned_v2(const CUDA_MEMCPY2D * pCopy) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpy2DUnaligned_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(const CUDA_MEMCPY2D *) = (CUresult(*)(const CUDA_MEMCPY2D *)) dlsym(cuda_handle, "cuMemcpy2DUnaligned_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(pCopy);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemcpy3D(const CUDA_MEMCPY3D * pCopy) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpy3D");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(const CUDA_MEMCPY3D *) = (CUresult(*)(const CUDA_MEMCPY3D *))dlsym(cuda_handle, "cuMemcpy3D");
+    CUresult (*hookFunc)(const CUDA_MEMCPY3D *) = (CUresult(*)(const CUDA_MEMCPY3D *)) dlsym(cuda_handle, "cuMemcpy3D");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pCopy);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemcpy3DAsync(const CUDA_MEMCPY3D *pCopy, CUstream hStream) {
+CUresult cuMemcpy3DAsync(const CUDA_MEMCPY3D * pCopy, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpy3DAsync");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(const CUDA_MEMCPY3D *, CUstream) = (CUresult(*)(const CUDA_MEMCPY3D *, CUstream))dlsym(cuda_handle, "cuMemcpy3DAsync");
+    CUresult (*hookFunc)(const CUDA_MEMCPY3D *, CUstream) = (CUresult(*)(const CUDA_MEMCPY3D *, CUstream)) dlsym(cuda_handle, "cuMemcpy3DAsync");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pCopy, hStream);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemcpy3DPeer(const CUDA_MEMCPY3D_PEER *pCopy) {
+CUresult cuMemcpy3DAsync_v2(const CUDA_MEMCPY3D * pCopy, CUstream hStream) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpy3DAsync_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(const CUDA_MEMCPY3D *, CUstream) = (CUresult(*)(const CUDA_MEMCPY3D *, CUstream)) dlsym(cuda_handle, "cuMemcpy3DAsync_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(pCopy, hStream);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemcpy3DPeer(const CUDA_MEMCPY3D_PEER * pCopy) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpy3DPeer");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(const CUDA_MEMCPY3D_PEER *) = (CUresult(*)(const CUDA_MEMCPY3D_PEER *))dlsym(cuda_handle, "cuMemcpy3DPeer");
+    CUresult (*hookFunc)(const CUDA_MEMCPY3D_PEER *) = (CUresult(*)(const CUDA_MEMCPY3D_PEER *)) dlsym(cuda_handle, "cuMemcpy3DPeer");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pCopy);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemcpy3DPeerAsync(const CUDA_MEMCPY3D_PEER *pCopy, CUstream hStream) {
+CUresult cuMemcpy3DPeerAsync(const CUDA_MEMCPY3D_PEER * pCopy, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpy3DPeerAsync");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(const CUDA_MEMCPY3D_PEER *, CUstream) = (CUresult(*)(const CUDA_MEMCPY3D_PEER *, CUstream))dlsym(cuda_handle, "cuMemcpy3DPeerAsync");
+    CUresult (*hookFunc)(const CUDA_MEMCPY3D_PEER *, CUstream) = (CUresult(*)(const CUDA_MEMCPY3D_PEER *, CUstream)) dlsym(cuda_handle, "cuMemcpy3DPeerAsync");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pCopy, hStream);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemcpy3D_v2(const CUDA_MEMCPY3D * pCopy) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpy3D_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(const CUDA_MEMCPY3D *) = (CUresult(*)(const CUDA_MEMCPY3D *)) dlsym(cuda_handle, "cuMemcpy3D_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(pCopy);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
@@ -2221,7 +2450,7 @@ CUresult cuMemcpy3DPeerAsync(const CUDA_MEMCPY3D_PEER *pCopy, CUstream hStream) 
 CUresult cuMemcpyAsync(CUdeviceptr dst, CUdeviceptr src, size_t ByteCount, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyAsync");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, CUdeviceptr, size_t, CUstream) = (CUresult(*)(CUdeviceptr, CUdeviceptr, size_t, CUstream))dlsym(cuda_handle, "cuMemcpyAsync");
+    CUresult (*hookFunc)(CUdeviceptr, CUdeviceptr, size_t, CUstream) = (CUresult(*)(CUdeviceptr, CUdeviceptr, size_t, CUstream)) dlsym(cuda_handle, "cuMemcpyAsync");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dst, src, ByteCount, hStream);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2231,7 +2460,7 @@ CUresult cuMemcpyAsync(CUdeviceptr dst, CUdeviceptr src, size_t ByteCount, CUstr
 CUresult cuMemcpyAtoA(CUarray dstArray, size_t dstOffset, CUarray srcArray, size_t srcOffset, size_t ByteCount) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyAtoA");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUarray, size_t, CUarray, size_t, size_t) = (CUresult(*)(CUarray, size_t, CUarray, size_t, size_t))dlsym(cuda_handle, "cuMemcpyAtoA");
+    CUresult (*hookFunc)(CUarray, size_t, CUarray, size_t, size_t) = (CUresult(*)(CUarray, size_t, CUarray, size_t, size_t)) dlsym(cuda_handle, "cuMemcpyAtoA");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstArray, dstOffset, srcArray, srcOffset, ByteCount);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2241,27 +2470,37 @@ CUresult cuMemcpyAtoA(CUarray dstArray, size_t dstOffset, CUarray srcArray, size
 CUresult cuMemcpyAtoD(CUdeviceptr dstDevice, CUarray srcArray, size_t srcOffset, size_t ByteCount) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyAtoD");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, CUarray, size_t, size_t) = (CUresult(*)(CUdeviceptr, CUarray, size_t, size_t))dlsym(cuda_handle, "cuMemcpyAtoD");
+    CUresult (*hookFunc)(CUdeviceptr, CUarray, size_t, size_t) = (CUresult(*)(CUdeviceptr, CUarray, size_t, size_t)) dlsym(cuda_handle, "cuMemcpyAtoD");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstDevice, srcArray, srcOffset, ByteCount);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemcpyAtoH(void *dstHost, CUarray srcArray, size_t srcOffset, size_t ByteCount) {
+CUresult cuMemcpyAtoD_v2(CUdeviceptr a1, CUarray a2, size_t a3, size_t a4) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyAtoD_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUdeviceptr, CUarray, size_t, size_t) = (CUresult(*)(CUdeviceptr, CUarray, size_t, size_t)) dlsym(cuda_handle, "cuMemcpyAtoD_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(a1, a2, a3, a4);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemcpyAtoH(void * dstHost, CUarray srcArray, size_t srcOffset, size_t ByteCount) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyAtoH");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(void *, CUarray, size_t, size_t) = (CUresult(*)(void *, CUarray, size_t, size_t))dlsym(cuda_handle, "cuMemcpyAtoH");
+    CUresult (*hookFunc)(void *, CUarray, size_t, size_t) = (CUresult(*)(void *, CUarray, size_t, size_t)) dlsym(cuda_handle, "cuMemcpyAtoH");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstHost, srcArray, srcOffset, ByteCount);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemcpyAtoHAsync(void *dstHost, CUarray srcArray, size_t srcOffset, size_t ByteCount, CUstream hStream) {
+CUresult cuMemcpyAtoHAsync(void * dstHost, CUarray srcArray, size_t srcOffset, size_t ByteCount, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyAtoHAsync");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(void *, CUarray, size_t, size_t, CUstream) = (CUresult(*)(void *, CUarray, size_t, size_t, CUstream))dlsym(cuda_handle, "cuMemcpyAtoHAsync");
+    CUresult (*hookFunc)(void *, CUarray, size_t, size_t, CUstream) = (CUresult(*)(void *, CUarray, size_t, size_t, CUstream)) dlsym(cuda_handle, "cuMemcpyAtoHAsync");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstHost, srcArray, srcOffset, ByteCount, hStream);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2271,7 +2510,17 @@ CUresult cuMemcpyAtoHAsync(void *dstHost, CUarray srcArray, size_t srcOffset, si
 CUresult cuMemcpyDtoA(CUarray dstArray, size_t dstOffset, CUdeviceptr srcDevice, size_t ByteCount) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyDtoA");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUarray, size_t, CUdeviceptr, size_t) = (CUresult(*)(CUarray, size_t, CUdeviceptr, size_t))dlsym(cuda_handle, "cuMemcpyDtoA");
+    CUresult (*hookFunc)(CUarray, size_t, CUdeviceptr, size_t) = (CUresult(*)(CUarray, size_t, CUdeviceptr, size_t)) dlsym(cuda_handle, "cuMemcpyDtoA");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(dstArray, dstOffset, srcDevice, ByteCount);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemcpyDtoA_v2(CUarray dstArray, size_t dstOffset, CUdeviceptr srcDevice, size_t ByteCount) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyDtoA_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUarray, size_t, CUdeviceptr, size_t) = (CUresult(*)(CUarray, size_t, CUdeviceptr, size_t)) dlsym(cuda_handle, "cuMemcpyDtoA_v2");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstArray, dstOffset, srcDevice, ByteCount);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2281,7 +2530,7 @@ CUresult cuMemcpyDtoA(CUarray dstArray, size_t dstOffset, CUdeviceptr srcDevice,
 CUresult cuMemcpyDtoD(CUdeviceptr dstDevice, CUdeviceptr srcDevice, size_t ByteCount) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyDtoD");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, CUdeviceptr, size_t) = (CUresult(*)(CUdeviceptr, CUdeviceptr, size_t))dlsym(cuda_handle, "cuMemcpyDtoD");
+    CUresult (*hookFunc)(CUdeviceptr, CUdeviceptr, size_t) = (CUresult(*)(CUdeviceptr, CUdeviceptr, size_t)) dlsym(cuda_handle, "cuMemcpyDtoD");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstDevice, srcDevice, ByteCount);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2291,69 +2540,139 @@ CUresult cuMemcpyDtoD(CUdeviceptr dstDevice, CUdeviceptr srcDevice, size_t ByteC
 CUresult cuMemcpyDtoDAsync(CUdeviceptr dstDevice, CUdeviceptr srcDevice, size_t ByteCount, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyDtoDAsync");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, CUdeviceptr, size_t, CUstream) = (CUresult(*)(CUdeviceptr, CUdeviceptr, size_t, CUstream))dlsym(cuda_handle, "cuMemcpyDtoDAsync");
+    CUresult (*hookFunc)(CUdeviceptr, CUdeviceptr, size_t, CUstream) = (CUresult(*)(CUdeviceptr, CUdeviceptr, size_t, CUstream)) dlsym(cuda_handle, "cuMemcpyDtoDAsync");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstDevice, srcDevice, ByteCount, hStream);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemcpyDtoH(void *dstHost, CUdeviceptr srcDevice, size_t ByteCount) {
+CUresult cuMemcpyDtoDAsync_v2(CUdeviceptr dstDevice, CUdeviceptr srcDevice, size_t ByteCount, CUstream hStream) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyDtoDAsync_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUdeviceptr, CUdeviceptr, size_t, CUstream) = (CUresult(*)(CUdeviceptr, CUdeviceptr, size_t, CUstream)) dlsym(cuda_handle, "cuMemcpyDtoDAsync_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(dstDevice, srcDevice, ByteCount, hStream);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemcpyDtoD_v2(CUdeviceptr dstDevice, CUdeviceptr srcDevice, size_t ByteCount) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyDtoD_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUdeviceptr, CUdeviceptr, size_t) = (CUresult(*)(CUdeviceptr, CUdeviceptr, size_t)) dlsym(cuda_handle, "cuMemcpyDtoD_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(dstDevice, srcDevice, ByteCount);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemcpyDtoH(void * dstHost, CUdeviceptr srcDevice, size_t ByteCount) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyDtoH");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(void *, CUdeviceptr, size_t) = (CUresult(*)(void *, CUdeviceptr, size_t))dlsym(cuda_handle, "cuMemcpyDtoH");
+    CUresult (*hookFunc)(void *, CUdeviceptr, size_t) = (CUresult(*)(void *, CUdeviceptr, size_t)) dlsym(cuda_handle, "cuMemcpyDtoH");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstHost, srcDevice, ByteCount);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemcpyDtoHAsync(void *dstHost, CUdeviceptr srcDevice, size_t ByteCount, CUstream hStream) {
+CUresult cuMemcpyDtoHAsync(void * dstHost, CUdeviceptr srcDevice, size_t ByteCount, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyDtoHAsync");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(void *, CUdeviceptr, size_t, CUstream) = (CUresult(*)(void *, CUdeviceptr, size_t, CUstream))dlsym(cuda_handle, "cuMemcpyDtoHAsync");
+    CUresult (*hookFunc)(void *, CUdeviceptr, size_t, CUstream) = (CUresult(*)(void *, CUdeviceptr, size_t, CUstream)) dlsym(cuda_handle, "cuMemcpyDtoHAsync");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstHost, srcDevice, ByteCount, hStream);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemcpyHtoA(CUarray dstArray, size_t dstOffset, const void *srcHost, size_t ByteCount) {
+CUresult cuMemcpyDtoHAsync_v2(void * dstHost, CUdeviceptr srcDevice, size_t ByteCount, CUstream hStream) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyDtoHAsync_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(void *, CUdeviceptr, size_t, CUstream) = (CUresult(*)(void *, CUdeviceptr, size_t, CUstream)) dlsym(cuda_handle, "cuMemcpyDtoHAsync_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(dstHost, srcDevice, ByteCount, hStream);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemcpyDtoH_v2(void * dstHost, CUdeviceptr srcDevice, size_t ByteCount) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyDtoH_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(void *, CUdeviceptr, size_t) = (CUresult(*)(void *, CUdeviceptr, size_t)) dlsym(cuda_handle, "cuMemcpyDtoH_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(dstHost, srcDevice, ByteCount);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemcpyHtoA(CUarray dstArray, size_t dstOffset, const void * srcHost, size_t ByteCount) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyHtoA");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUarray, size_t, const void *, size_t) = (CUresult(*)(CUarray, size_t, const void *, size_t))dlsym(cuda_handle, "cuMemcpyHtoA");
+    CUresult (*hookFunc)(CUarray, size_t, const void *, size_t) = (CUresult(*)(CUarray, size_t, const void *, size_t)) dlsym(cuda_handle, "cuMemcpyHtoA");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstArray, dstOffset, srcHost, ByteCount);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemcpyHtoAAsync(CUarray dstArray, size_t dstOffset, const void *srcHost, size_t ByteCount, CUstream hStream) {
+CUresult cuMemcpyHtoAAsync(CUarray dstArray, size_t dstOffset, const void * srcHost, size_t ByteCount, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyHtoAAsync");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUarray, size_t, const void *, size_t, CUstream) = (CUresult(*)(CUarray, size_t, const void *, size_t, CUstream))dlsym(cuda_handle, "cuMemcpyHtoAAsync");
+    CUresult (*hookFunc)(CUarray, size_t, const void *, size_t, CUstream) = (CUresult(*)(CUarray, size_t, const void *, size_t, CUstream)) dlsym(cuda_handle, "cuMemcpyHtoAAsync");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstArray, dstOffset, srcHost, ByteCount, hStream);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemcpyHtoD(CUdeviceptr dstDevice, const void *srcHost, size_t ByteCount) {
+CUresult cuMemcpyHtoD(CUdeviceptr dstDevice, const void * srcHost, size_t ByteCount) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyHtoD");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, const void *, size_t) = (CUresult(*)(CUdeviceptr, const void *, size_t))dlsym(cuda_handle, "cuMemcpyHtoD");
+    CUresult (*hookFunc)(CUdeviceptr, const void *, size_t) = (CUresult(*)(CUdeviceptr, const void *, size_t)) dlsym(cuda_handle, "cuMemcpyHtoD");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstDevice, srcHost, ByteCount);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMemcpyHtoDAsync(CUdeviceptr dstDevice, const void *srcHost, size_t ByteCount, CUstream hStream) {
+CUresult cuMemcpyHtoDAsync(CUdeviceptr dstDevice, const void * srcHost, size_t ByteCount, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyHtoDAsync");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, const void *, size_t, CUstream) = (CUresult(*)(CUdeviceptr, const void *, size_t, CUstream))dlsym(cuda_handle, "cuMemcpyHtoDAsync");
+    CUresult (*hookFunc)(CUdeviceptr, const void *, size_t, CUstream) = (CUresult(*)(CUdeviceptr, const void *, size_t, CUstream)) dlsym(cuda_handle, "cuMemcpyHtoDAsync");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstDevice, srcHost, ByteCount, hStream);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemcpyHtoDAsync_v2(CUdeviceptr dstDevice, const void * srcHost, size_t ByteCount, CUstream hStream) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyHtoDAsync_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUdeviceptr, const void *, size_t, CUstream) = (CUresult(*)(CUdeviceptr, const void *, size_t, CUstream)) dlsym(cuda_handle, "cuMemcpyHtoDAsync_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(dstDevice, srcHost, ByteCount, hStream);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemcpyHtoD_v2(CUdeviceptr dstDevice, const void * srcHost, size_t ByteCount) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyHtoD_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUdeviceptr, const void *, size_t) = (CUresult(*)(CUdeviceptr, const void *, size_t)) dlsym(cuda_handle, "cuMemcpyHtoD_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(dstDevice, srcHost, ByteCount);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemcpyHtoD_v2_ptds(CUdeviceptr dstDevice, const void * srcHost, size_t ByteCount) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyHtoD_v2_ptds");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUdeviceptr, const void *, size_t) = (CUresult(*)(CUdeviceptr, const void *, size_t)) dlsym(cuda_handle, "cuMemcpyHtoD_v2_ptds");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(dstDevice, srcHost, ByteCount);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
@@ -2361,7 +2680,7 @@ CUresult cuMemcpyHtoDAsync(CUdeviceptr dstDevice, const void *srcHost, size_t By
 CUresult cuMemcpyPeer(CUdeviceptr dstDevice, CUcontext dstContext, CUdeviceptr srcDevice, CUcontext srcContext, size_t ByteCount) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyPeer");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, CUcontext, CUdeviceptr, CUcontext, size_t) = (CUresult(*)(CUdeviceptr, CUcontext, CUdeviceptr, CUcontext, size_t))dlsym(cuda_handle, "cuMemcpyPeer");
+    CUresult (*hookFunc)(CUdeviceptr, CUcontext, CUdeviceptr, CUcontext, size_t) = (CUresult(*)(CUdeviceptr, CUcontext, CUdeviceptr, CUcontext, size_t)) dlsym(cuda_handle, "cuMemcpyPeer");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstDevice, dstContext, srcDevice, srcContext, ByteCount);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2371,7 +2690,7 @@ CUresult cuMemcpyPeer(CUdeviceptr dstDevice, CUcontext dstContext, CUdeviceptr s
 CUresult cuMemcpyPeerAsync(CUdeviceptr dstDevice, CUcontext dstContext, CUdeviceptr srcDevice, CUcontext srcContext, size_t ByteCount, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemcpyPeerAsync");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, CUcontext, CUdeviceptr, CUcontext, size_t, CUstream) = (CUresult(*)(CUdeviceptr, CUcontext, CUdeviceptr, CUcontext, size_t, CUstream))dlsym(cuda_handle, "cuMemcpyPeerAsync");
+    CUresult (*hookFunc)(CUdeviceptr, CUcontext, CUdeviceptr, CUcontext, size_t, CUstream) = (CUresult(*)(CUdeviceptr, CUcontext, CUdeviceptr, CUcontext, size_t, CUstream)) dlsym(cuda_handle, "cuMemcpyPeerAsync");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstDevice, dstContext, srcDevice, srcContext, ByteCount, hStream);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2381,7 +2700,7 @@ CUresult cuMemcpyPeerAsync(CUdeviceptr dstDevice, CUcontext dstContext, CUdevice
 CUresult cuMemsetD16(CUdeviceptr dstDevice, unsigned short us, size_t N) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemsetD16");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, unsigned short, size_t) = (CUresult(*)(CUdeviceptr, unsigned short, size_t))dlsym(cuda_handle, "cuMemsetD16");
+    CUresult (*hookFunc)(CUdeviceptr, unsigned short, size_t) = (CUresult(*)(CUdeviceptr, unsigned short, size_t)) dlsym(cuda_handle, "cuMemsetD16");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstDevice, us, N);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2391,9 +2710,19 @@ CUresult cuMemsetD16(CUdeviceptr dstDevice, unsigned short us, size_t N) {
 CUresult cuMemsetD16Async(CUdeviceptr dstDevice, unsigned short us, size_t N, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemsetD16Async");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, unsigned short, size_t, CUstream) = (CUresult(*)(CUdeviceptr, unsigned short, size_t, CUstream))dlsym(cuda_handle, "cuMemsetD16Async");
+    CUresult (*hookFunc)(CUdeviceptr, unsigned short, size_t, CUstream) = (CUresult(*)(CUdeviceptr, unsigned short, size_t, CUstream)) dlsym(cuda_handle, "cuMemsetD16Async");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstDevice, us, N, hStream);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemsetD16_v2(CUdeviceptr dstDevice, unsigned short us, size_t N) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemsetD16_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUdeviceptr, unsigned short, size_t) = (CUresult(*)(CUdeviceptr, unsigned short, size_t)) dlsym(cuda_handle, "cuMemsetD16_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(dstDevice, us, N);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
@@ -2401,7 +2730,7 @@ CUresult cuMemsetD16Async(CUdeviceptr dstDevice, unsigned short us, size_t N, CU
 CUresult cuMemsetD2D16(CUdeviceptr dstDevice, size_t dstPitch, unsigned short us, size_t Width, size_t Height) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemsetD2D16");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, size_t, unsigned short, size_t, size_t) = (CUresult(*)(CUdeviceptr, size_t, unsigned short, size_t, size_t))dlsym(cuda_handle, "cuMemsetD2D16");
+    CUresult (*hookFunc)(CUdeviceptr, size_t, unsigned short, size_t, size_t) = (CUresult(*)(CUdeviceptr, size_t, unsigned short, size_t, size_t)) dlsym(cuda_handle, "cuMemsetD2D16");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstDevice, dstPitch, us, Width, Height);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2411,9 +2740,19 @@ CUresult cuMemsetD2D16(CUdeviceptr dstDevice, size_t dstPitch, unsigned short us
 CUresult cuMemsetD2D16Async(CUdeviceptr dstDevice, size_t dstPitch, unsigned short us, size_t Width, size_t Height, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemsetD2D16Async");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, size_t, unsigned short, size_t, size_t, CUstream) = (CUresult(*)(CUdeviceptr, size_t, unsigned short, size_t, size_t, CUstream))dlsym(cuda_handle, "cuMemsetD2D16Async");
+    CUresult (*hookFunc)(CUdeviceptr, size_t, unsigned short, size_t, size_t, CUstream) = (CUresult(*)(CUdeviceptr, size_t, unsigned short, size_t, size_t, CUstream)) dlsym(cuda_handle, "cuMemsetD2D16Async");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstDevice, dstPitch, us, Width, Height, hStream);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemsetD2D16_v2(CUdeviceptr dstDevice, size_t dstPitch, unsigned short us, size_t Width, size_t Height) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemsetD2D16_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUdeviceptr, size_t, unsigned short, size_t, size_t) = (CUresult(*)(CUdeviceptr, size_t, unsigned short, size_t, size_t)) dlsym(cuda_handle, "cuMemsetD2D16_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(dstDevice, dstPitch, us, Width, Height);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
@@ -2421,7 +2760,7 @@ CUresult cuMemsetD2D16Async(CUdeviceptr dstDevice, size_t dstPitch, unsigned sho
 CUresult cuMemsetD2D32(CUdeviceptr dstDevice, size_t dstPitch, unsigned int ui, size_t Width, size_t Height) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemsetD2D32");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, size_t, unsigned int, size_t, size_t) = (CUresult(*)(CUdeviceptr, size_t, unsigned int, size_t, size_t))dlsym(cuda_handle, "cuMemsetD2D32");
+    CUresult (*hookFunc)(CUdeviceptr, size_t, unsigned int, size_t, size_t) = (CUresult(*)(CUdeviceptr, size_t, unsigned int, size_t, size_t)) dlsym(cuda_handle, "cuMemsetD2D32");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstDevice, dstPitch, ui, Width, Height);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2431,9 +2770,19 @@ CUresult cuMemsetD2D32(CUdeviceptr dstDevice, size_t dstPitch, unsigned int ui, 
 CUresult cuMemsetD2D32Async(CUdeviceptr dstDevice, size_t dstPitch, unsigned int ui, size_t Width, size_t Height, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemsetD2D32Async");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, size_t, unsigned int, size_t, size_t, CUstream) = (CUresult(*)(CUdeviceptr, size_t, unsigned int, size_t, size_t, CUstream))dlsym(cuda_handle, "cuMemsetD2D32Async");
+    CUresult (*hookFunc)(CUdeviceptr, size_t, unsigned int, size_t, size_t, CUstream) = (CUresult(*)(CUdeviceptr, size_t, unsigned int, size_t, size_t, CUstream)) dlsym(cuda_handle, "cuMemsetD2D32Async");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstDevice, dstPitch, ui, Width, Height, hStream);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemsetD2D32_v2(CUdeviceptr dstDevice, size_t dstPitch, unsigned int ui, size_t Width, size_t Height) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemsetD2D32_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUdeviceptr, size_t, unsigned int, size_t, size_t) = (CUresult(*)(CUdeviceptr, size_t, unsigned int, size_t, size_t)) dlsym(cuda_handle, "cuMemsetD2D32_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(dstDevice, dstPitch, ui, Width, Height);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
@@ -2441,7 +2790,7 @@ CUresult cuMemsetD2D32Async(CUdeviceptr dstDevice, size_t dstPitch, unsigned int
 CUresult cuMemsetD2D8(CUdeviceptr dstDevice, size_t dstPitch, unsigned char uc, size_t Width, size_t Height) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemsetD2D8");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, size_t, unsigned char, size_t, size_t) = (CUresult(*)(CUdeviceptr, size_t, unsigned char, size_t, size_t))dlsym(cuda_handle, "cuMemsetD2D8");
+    CUresult (*hookFunc)(CUdeviceptr, size_t, unsigned char, size_t, size_t) = (CUresult(*)(CUdeviceptr, size_t, unsigned char, size_t, size_t)) dlsym(cuda_handle, "cuMemsetD2D8");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstDevice, dstPitch, uc, Width, Height);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2451,9 +2800,19 @@ CUresult cuMemsetD2D8(CUdeviceptr dstDevice, size_t dstPitch, unsigned char uc, 
 CUresult cuMemsetD2D8Async(CUdeviceptr dstDevice, size_t dstPitch, unsigned char uc, size_t Width, size_t Height, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemsetD2D8Async");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, size_t, unsigned char, size_t, size_t, CUstream) = (CUresult(*)(CUdeviceptr, size_t, unsigned char, size_t, size_t, CUstream))dlsym(cuda_handle, "cuMemsetD2D8Async");
+    CUresult (*hookFunc)(CUdeviceptr, size_t, unsigned char, size_t, size_t, CUstream) = (CUresult(*)(CUdeviceptr, size_t, unsigned char, size_t, size_t, CUstream)) dlsym(cuda_handle, "cuMemsetD2D8Async");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstDevice, dstPitch, uc, Width, Height, hStream);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemsetD2D8_v2(CUdeviceptr dstDevice, size_t dstPitch, unsigned char uc, size_t Width, size_t Height) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemsetD2D8_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUdeviceptr, size_t, unsigned char, size_t, size_t) = (CUresult(*)(CUdeviceptr, size_t, unsigned char, size_t, size_t)) dlsym(cuda_handle, "cuMemsetD2D8_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(dstDevice, dstPitch, uc, Width, Height);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
@@ -2461,7 +2820,7 @@ CUresult cuMemsetD2D8Async(CUdeviceptr dstDevice, size_t dstPitch, unsigned char
 CUresult cuMemsetD32(CUdeviceptr dstDevice, unsigned int ui, size_t N) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemsetD32");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, unsigned int, size_t) = (CUresult(*)(CUdeviceptr, unsigned int, size_t))dlsym(cuda_handle, "cuMemsetD32");
+    CUresult (*hookFunc)(CUdeviceptr, unsigned int, size_t) = (CUresult(*)(CUdeviceptr, unsigned int, size_t)) dlsym(cuda_handle, "cuMemsetD32");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstDevice, ui, N);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2471,9 +2830,19 @@ CUresult cuMemsetD32(CUdeviceptr dstDevice, unsigned int ui, size_t N) {
 CUresult cuMemsetD32Async(CUdeviceptr dstDevice, unsigned int ui, size_t N, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemsetD32Async");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, unsigned int, size_t, CUstream) = (CUresult(*)(CUdeviceptr, unsigned int, size_t, CUstream))dlsym(cuda_handle, "cuMemsetD32Async");
+    CUresult (*hookFunc)(CUdeviceptr, unsigned int, size_t, CUstream) = (CUresult(*)(CUdeviceptr, unsigned int, size_t, CUstream)) dlsym(cuda_handle, "cuMemsetD32Async");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstDevice, ui, N, hStream);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuMemsetD32_v2(CUdeviceptr dstDevice, unsigned int ui, size_t N) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemsetD32_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUdeviceptr, unsigned int, size_t) = (CUresult(*)(CUdeviceptr, unsigned int, size_t)) dlsym(cuda_handle, "cuMemsetD32_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(dstDevice, ui, N);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
@@ -2481,7 +2850,7 @@ CUresult cuMemsetD32Async(CUdeviceptr dstDevice, unsigned int ui, size_t N, CUst
 CUresult cuMemsetD8(CUdeviceptr dstDevice, unsigned char uc, size_t N) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemsetD8");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, unsigned char, size_t) = (CUresult(*)(CUdeviceptr, unsigned char, size_t))dlsym(cuda_handle, "cuMemsetD8");
+    CUresult (*hookFunc)(CUdeviceptr, unsigned char, size_t) = (CUresult(*)(CUdeviceptr, unsigned char, size_t)) dlsym(cuda_handle, "cuMemsetD8");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstDevice, uc, N);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2491,137 +2860,147 @@ CUresult cuMemsetD8(CUdeviceptr dstDevice, unsigned char uc, size_t N) {
 CUresult cuMemsetD8Async(CUdeviceptr dstDevice, unsigned char uc, size_t N, CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemsetD8Async");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr, unsigned char, size_t, CUstream) = (CUresult(*)(CUdeviceptr, unsigned char, size_t, CUstream))dlsym(cuda_handle, "cuMemsetD8Async");
+    CUresult (*hookFunc)(CUdeviceptr, unsigned char, size_t, CUstream) = (CUresult(*)(CUdeviceptr, unsigned char, size_t, CUstream)) dlsym(cuda_handle, "cuMemsetD8Async");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dstDevice, uc, N, hStream);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMipmappedArrayDestroy(CUmipmappedArray hMipmappedArray) {
-    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMipmappedArrayDestroy");
+CUresult cuMemsetD8_v2(CUdeviceptr dstDevice, unsigned char uc, size_t N) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMemsetD8_v2");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmipmappedArray) = (CUresult(*)(CUmipmappedArray))dlsym(cuda_handle, "cuMipmappedArrayDestroy");
+    CUresult (*hookFunc)(CUdeviceptr, unsigned char, size_t) = (CUresult(*)(CUdeviceptr, unsigned char, size_t)) dlsym(cuda_handle, "cuMemsetD8_v2");
     HOOK_CHECK(hookFunc);
-    CUresult rs = hookFunc(hMipmappedArray);
+    CUresult rs = hookFunc(dstDevice, uc, N);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMipmappedArrayGetLevel(CUarray *pLevelArray, CUmipmappedArray hMipmappedArray, unsigned int level) {
+CUresult cuMipmappedArrayGetLevel(CUarray * pLevelArray, CUmipmappedArray hMipmappedArray, unsigned int level) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMipmappedArrayGetLevel");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUarray *, CUmipmappedArray, unsigned int) = (CUresult(*)(CUarray *, CUmipmappedArray, unsigned int))dlsym(cuda_handle, "cuMipmappedArrayGetLevel");
+    CUresult (*hookFunc)(CUarray *, CUmipmappedArray, unsigned int) = (CUresult(*)(CUarray *, CUmipmappedArray, unsigned int)) dlsym(cuda_handle, "cuMipmappedArrayGetLevel");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pLevelArray, hMipmappedArray, level);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMipmappedArrayGetMemoryRequirements(CUDA_ARRAY_MEMORY_REQUIREMENTS *memoryRequirements, CUmipmappedArray mipmap, CUdevice device) {
+CUresult cuMipmappedArrayGetMemoryRequirements(CUDA_ARRAY_MEMORY_REQUIREMENTS * memoryRequirements, CUmipmappedArray mipmap, CUdevice device) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMipmappedArrayGetMemoryRequirements");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUDA_ARRAY_MEMORY_REQUIREMENTS *, CUmipmappedArray, CUdevice) = (CUresult(*)(CUDA_ARRAY_MEMORY_REQUIREMENTS *, CUmipmappedArray, CUdevice))dlsym(cuda_handle, "cuMipmappedArrayGetMemoryRequirements");
+    CUresult (*hookFunc)(CUDA_ARRAY_MEMORY_REQUIREMENTS *, CUmipmappedArray, CUdevice) = (CUresult(*)(CUDA_ARRAY_MEMORY_REQUIREMENTS *, CUmipmappedArray, CUdevice)) dlsym(cuda_handle, "cuMipmappedArrayGetMemoryRequirements");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(memoryRequirements, mipmap, device);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuMipmappedArrayGetSparseProperties(CUDA_ARRAY_SPARSE_PROPERTIES *sparseProperties, CUmipmappedArray mipmap) {
+CUresult cuMipmappedArrayGetSparseProperties(CUDA_ARRAY_SPARSE_PROPERTIES * sparseProperties, CUmipmappedArray mipmap) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuMipmappedArrayGetSparseProperties");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUDA_ARRAY_SPARSE_PROPERTIES *, CUmipmappedArray) = (CUresult(*)(CUDA_ARRAY_SPARSE_PROPERTIES *, CUmipmappedArray))dlsym(cuda_handle, "cuMipmappedArrayGetSparseProperties");
+    CUresult (*hookFunc)(CUDA_ARRAY_SPARSE_PROPERTIES *, CUmipmappedArray) = (CUresult(*)(CUDA_ARRAY_SPARSE_PROPERTIES *, CUmipmappedArray)) dlsym(cuda_handle, "cuMipmappedArrayGetSparseProperties");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(sparseProperties, mipmap);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuModuleGetFunction(CUfunction *hfunc, CUmodule hmod, const char *name) {
+CUresult cuModuleGetFunction(CUfunction * hfunc, CUmodule hmod, const char * name) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuModuleGetFunction");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUfunction *, CUmodule, const char *) = (CUresult(*)(CUfunction *, CUmodule, const char *))dlsym(cuda_handle, "cuModuleGetFunction");
+    CUresult (*hookFunc)(CUfunction *, CUmodule, const char *) = (CUresult(*)(CUfunction *, CUmodule, const char *)) dlsym(cuda_handle, "cuModuleGetFunction");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hfunc, hmod, name);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuModuleGetGlobal(CUdeviceptr *dptr, size_t *bytes, CUmodule hmod, const char *name) {
+CUresult cuModuleGetGlobal(CUdeviceptr * dptr, size_t * bytes, CUmodule hmod, const char * name) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuModuleGetGlobal");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr *, size_t *, CUmodule, const char *) = (CUresult(*)(CUdeviceptr *, size_t *, CUmodule, const char *))dlsym(cuda_handle, "cuModuleGetGlobal");
+    CUresult (*hookFunc)(CUdeviceptr *, size_t *, CUmodule, const char *) = (CUresult(*)(CUdeviceptr *, size_t *, CUmodule, const char *)) dlsym(cuda_handle, "cuModuleGetGlobal");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dptr, bytes, hmod, name);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuModuleGetLoadingMode(CUmoduleLoadingMode *mode) {
+CUresult cuModuleGetGlobal_v2(CUdeviceptr * dptr, size_t * bytes, CUmodule hmod, const char * name) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuModuleGetGlobal_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUdeviceptr *, size_t *, CUmodule, const char *) = (CUresult(*)(CUdeviceptr *, size_t *, CUmodule, const char *)) dlsym(cuda_handle, "cuModuleGetGlobal_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(dptr, bytes, hmod, name);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuModuleGetLoadingMode(CUmoduleLoadingMode * mode) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuModuleGetLoadingMode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmoduleLoadingMode *) = (CUresult(*)(CUmoduleLoadingMode *))dlsym(cuda_handle, "cuModuleGetLoadingMode");
+    CUresult (*hookFunc)(CUmoduleLoadingMode *) = (CUresult(*)(CUmoduleLoadingMode *)) dlsym(cuda_handle, "cuModuleGetLoadingMode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(mode);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuModuleGetSurfRef(CUsurfref *pSurfRef, CUmodule hmod, const char *name) {
+CUresult cuModuleGetSurfRef(CUsurfref * pSurfRef, CUmodule hmod, const char * name) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuModuleGetSurfRef");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUsurfref *, CUmodule, const char *) = (CUresult(*)(CUsurfref *, CUmodule, const char *))dlsym(cuda_handle, "cuModuleGetSurfRef");
+    CUresult (*hookFunc)(CUsurfref *, CUmodule, const char *) = (CUresult(*)(CUsurfref *, CUmodule, const char *)) dlsym(cuda_handle, "cuModuleGetSurfRef");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pSurfRef, hmod, name);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuModuleGetTexRef(CUtexref *pTexRef, CUmodule hmod, const char *name) {
+CUresult cuModuleGetTexRef(CUtexref * pTexRef, CUmodule hmod, const char * name) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuModuleGetTexRef");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUtexref *, CUmodule, const char *) = (CUresult(*)(CUtexref *, CUmodule, const char *))dlsym(cuda_handle, "cuModuleGetTexRef");
+    CUresult (*hookFunc)(CUtexref *, CUmodule, const char *) = (CUresult(*)(CUtexref *, CUmodule, const char *)) dlsym(cuda_handle, "cuModuleGetTexRef");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pTexRef, hmod, name);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuModuleLoad(CUmodule *module, const char *fname) {
+CUresult cuModuleLoad(CUmodule * module, const char * fname) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuModuleLoad");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmodule *, const char *) = (CUresult(*)(CUmodule *, const char *))dlsym(cuda_handle, "cuModuleLoad");
+    CUresult (*hookFunc)(CUmodule *, const char *) = (CUresult(*)(CUmodule *, const char *)) dlsym(cuda_handle, "cuModuleLoad");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(module, fname);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuModuleLoadData(CUmodule *module, const void *image) {
+CUresult cuModuleLoadData(CUmodule * module, const void * image) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuModuleLoadData");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmodule *, const void *) = (CUresult(*)(CUmodule *, const void *))dlsym(cuda_handle, "cuModuleLoadData");
+    CUresult (*hookFunc)(CUmodule *, const void *) = (CUresult(*)(CUmodule *, const void *)) dlsym(cuda_handle, "cuModuleLoadData");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(module, image);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuModuleLoadDataEx(CUmodule *module, const void *image, unsigned int numOptions, CUjit_option *options, void **optionValues) {
+CUresult cuModuleLoadDataEx(CUmodule * module, const void * image, unsigned int numOptions, CUjit_option * options, void * * optionValues) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuModuleLoadDataEx");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmodule *, const void *, unsigned int, CUjit_option *, void **) = (CUresult(*)(CUmodule *, const void *, unsigned int, CUjit_option *, void **))dlsym(cuda_handle, "cuModuleLoadDataEx");
+    CUresult (*hookFunc)(CUmodule *, const void *, unsigned int, CUjit_option *, void * *) = (CUresult(*)(CUmodule *, const void *, unsigned int, CUjit_option *, void * *)) dlsym(cuda_handle, "cuModuleLoadDataEx");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(module, image, numOptions, options, optionValues);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuModuleLoadFatBinary(CUmodule *module, const void *fatCubin) {
+CUresult cuModuleLoadFatBinary(CUmodule * module, const void * fatCubin) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuModuleLoadFatBinary");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmodule *, const void *) = (CUresult(*)(CUmodule *, const void *))dlsym(cuda_handle, "cuModuleLoadFatBinary");
+    CUresult (*hookFunc)(CUmodule *, const void *) = (CUresult(*)(CUmodule *, const void *)) dlsym(cuda_handle, "cuModuleLoadFatBinary");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(module, fatCubin);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2631,77 +3010,77 @@ CUresult cuModuleLoadFatBinary(CUmodule *module, const void *fatCubin) {
 CUresult cuModuleUnload(CUmodule hmod) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuModuleUnload");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmodule) = (CUresult(*)(CUmodule))dlsym(cuda_handle, "cuModuleUnload");
+    CUresult (*hookFunc)(CUmodule) = (CUresult(*)(CUmodule)) dlsym(cuda_handle, "cuModuleUnload");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hmod);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuOccupancyAvailableDynamicSMemPerBlock(size_t *dynamicSmemSize, CUfunction func, int numBlocks, int blockSize) {
+CUresult cuOccupancyAvailableDynamicSMemPerBlock(size_t * dynamicSmemSize, CUfunction func, int numBlocks, int blockSize) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuOccupancyAvailableDynamicSMemPerBlock");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(size_t *, CUfunction, int, int) = (CUresult(*)(size_t *, CUfunction, int, int))dlsym(cuda_handle, "cuOccupancyAvailableDynamicSMemPerBlock");
+    CUresult (*hookFunc)(size_t *, CUfunction, int, int) = (CUresult(*)(size_t *, CUfunction, int, int)) dlsym(cuda_handle, "cuOccupancyAvailableDynamicSMemPerBlock");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dynamicSmemSize, func, numBlocks, blockSize);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuOccupancyMaxActiveBlocksPerMultiprocessor(int *numBlocks, CUfunction func, int blockSize, size_t dynamicSMemSize) {
+CUresult cuOccupancyMaxActiveBlocksPerMultiprocessor(int * numBlocks, CUfunction func, int blockSize, size_t dynamicSMemSize) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuOccupancyMaxActiveBlocksPerMultiprocessor");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(int *, CUfunction, int, size_t) = (CUresult(*)(int *, CUfunction, int, size_t))dlsym(cuda_handle, "cuOccupancyMaxActiveBlocksPerMultiprocessor");
+    CUresult (*hookFunc)(int *, CUfunction, int, size_t) = (CUresult(*)(int *, CUfunction, int, size_t)) dlsym(cuda_handle, "cuOccupancyMaxActiveBlocksPerMultiprocessor");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(numBlocks, func, blockSize, dynamicSMemSize);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuOccupancyMaxActiveBlocksPerMultiprocessorWithFlags(int *numBlocks, CUfunction func, int blockSize, size_t dynamicSMemSize, unsigned int flags) {
+CUresult cuOccupancyMaxActiveBlocksPerMultiprocessorWithFlags(int * numBlocks, CUfunction func, int blockSize, size_t dynamicSMemSize, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuOccupancyMaxActiveBlocksPerMultiprocessorWithFlags");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(int *, CUfunction, int, size_t, unsigned int) = (CUresult(*)(int *, CUfunction, int, size_t, unsigned int))dlsym(cuda_handle, "cuOccupancyMaxActiveBlocksPerMultiprocessorWithFlags");
+    CUresult (*hookFunc)(int *, CUfunction, int, size_t, unsigned int) = (CUresult(*)(int *, CUfunction, int, size_t, unsigned int)) dlsym(cuda_handle, "cuOccupancyMaxActiveBlocksPerMultiprocessorWithFlags");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(numBlocks, func, blockSize, dynamicSMemSize, flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuOccupancyMaxActiveClusters(int *numClusters, CUfunction func, const CUlaunchConfig *config) {
+CUresult cuOccupancyMaxActiveClusters(int * numClusters, CUfunction func, const CUlaunchConfig * config) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuOccupancyMaxActiveClusters");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(int *, CUfunction, const CUlaunchConfig *) = (CUresult(*)(int *, CUfunction, const CUlaunchConfig *))dlsym(cuda_handle, "cuOccupancyMaxActiveClusters");
+    CUresult (*hookFunc)(int *, CUfunction, const CUlaunchConfig *) = (CUresult(*)(int *, CUfunction, const CUlaunchConfig *)) dlsym(cuda_handle, "cuOccupancyMaxActiveClusters");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(numClusters, func, config);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuOccupancyMaxPotentialBlockSize(int *minGridSize, int *blockSize, CUfunction func, CUoccupancyB2DSize blockSizeToDynamicSMemSize, size_t dynamicSMemSize, int blockSizeLimit) {
+CUresult cuOccupancyMaxPotentialBlockSize(int * minGridSize, int * blockSize, CUfunction func, CUoccupancyB2DSize blockSizeToDynamicSMemSize, size_t dynamicSMemSize, int blockSizeLimit) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuOccupancyMaxPotentialBlockSize");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(int *, int *, CUfunction, CUoccupancyB2DSize, size_t, int) = (CUresult(*)(int *, int *, CUfunction, CUoccupancyB2DSize, size_t, int))dlsym(cuda_handle, "cuOccupancyMaxPotentialBlockSize");
+    CUresult (*hookFunc)(int *, int *, CUfunction, CUoccupancyB2DSize, size_t, int) = (CUresult(*)(int *, int *, CUfunction, CUoccupancyB2DSize, size_t, int)) dlsym(cuda_handle, "cuOccupancyMaxPotentialBlockSize");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(minGridSize, blockSize, func, blockSizeToDynamicSMemSize, dynamicSMemSize, blockSizeLimit);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuOccupancyMaxPotentialBlockSizeWithFlags(int *minGridSize, int *blockSize, CUfunction func, CUoccupancyB2DSize blockSizeToDynamicSMemSize, size_t dynamicSMemSize, int blockSizeLimit, unsigned int flags) {
+CUresult cuOccupancyMaxPotentialBlockSizeWithFlags(int * minGridSize, int * blockSize, CUfunction func, CUoccupancyB2DSize blockSizeToDynamicSMemSize, size_t dynamicSMemSize, int blockSizeLimit, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuOccupancyMaxPotentialBlockSizeWithFlags");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(int *, int *, CUfunction, CUoccupancyB2DSize, size_t, int, unsigned int) = (CUresult(*)(int *, int *, CUfunction, CUoccupancyB2DSize, size_t, int, unsigned int))dlsym(cuda_handle, "cuOccupancyMaxPotentialBlockSizeWithFlags");
+    CUresult (*hookFunc)(int *, int *, CUfunction, CUoccupancyB2DSize, size_t, int, unsigned int) = (CUresult(*)(int *, int *, CUfunction, CUoccupancyB2DSize, size_t, int, unsigned int)) dlsym(cuda_handle, "cuOccupancyMaxPotentialBlockSizeWithFlags");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(minGridSize, blockSize, func, blockSizeToDynamicSMemSize, dynamicSMemSize, blockSizeLimit, flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuOccupancyMaxPotentialClusterSize(int *clusterSize, CUfunction func, const CUlaunchConfig *config) {
+CUresult cuOccupancyMaxPotentialClusterSize(int * clusterSize, CUfunction func, const CUlaunchConfig * config) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuOccupancyMaxPotentialClusterSize");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(int *, CUfunction, const CUlaunchConfig *) = (CUresult(*)(int *, CUfunction, const CUlaunchConfig *))dlsym(cuda_handle, "cuOccupancyMaxPotentialClusterSize");
+    CUresult (*hookFunc)(int *, CUfunction, const CUlaunchConfig *) = (CUresult(*)(int *, CUfunction, const CUlaunchConfig *)) dlsym(cuda_handle, "cuOccupancyMaxPotentialClusterSize");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(clusterSize, func, config);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2711,7 +3090,7 @@ CUresult cuOccupancyMaxPotentialClusterSize(int *clusterSize, CUfunction func, c
 CUresult cuParamSetSize(CUfunction hfunc, unsigned int numbytes) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuParamSetSize");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUfunction, unsigned int) = (CUresult(*)(CUfunction, unsigned int))dlsym(cuda_handle, "cuParamSetSize");
+    CUresult (*hookFunc)(CUfunction, unsigned int) = (CUresult(*)(CUfunction, unsigned int)) dlsym(cuda_handle, "cuParamSetSize");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hfunc, numbytes);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2721,7 +3100,7 @@ CUresult cuParamSetSize(CUfunction hfunc, unsigned int numbytes) {
 CUresult cuParamSetTexRef(CUfunction hfunc, int texunit, CUtexref hTexRef) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuParamSetTexRef");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUfunction, int, CUtexref) = (CUresult(*)(CUfunction, int, CUtexref))dlsym(cuda_handle, "cuParamSetTexRef");
+    CUresult (*hookFunc)(CUfunction, int, CUtexref) = (CUresult(*)(CUfunction, int, CUtexref)) dlsym(cuda_handle, "cuParamSetTexRef");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hfunc, texunit, hTexRef);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2731,7 +3110,7 @@ CUresult cuParamSetTexRef(CUfunction hfunc, int texunit, CUtexref hTexRef) {
 CUresult cuParamSetf(CUfunction hfunc, int offset, float value) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuParamSetf");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUfunction, int, float) = (CUresult(*)(CUfunction, int, float))dlsym(cuda_handle, "cuParamSetf");
+    CUresult (*hookFunc)(CUfunction, int, float) = (CUresult(*)(CUfunction, int, float)) dlsym(cuda_handle, "cuParamSetf");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hfunc, offset, value);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2741,67 +3120,67 @@ CUresult cuParamSetf(CUfunction hfunc, int offset, float value) {
 CUresult cuParamSeti(CUfunction hfunc, int offset, unsigned int value) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuParamSeti");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUfunction, int, unsigned int) = (CUresult(*)(CUfunction, int, unsigned int))dlsym(cuda_handle, "cuParamSeti");
+    CUresult (*hookFunc)(CUfunction, int, unsigned int) = (CUresult(*)(CUfunction, int, unsigned int)) dlsym(cuda_handle, "cuParamSeti");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hfunc, offset, value);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuParamSetv(CUfunction hfunc, int offset, void *ptr, unsigned int numbytes) {
+CUresult cuParamSetv(CUfunction hfunc, int offset, void * ptr, unsigned int numbytes) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuParamSetv");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUfunction, int, void *, unsigned int) = (CUresult(*)(CUfunction, int, void *, unsigned int))dlsym(cuda_handle, "cuParamSetv");
+    CUresult (*hookFunc)(CUfunction, int, void *, unsigned int) = (CUresult(*)(CUfunction, int, void *, unsigned int)) dlsym(cuda_handle, "cuParamSetv");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hfunc, offset, ptr, numbytes);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuPointerGetAttribute(void *data, CUpointer_attribute attribute, CUdeviceptr ptr) {
+CUresult cuPointerGetAttribute(void * data, CUpointer_attribute attribute, CUdeviceptr ptr) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuPointerGetAttribute");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(void *, CUpointer_attribute, CUdeviceptr) = (CUresult(*)(void *, CUpointer_attribute, CUdeviceptr))dlsym(cuda_handle, "cuPointerGetAttribute");
+    CUresult (*hookFunc)(void *, CUpointer_attribute, CUdeviceptr) = (CUresult(*)(void *, CUpointer_attribute, CUdeviceptr)) dlsym(cuda_handle, "cuPointerGetAttribute");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(data, attribute, ptr);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuPointerGetAttributes(unsigned int numAttributes, CUpointer_attribute *attributes, void **data, CUdeviceptr ptr) {
+CUresult cuPointerGetAttributes(unsigned int numAttributes, CUpointer_attribute * attributes, void * * data, CUdeviceptr ptr) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuPointerGetAttributes");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(unsigned int, CUpointer_attribute *, void **, CUdeviceptr) = (CUresult(*)(unsigned int, CUpointer_attribute *, void **, CUdeviceptr))dlsym(cuda_handle, "cuPointerGetAttributes");
+    CUresult (*hookFunc)(unsigned int, CUpointer_attribute *, void * *, CUdeviceptr) = (CUresult(*)(unsigned int, CUpointer_attribute *, void * *, CUdeviceptr)) dlsym(cuda_handle, "cuPointerGetAttributes");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(numAttributes, attributes, data, ptr);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuPointerSetAttribute(const void *value, CUpointer_attribute attribute, CUdeviceptr ptr) {
+CUresult cuPointerSetAttribute(const void * value, CUpointer_attribute attribute, CUdeviceptr ptr) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuPointerSetAttribute");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(const void *, CUpointer_attribute, CUdeviceptr) = (CUresult(*)(const void *, CUpointer_attribute, CUdeviceptr))dlsym(cuda_handle, "cuPointerSetAttribute");
+    CUresult (*hookFunc)(const void *, CUpointer_attribute, CUdeviceptr) = (CUresult(*)(const void *, CUpointer_attribute, CUdeviceptr)) dlsym(cuda_handle, "cuPointerSetAttribute");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(value, attribute, ptr);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuSignalExternalSemaphoresAsync(const CUexternalSemaphore *extSemArray, const CUDA_EXTERNAL_SEMAPHORE_SIGNAL_PARAMS *paramsArray, unsigned int numExtSems, CUstream stream) {
+CUresult cuSignalExternalSemaphoresAsync(const CUexternalSemaphore * extSemArray, const CUDA_EXTERNAL_SEMAPHORE_SIGNAL_PARAMS * paramsArray, unsigned int numExtSems, CUstream stream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuSignalExternalSemaphoresAsync");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(const CUexternalSemaphore *, const CUDA_EXTERNAL_SEMAPHORE_SIGNAL_PARAMS *, unsigned int, CUstream) = (CUresult(*)(const CUexternalSemaphore *, const CUDA_EXTERNAL_SEMAPHORE_SIGNAL_PARAMS *, unsigned int, CUstream))dlsym(cuda_handle, "cuSignalExternalSemaphoresAsync");
+    CUresult (*hookFunc)(const CUexternalSemaphore *, const CUDA_EXTERNAL_SEMAPHORE_SIGNAL_PARAMS *, unsigned int, CUstream) = (CUresult(*)(const CUexternalSemaphore *, const CUDA_EXTERNAL_SEMAPHORE_SIGNAL_PARAMS *, unsigned int, CUstream)) dlsym(cuda_handle, "cuSignalExternalSemaphoresAsync");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(extSemArray, paramsArray, numExtSems, stream);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuStreamAddCallback(CUstream hStream, CUstreamCallback callback, void *userData, unsigned int flags) {
+CUresult cuStreamAddCallback(CUstream hStream, CUstreamCallback callback, void * userData, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamAddCallback");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUstreamCallback, void *, unsigned int) = (CUresult(*)(CUstream, CUstreamCallback, void *, unsigned int))dlsym(cuda_handle, "cuStreamAddCallback");
+    CUresult (*hookFunc)(CUstream, CUstreamCallback, void *, unsigned int) = (CUresult(*)(CUstream, CUstreamCallback, void *, unsigned int)) dlsym(cuda_handle, "cuStreamAddCallback");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hStream, callback, userData, flags);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2811,27 +3190,27 @@ CUresult cuStreamAddCallback(CUstream hStream, CUstreamCallback callback, void *
 CUresult cuStreamAttachMemAsync(CUstream hStream, CUdeviceptr dptr, size_t length, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamAttachMemAsync");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUdeviceptr, size_t, unsigned int) = (CUresult(*)(CUstream, CUdeviceptr, size_t, unsigned int))dlsym(cuda_handle, "cuStreamAttachMemAsync");
+    CUresult (*hookFunc)(CUstream, CUdeviceptr, size_t, unsigned int) = (CUresult(*)(CUstream, CUdeviceptr, size_t, unsigned int)) dlsym(cuda_handle, "cuStreamAttachMemAsync");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hStream, dptr, length, flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuStreamBatchMemOp(CUstream stream, unsigned int count, CUstreamBatchMemOpParams *paramArray, unsigned int flags) {
+CUresult cuStreamBatchMemOp(CUstream stream, unsigned int count, CUstreamBatchMemOpParams * paramArray, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamBatchMemOp");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, unsigned int, CUstreamBatchMemOpParams *, unsigned int) = (CUresult(*)(CUstream, unsigned int, CUstreamBatchMemOpParams *, unsigned int))dlsym(cuda_handle, "cuStreamBatchMemOp");
+    CUresult (*hookFunc)(CUstream, unsigned int, CUstreamBatchMemOpParams *, unsigned int) = (CUresult(*)(CUstream, unsigned int, CUstreamBatchMemOpParams *, unsigned int)) dlsym(cuda_handle, "cuStreamBatchMemOp");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(stream, count, paramArray, flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuStreamBatchMemOp_v2(CUstream stream, unsigned int count, CUstreamBatchMemOpParams *paramArray, unsigned int flags) {
+CUresult cuStreamBatchMemOp_v2(CUstream stream, unsigned int count, CUstreamBatchMemOpParams * paramArray, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamBatchMemOp_v2");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, unsigned int, CUstreamBatchMemOpParams *, unsigned int) = (CUresult(*)(CUstream, unsigned int, CUstreamBatchMemOpParams *, unsigned int))dlsym(cuda_handle, "cuStreamBatchMemOp_v2");
+    CUresult (*hookFunc)(CUstream, unsigned int, CUstreamBatchMemOpParams *, unsigned int) = (CUresult(*)(CUstream, unsigned int, CUstreamBatchMemOpParams *, unsigned int)) dlsym(cuda_handle, "cuStreamBatchMemOp_v2");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(stream, count, paramArray, flags);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2841,7 +3220,7 @@ CUresult cuStreamBatchMemOp_v2(CUstream stream, unsigned int count, CUstreamBatc
 CUresult cuStreamBeginCapture(CUstream hStream, CUstreamCaptureMode mode) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamBeginCapture");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUstreamCaptureMode) = (CUresult(*)(CUstream, CUstreamCaptureMode))dlsym(cuda_handle, "cuStreamBeginCapture");
+    CUresult (*hookFunc)(CUstream, CUstreamCaptureMode) = (CUresult(*)(CUstream, CUstreamCaptureMode)) dlsym(cuda_handle, "cuStreamBeginCapture");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hStream, mode);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2851,27 +3230,27 @@ CUresult cuStreamBeginCapture(CUstream hStream, CUstreamCaptureMode mode) {
 CUresult cuStreamCopyAttributes(CUstream dst, CUstream src) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamCopyAttributes");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUstream) = (CUresult(*)(CUstream, CUstream))dlsym(cuda_handle, "cuStreamCopyAttributes");
+    CUresult (*hookFunc)(CUstream, CUstream) = (CUresult(*)(CUstream, CUstream)) dlsym(cuda_handle, "cuStreamCopyAttributes");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(dst, src);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuStreamCreate(CUstream *phStream, unsigned int Flags) {
+CUresult cuStreamCreate(CUstream * phStream, unsigned int Flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamCreate");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream *, unsigned int) = (CUresult(*)(CUstream *, unsigned int))dlsym(cuda_handle, "cuStreamCreate");
+    CUresult (*hookFunc)(CUstream *, unsigned int) = (CUresult(*)(CUstream *, unsigned int)) dlsym(cuda_handle, "cuStreamCreate");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phStream, Flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuStreamCreateWithPriority(CUstream *phStream, unsigned int flags, int priority) {
+CUresult cuStreamCreateWithPriority(CUstream * phStream, unsigned int flags, int priority) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamCreateWithPriority");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream *, unsigned int, int) = (CUresult(*)(CUstream *, unsigned int, int))dlsym(cuda_handle, "cuStreamCreateWithPriority");
+    CUresult (*hookFunc)(CUstream *, unsigned int, int) = (CUresult(*)(CUstream *, unsigned int, int)) dlsym(cuda_handle, "cuStreamCreateWithPriority");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phStream, flags, priority);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2881,87 +3260,97 @@ CUresult cuStreamCreateWithPriority(CUstream *phStream, unsigned int flags, int 
 CUresult cuStreamDestroy(CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamDestroy");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream) = (CUresult(*)(CUstream))dlsym(cuda_handle, "cuStreamDestroy");
+    CUresult (*hookFunc)(CUstream) = (CUresult(*)(CUstream)) dlsym(cuda_handle, "cuStreamDestroy");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hStream);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuStreamEndCapture(CUstream hStream, CUgraph *phGraph) {
+CUresult cuStreamDestroy_v2(CUstream hStream) {
+    HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamDestroy_v2");
+    void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
+    CUresult (*hookFunc)(CUstream) = (CUresult(*)(CUstream)) dlsym(cuda_handle, "cuStreamDestroy_v2");
+    HOOK_CHECK(hookFunc);
+    CUresult rs = hookFunc(hStream);
+    cudaTimeProfileDestroy(pprof, rs);
+    return rs;
+}
+
+CUresult cuStreamEndCapture(CUstream hStream, CUgraph * phGraph) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamEndCapture");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUgraph *) = (CUresult(*)(CUstream, CUgraph *))dlsym(cuda_handle, "cuStreamEndCapture");
+    CUresult (*hookFunc)(CUstream, CUgraph *) = (CUresult(*)(CUstream, CUgraph *)) dlsym(cuda_handle, "cuStreamEndCapture");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hStream, phGraph);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuStreamGetAttribute(CUstream hStream, CUstreamAttrID attr, CUstreamAttrValue *value_out) {
+CUresult cuStreamGetAttribute(CUstream hStream, CUstreamAttrID attr, CUstreamAttrValue * value_out) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamGetAttribute");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUstreamAttrID, CUstreamAttrValue *) = (CUresult(*)(CUstream, CUstreamAttrID, CUstreamAttrValue *))dlsym(cuda_handle, "cuStreamGetAttribute");
+    CUresult (*hookFunc)(CUstream, CUstreamAttrID, CUstreamAttrValue *) = (CUresult(*)(CUstream, CUstreamAttrID, CUstreamAttrValue *)) dlsym(cuda_handle, "cuStreamGetAttribute");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hStream, attr, value_out);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuStreamGetCaptureInfo(CUstream hStream, CUstreamCaptureStatus *captureStatus_out, cuuint64_t *id_out) {
+CUresult cuStreamGetCaptureInfo(CUstream hStream, CUstreamCaptureStatus * captureStatus_out, cuuint64_t * id_out) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamGetCaptureInfo");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUstreamCaptureStatus *, cuuint64_t *) = (CUresult(*)(CUstream, CUstreamCaptureStatus *, cuuint64_t *))dlsym(cuda_handle, "cuStreamGetCaptureInfo");
+    CUresult (*hookFunc)(CUstream, CUstreamCaptureStatus *, cuuint64_t *) = (CUresult(*)(CUstream, CUstreamCaptureStatus *, cuuint64_t *)) dlsym(cuda_handle, "cuStreamGetCaptureInfo");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hStream, captureStatus_out, id_out);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuStreamGetCaptureInfo_v2(CUstream hStream, CUstreamCaptureStatus *captureStatus_out, cuuint64_t *id_out, CUgraph *graph_out, const CUgraphNode **dependencies_out, size_t *numDependencies_out) {
+CUresult cuStreamGetCaptureInfo_v2(CUstream hStream, CUstreamCaptureStatus * captureStatus_out, cuuint64_t * id_out, CUgraph * graph_out, const CUgraphNode * * dependencies_out, size_t * numDependencies_out) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamGetCaptureInfo_v2");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUstreamCaptureStatus *, cuuint64_t *, CUgraph *, const CUgraphNode **, size_t *) = (CUresult(*)(CUstream, CUstreamCaptureStatus *, cuuint64_t *, CUgraph *, const CUgraphNode **, size_t *))dlsym(cuda_handle, "cuStreamGetCaptureInfo_v2");
+    CUresult (*hookFunc)(CUstream, CUstreamCaptureStatus *, cuuint64_t *, CUgraph *, const CUgraphNode * *, size_t *) = (CUresult(*)(CUstream, CUstreamCaptureStatus *, cuuint64_t *, CUgraph *, const CUgraphNode * *, size_t *)) dlsym(cuda_handle, "cuStreamGetCaptureInfo_v2");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hStream, captureStatus_out, id_out, graph_out, dependencies_out, numDependencies_out);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuStreamGetCtx(CUstream hStream, CUcontext *pctx) {
+CUresult cuStreamGetCtx(CUstream hStream, CUcontext * pctx) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamGetCtx");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUcontext *) = (CUresult(*)(CUstream, CUcontext *))dlsym(cuda_handle, "cuStreamGetCtx");
+    CUresult (*hookFunc)(CUstream, CUcontext *) = (CUresult(*)(CUstream, CUcontext *)) dlsym(cuda_handle, "cuStreamGetCtx");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hStream, pctx);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuStreamGetFlags(CUstream hStream, unsigned int *flags) {
+CUresult cuStreamGetFlags(CUstream hStream, unsigned int * flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamGetFlags");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, unsigned int *) = (CUresult(*)(CUstream, unsigned int *))dlsym(cuda_handle, "cuStreamGetFlags");
+    CUresult (*hookFunc)(CUstream, unsigned int *) = (CUresult(*)(CUstream, unsigned int *)) dlsym(cuda_handle, "cuStreamGetFlags");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hStream, flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuStreamGetPriority(CUstream hStream, int *priority) {
+CUresult cuStreamGetPriority(CUstream hStream, int * priority) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamGetPriority");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, int *) = (CUresult(*)(CUstream, int *))dlsym(cuda_handle, "cuStreamGetPriority");
+    CUresult (*hookFunc)(CUstream, int *) = (CUresult(*)(CUstream, int *)) dlsym(cuda_handle, "cuStreamGetPriority");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hStream, priority);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuStreamIsCapturing(CUstream hStream, CUstreamCaptureStatus *captureStatus) {
+CUresult cuStreamIsCapturing(CUstream hStream, CUstreamCaptureStatus * captureStatus) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamIsCapturing");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUstreamCaptureStatus *) = (CUresult(*)(CUstream, CUstreamCaptureStatus *))dlsym(cuda_handle, "cuStreamIsCapturing");
+    CUresult (*hookFunc)(CUstream, CUstreamCaptureStatus *) = (CUresult(*)(CUstream, CUstreamCaptureStatus *)) dlsym(cuda_handle, "cuStreamIsCapturing");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hStream, captureStatus);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2971,17 +3360,17 @@ CUresult cuStreamIsCapturing(CUstream hStream, CUstreamCaptureStatus *captureSta
 CUresult cuStreamQuery(CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamQuery");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream) = (CUresult(*)(CUstream))dlsym(cuda_handle, "cuStreamQuery");
+    CUresult (*hookFunc)(CUstream) = (CUresult(*)(CUstream)) dlsym(cuda_handle, "cuStreamQuery");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hStream);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuStreamSetAttribute(CUstream hStream, CUstreamAttrID attr, const CUstreamAttrValue *value) {
+CUresult cuStreamSetAttribute(CUstream hStream, CUstreamAttrID attr, const CUstreamAttrValue * value) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamSetAttribute");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUstreamAttrID, const CUstreamAttrValue *) = (CUresult(*)(CUstream, CUstreamAttrID, const CUstreamAttrValue *))dlsym(cuda_handle, "cuStreamSetAttribute");
+    CUresult (*hookFunc)(CUstream, CUstreamAttrID, const CUstreamAttrValue *) = (CUresult(*)(CUstream, CUstreamAttrID, const CUstreamAttrValue *)) dlsym(cuda_handle, "cuStreamSetAttribute");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hStream, attr, value);
     cudaTimeProfileDestroy(pprof, rs);
@@ -2991,17 +3380,17 @@ CUresult cuStreamSetAttribute(CUstream hStream, CUstreamAttrID attr, const CUstr
 CUresult cuStreamSynchronize(CUstream hStream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamSynchronize");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream) = (CUresult(*)(CUstream))dlsym(cuda_handle, "cuStreamSynchronize");
+    CUresult (*hookFunc)(CUstream) = (CUresult(*)(CUstream)) dlsym(cuda_handle, "cuStreamSynchronize");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hStream);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuStreamUpdateCaptureDependencies(CUstream hStream, CUgraphNode *dependencies, size_t numDependencies, unsigned int flags) {
+CUresult cuStreamUpdateCaptureDependencies(CUstream hStream, CUgraphNode * dependencies, size_t numDependencies, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamUpdateCaptureDependencies");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUgraphNode *, size_t, unsigned int) = (CUresult(*)(CUstream, CUgraphNode *, size_t, unsigned int))dlsym(cuda_handle, "cuStreamUpdateCaptureDependencies");
+    CUresult (*hookFunc)(CUstream, CUgraphNode *, size_t, unsigned int) = (CUresult(*)(CUstream, CUgraphNode *, size_t, unsigned int)) dlsym(cuda_handle, "cuStreamUpdateCaptureDependencies");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hStream, dependencies, numDependencies, flags);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3011,7 +3400,7 @@ CUresult cuStreamUpdateCaptureDependencies(CUstream hStream, CUgraphNode *depend
 CUresult cuStreamWaitEvent(CUstream hStream, CUevent hEvent, unsigned int Flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamWaitEvent");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUevent, unsigned int) = (CUresult(*)(CUstream, CUevent, unsigned int))dlsym(cuda_handle, "cuStreamWaitEvent");
+    CUresult (*hookFunc)(CUstream, CUevent, unsigned int) = (CUresult(*)(CUstream, CUevent, unsigned int)) dlsym(cuda_handle, "cuStreamWaitEvent");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hStream, hEvent, Flags);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3021,7 +3410,7 @@ CUresult cuStreamWaitEvent(CUstream hStream, CUevent hEvent, unsigned int Flags)
 CUresult cuStreamWaitValue32(CUstream stream, CUdeviceptr addr, cuuint32_t value, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamWaitValue32");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUdeviceptr, cuuint32_t, unsigned int) = (CUresult(*)(CUstream, CUdeviceptr, cuuint32_t, unsigned int))dlsym(cuda_handle, "cuStreamWaitValue32");
+    CUresult (*hookFunc)(CUstream, CUdeviceptr, cuuint32_t, unsigned int) = (CUresult(*)(CUstream, CUdeviceptr, cuuint32_t, unsigned int)) dlsym(cuda_handle, "cuStreamWaitValue32");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(stream, addr, value, flags);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3031,7 +3420,7 @@ CUresult cuStreamWaitValue32(CUstream stream, CUdeviceptr addr, cuuint32_t value
 CUresult cuStreamWaitValue32_v2(CUstream stream, CUdeviceptr addr, cuuint32_t value, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamWaitValue32_v2");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUdeviceptr, cuuint32_t, unsigned int) = (CUresult(*)(CUstream, CUdeviceptr, cuuint32_t, unsigned int))dlsym(cuda_handle, "cuStreamWaitValue32_v2");
+    CUresult (*hookFunc)(CUstream, CUdeviceptr, cuuint32_t, unsigned int) = (CUresult(*)(CUstream, CUdeviceptr, cuuint32_t, unsigned int)) dlsym(cuda_handle, "cuStreamWaitValue32_v2");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(stream, addr, value, flags);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3041,7 +3430,7 @@ CUresult cuStreamWaitValue32_v2(CUstream stream, CUdeviceptr addr, cuuint32_t va
 CUresult cuStreamWaitValue64(CUstream stream, CUdeviceptr addr, cuuint64_t value, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamWaitValue64");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUdeviceptr, cuuint64_t, unsigned int) = (CUresult(*)(CUstream, CUdeviceptr, cuuint64_t, unsigned int))dlsym(cuda_handle, "cuStreamWaitValue64");
+    CUresult (*hookFunc)(CUstream, CUdeviceptr, cuuint64_t, unsigned int) = (CUresult(*)(CUstream, CUdeviceptr, cuuint64_t, unsigned int)) dlsym(cuda_handle, "cuStreamWaitValue64");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(stream, addr, value, flags);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3051,7 +3440,7 @@ CUresult cuStreamWaitValue64(CUstream stream, CUdeviceptr addr, cuuint64_t value
 CUresult cuStreamWaitValue64_v2(CUstream stream, CUdeviceptr addr, cuuint64_t value, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamWaitValue64_v2");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUdeviceptr, cuuint64_t, unsigned int) = (CUresult(*)(CUstream, CUdeviceptr, cuuint64_t, unsigned int))dlsym(cuda_handle, "cuStreamWaitValue64_v2");
+    CUresult (*hookFunc)(CUstream, CUdeviceptr, cuuint64_t, unsigned int) = (CUresult(*)(CUstream, CUdeviceptr, cuuint64_t, unsigned int)) dlsym(cuda_handle, "cuStreamWaitValue64_v2");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(stream, addr, value, flags);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3061,7 +3450,7 @@ CUresult cuStreamWaitValue64_v2(CUstream stream, CUdeviceptr addr, cuuint64_t va
 CUresult cuStreamWriteValue32(CUstream stream, CUdeviceptr addr, cuuint32_t value, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamWriteValue32");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUdeviceptr, cuuint32_t, unsigned int) = (CUresult(*)(CUstream, CUdeviceptr, cuuint32_t, unsigned int))dlsym(cuda_handle, "cuStreamWriteValue32");
+    CUresult (*hookFunc)(CUstream, CUdeviceptr, cuuint32_t, unsigned int) = (CUresult(*)(CUstream, CUdeviceptr, cuuint32_t, unsigned int)) dlsym(cuda_handle, "cuStreamWriteValue32");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(stream, addr, value, flags);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3071,7 +3460,7 @@ CUresult cuStreamWriteValue32(CUstream stream, CUdeviceptr addr, cuuint32_t valu
 CUresult cuStreamWriteValue32_v2(CUstream stream, CUdeviceptr addr, cuuint32_t value, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamWriteValue32_v2");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUdeviceptr, cuuint32_t, unsigned int) = (CUresult(*)(CUstream, CUdeviceptr, cuuint32_t, unsigned int))dlsym(cuda_handle, "cuStreamWriteValue32_v2");
+    CUresult (*hookFunc)(CUstream, CUdeviceptr, cuuint32_t, unsigned int) = (CUresult(*)(CUstream, CUdeviceptr, cuuint32_t, unsigned int)) dlsym(cuda_handle, "cuStreamWriteValue32_v2");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(stream, addr, value, flags);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3081,7 +3470,7 @@ CUresult cuStreamWriteValue32_v2(CUstream stream, CUdeviceptr addr, cuuint32_t v
 CUresult cuStreamWriteValue64(CUstream stream, CUdeviceptr addr, cuuint64_t value, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamWriteValue64");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUdeviceptr, cuuint64_t, unsigned int) = (CUresult(*)(CUstream, CUdeviceptr, cuuint64_t, unsigned int))dlsym(cuda_handle, "cuStreamWriteValue64");
+    CUresult (*hookFunc)(CUstream, CUdeviceptr, cuuint64_t, unsigned int) = (CUresult(*)(CUstream, CUdeviceptr, cuuint64_t, unsigned int)) dlsym(cuda_handle, "cuStreamWriteValue64");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(stream, addr, value, flags);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3091,17 +3480,17 @@ CUresult cuStreamWriteValue64(CUstream stream, CUdeviceptr addr, cuuint64_t valu
 CUresult cuStreamWriteValue64_v2(CUstream stream, CUdeviceptr addr, cuuint64_t value, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuStreamWriteValue64_v2");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstream, CUdeviceptr, cuuint64_t, unsigned int) = (CUresult(*)(CUstream, CUdeviceptr, cuuint64_t, unsigned int))dlsym(cuda_handle, "cuStreamWriteValue64_v2");
+    CUresult (*hookFunc)(CUstream, CUdeviceptr, cuuint64_t, unsigned int) = (CUresult(*)(CUstream, CUdeviceptr, cuuint64_t, unsigned int)) dlsym(cuda_handle, "cuStreamWriteValue64_v2");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(stream, addr, value, flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuSurfObjectCreate(CUsurfObject *pSurfObject, const CUDA_RESOURCE_DESC *pResDesc) {
+CUresult cuSurfObjectCreate(CUsurfObject * pSurfObject, const CUDA_RESOURCE_DESC * pResDesc) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuSurfObjectCreate");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUsurfObject *, const CUDA_RESOURCE_DESC *) = (CUresult(*)(CUsurfObject *, const CUDA_RESOURCE_DESC *))dlsym(cuda_handle, "cuSurfObjectCreate");
+    CUresult (*hookFunc)(CUsurfObject *, const CUDA_RESOURCE_DESC *) = (CUresult(*)(CUsurfObject *, const CUDA_RESOURCE_DESC *)) dlsym(cuda_handle, "cuSurfObjectCreate");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pSurfObject, pResDesc);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3111,27 +3500,27 @@ CUresult cuSurfObjectCreate(CUsurfObject *pSurfObject, const CUDA_RESOURCE_DESC 
 CUresult cuSurfObjectDestroy(CUsurfObject surfObject) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuSurfObjectDestroy");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUsurfObject) = (CUresult(*)(CUsurfObject))dlsym(cuda_handle, "cuSurfObjectDestroy");
+    CUresult (*hookFunc)(CUsurfObject) = (CUresult(*)(CUsurfObject)) dlsym(cuda_handle, "cuSurfObjectDestroy");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(surfObject);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuSurfObjectGetResourceDesc(CUDA_RESOURCE_DESC *pResDesc, CUsurfObject surfObject) {
+CUresult cuSurfObjectGetResourceDesc(CUDA_RESOURCE_DESC * pResDesc, CUsurfObject surfObject) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuSurfObjectGetResourceDesc");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUDA_RESOURCE_DESC *, CUsurfObject) = (CUresult(*)(CUDA_RESOURCE_DESC *, CUsurfObject))dlsym(cuda_handle, "cuSurfObjectGetResourceDesc");
+    CUresult (*hookFunc)(CUDA_RESOURCE_DESC *, CUsurfObject) = (CUresult(*)(CUDA_RESOURCE_DESC *, CUsurfObject)) dlsym(cuda_handle, "cuSurfObjectGetResourceDesc");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pResDesc, surfObject);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuSurfRefGetArray(CUarray *phArray, CUsurfref hSurfRef) {
+CUresult cuSurfRefGetArray(CUarray * phArray, CUsurfref hSurfRef) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuSurfRefGetArray");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUarray *, CUsurfref) = (CUresult(*)(CUarray *, CUsurfref))dlsym(cuda_handle, "cuSurfRefGetArray");
+    CUresult (*hookFunc)(CUarray *, CUsurfref) = (CUresult(*)(CUarray *, CUsurfref)) dlsym(cuda_handle, "cuSurfRefGetArray");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phArray, hSurfRef);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3141,17 +3530,17 @@ CUresult cuSurfRefGetArray(CUarray *phArray, CUsurfref hSurfRef) {
 CUresult cuSurfRefSetArray(CUsurfref hSurfRef, CUarray hArray, unsigned int Flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuSurfRefSetArray");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUsurfref, CUarray, unsigned int) = (CUresult(*)(CUsurfref, CUarray, unsigned int))dlsym(cuda_handle, "cuSurfRefSetArray");
+    CUresult (*hookFunc)(CUsurfref, CUarray, unsigned int) = (CUresult(*)(CUsurfref, CUarray, unsigned int)) dlsym(cuda_handle, "cuSurfRefSetArray");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hSurfRef, hArray, Flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuTexObjectCreate(CUtexObject *pTexObject, const CUDA_RESOURCE_DESC *pResDesc, const CUDA_TEXTURE_DESC *pTexDesc, const CUDA_RESOURCE_VIEW_DESC *pResViewDesc) {
+CUresult cuTexObjectCreate(CUtexObject * pTexObject, const CUDA_RESOURCE_DESC * pResDesc, const CUDA_TEXTURE_DESC * pTexDesc, const CUDA_RESOURCE_VIEW_DESC * pResViewDesc) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexObjectCreate");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUtexObject *, const CUDA_RESOURCE_DESC *, const CUDA_TEXTURE_DESC *, const CUDA_RESOURCE_VIEW_DESC *) = (CUresult(*)(CUtexObject *, const CUDA_RESOURCE_DESC *, const CUDA_TEXTURE_DESC *, const CUDA_RESOURCE_VIEW_DESC *))dlsym(cuda_handle, "cuTexObjectCreate");
+    CUresult (*hookFunc)(CUtexObject *, const CUDA_RESOURCE_DESC *, const CUDA_TEXTURE_DESC *, const CUDA_RESOURCE_VIEW_DESC *) = (CUresult(*)(CUtexObject *, const CUDA_RESOURCE_DESC *, const CUDA_TEXTURE_DESC *, const CUDA_RESOURCE_VIEW_DESC *)) dlsym(cuda_handle, "cuTexObjectCreate");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pTexObject, pResDesc, pTexDesc, pResViewDesc);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3161,47 +3550,47 @@ CUresult cuTexObjectCreate(CUtexObject *pTexObject, const CUDA_RESOURCE_DESC *pR
 CUresult cuTexObjectDestroy(CUtexObject texObject) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexObjectDestroy");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUtexObject) = (CUresult(*)(CUtexObject))dlsym(cuda_handle, "cuTexObjectDestroy");
+    CUresult (*hookFunc)(CUtexObject) = (CUresult(*)(CUtexObject)) dlsym(cuda_handle, "cuTexObjectDestroy");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(texObject);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuTexObjectGetResourceDesc(CUDA_RESOURCE_DESC *pResDesc, CUtexObject texObject) {
+CUresult cuTexObjectGetResourceDesc(CUDA_RESOURCE_DESC * pResDesc, CUtexObject texObject) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexObjectGetResourceDesc");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUDA_RESOURCE_DESC *, CUtexObject) = (CUresult(*)(CUDA_RESOURCE_DESC *, CUtexObject))dlsym(cuda_handle, "cuTexObjectGetResourceDesc");
+    CUresult (*hookFunc)(CUDA_RESOURCE_DESC *, CUtexObject) = (CUresult(*)(CUDA_RESOURCE_DESC *, CUtexObject)) dlsym(cuda_handle, "cuTexObjectGetResourceDesc");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pResDesc, texObject);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuTexObjectGetResourceViewDesc(CUDA_RESOURCE_VIEW_DESC *pResViewDesc, CUtexObject texObject) {
+CUresult cuTexObjectGetResourceViewDesc(CUDA_RESOURCE_VIEW_DESC * pResViewDesc, CUtexObject texObject) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexObjectGetResourceViewDesc");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUDA_RESOURCE_VIEW_DESC *, CUtexObject) = (CUresult(*)(CUDA_RESOURCE_VIEW_DESC *, CUtexObject))dlsym(cuda_handle, "cuTexObjectGetResourceViewDesc");
+    CUresult (*hookFunc)(CUDA_RESOURCE_VIEW_DESC *, CUtexObject) = (CUresult(*)(CUDA_RESOURCE_VIEW_DESC *, CUtexObject)) dlsym(cuda_handle, "cuTexObjectGetResourceViewDesc");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pResViewDesc, texObject);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuTexObjectGetTextureDesc(CUDA_TEXTURE_DESC *pTexDesc, CUtexObject texObject) {
+CUresult cuTexObjectGetTextureDesc(CUDA_TEXTURE_DESC * pTexDesc, CUtexObject texObject) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexObjectGetTextureDesc");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUDA_TEXTURE_DESC *, CUtexObject) = (CUresult(*)(CUDA_TEXTURE_DESC *, CUtexObject))dlsym(cuda_handle, "cuTexObjectGetTextureDesc");
+    CUresult (*hookFunc)(CUDA_TEXTURE_DESC *, CUtexObject) = (CUresult(*)(CUDA_TEXTURE_DESC *, CUtexObject)) dlsym(cuda_handle, "cuTexObjectGetTextureDesc");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pTexDesc, texObject);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuTexRefCreate(CUtexref *pTexRef) {
+CUresult cuTexRefCreate(CUtexref * pTexRef) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefCreate");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUtexref *) = (CUresult(*)(CUtexref *))dlsym(cuda_handle, "cuTexRefCreate");
+    CUresult (*hookFunc)(CUtexref *) = (CUresult(*)(CUtexref *)) dlsym(cuda_handle, "cuTexRefCreate");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pTexRef);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3211,147 +3600,147 @@ CUresult cuTexRefCreate(CUtexref *pTexRef) {
 CUresult cuTexRefDestroy(CUtexref hTexRef) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefDestroy");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUtexref) = (CUresult(*)(CUtexref))dlsym(cuda_handle, "cuTexRefDestroy");
+    CUresult (*hookFunc)(CUtexref) = (CUresult(*)(CUtexref)) dlsym(cuda_handle, "cuTexRefDestroy");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hTexRef);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuTexRefGetAddress(CUdeviceptr *pdptr, CUtexref hTexRef) {
+CUresult cuTexRefGetAddress(CUdeviceptr * pdptr, CUtexref hTexRef) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefGetAddress");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUdeviceptr *, CUtexref) = (CUresult(*)(CUdeviceptr *, CUtexref))dlsym(cuda_handle, "cuTexRefGetAddress");
+    CUresult (*hookFunc)(CUdeviceptr *, CUtexref) = (CUresult(*)(CUdeviceptr *, CUtexref)) dlsym(cuda_handle, "cuTexRefGetAddress");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pdptr, hTexRef);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuTexRefGetAddressMode(CUaddress_mode *pam, CUtexref hTexRef, int dim) {
+CUresult cuTexRefGetAddressMode(CUaddress_mode * pam, CUtexref hTexRef, int dim) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefGetAddressMode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUaddress_mode *, CUtexref, int) = (CUresult(*)(CUaddress_mode *, CUtexref, int))dlsym(cuda_handle, "cuTexRefGetAddressMode");
+    CUresult (*hookFunc)(CUaddress_mode *, CUtexref, int) = (CUresult(*)(CUaddress_mode *, CUtexref, int)) dlsym(cuda_handle, "cuTexRefGetAddressMode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pam, hTexRef, dim);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuTexRefGetArray(CUarray *phArray, CUtexref hTexRef) {
+CUresult cuTexRefGetArray(CUarray * phArray, CUtexref hTexRef) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefGetArray");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUarray *, CUtexref) = (CUresult(*)(CUarray *, CUtexref))dlsym(cuda_handle, "cuTexRefGetArray");
+    CUresult (*hookFunc)(CUarray *, CUtexref) = (CUresult(*)(CUarray *, CUtexref)) dlsym(cuda_handle, "cuTexRefGetArray");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phArray, hTexRef);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuTexRefGetBorderColor(float *pBorderColor, CUtexref hTexRef) {
+CUresult cuTexRefGetBorderColor(float * pBorderColor, CUtexref hTexRef) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefGetBorderColor");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(float *, CUtexref) = (CUresult(*)(float *, CUtexref))dlsym(cuda_handle, "cuTexRefGetBorderColor");
+    CUresult (*hookFunc)(float *, CUtexref) = (CUresult(*)(float *, CUtexref)) dlsym(cuda_handle, "cuTexRefGetBorderColor");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pBorderColor, hTexRef);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuTexRefGetFilterMode(CUfilter_mode *pfm, CUtexref hTexRef) {
+CUresult cuTexRefGetFilterMode(CUfilter_mode * pfm, CUtexref hTexRef) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefGetFilterMode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUfilter_mode *, CUtexref) = (CUresult(*)(CUfilter_mode *, CUtexref))dlsym(cuda_handle, "cuTexRefGetFilterMode");
+    CUresult (*hookFunc)(CUfilter_mode *, CUtexref) = (CUresult(*)(CUfilter_mode *, CUtexref)) dlsym(cuda_handle, "cuTexRefGetFilterMode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pfm, hTexRef);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuTexRefGetFlags(unsigned int *pFlags, CUtexref hTexRef) {
+CUresult cuTexRefGetFlags(unsigned int * pFlags, CUtexref hTexRef) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefGetFlags");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(unsigned int *, CUtexref) = (CUresult(*)(unsigned int *, CUtexref))dlsym(cuda_handle, "cuTexRefGetFlags");
+    CUresult (*hookFunc)(unsigned int *, CUtexref) = (CUresult(*)(unsigned int *, CUtexref)) dlsym(cuda_handle, "cuTexRefGetFlags");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pFlags, hTexRef);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuTexRefGetFormat(CUarray_format *pFormat, int *pNumChannels, CUtexref hTexRef) {
+CUresult cuTexRefGetFormat(CUarray_format * pFormat, int * pNumChannels, CUtexref hTexRef) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefGetFormat");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUarray_format *, int *, CUtexref) = (CUresult(*)(CUarray_format *, int *, CUtexref))dlsym(cuda_handle, "cuTexRefGetFormat");
+    CUresult (*hookFunc)(CUarray_format *, int *, CUtexref) = (CUresult(*)(CUarray_format *, int *, CUtexref)) dlsym(cuda_handle, "cuTexRefGetFormat");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pFormat, pNumChannels, hTexRef);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuTexRefGetMaxAnisotropy(int *pmaxAniso, CUtexref hTexRef) {
+CUresult cuTexRefGetMaxAnisotropy(int * pmaxAniso, CUtexref hTexRef) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefGetMaxAnisotropy");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(int *, CUtexref) = (CUresult(*)(int *, CUtexref))dlsym(cuda_handle, "cuTexRefGetMaxAnisotropy");
+    CUresult (*hookFunc)(int *, CUtexref) = (CUresult(*)(int *, CUtexref)) dlsym(cuda_handle, "cuTexRefGetMaxAnisotropy");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pmaxAniso, hTexRef);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuTexRefGetMipmapFilterMode(CUfilter_mode *pfm, CUtexref hTexRef) {
+CUresult cuTexRefGetMipmapFilterMode(CUfilter_mode * pfm, CUtexref hTexRef) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefGetMipmapFilterMode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUfilter_mode *, CUtexref) = (CUresult(*)(CUfilter_mode *, CUtexref))dlsym(cuda_handle, "cuTexRefGetMipmapFilterMode");
+    CUresult (*hookFunc)(CUfilter_mode *, CUtexref) = (CUresult(*)(CUfilter_mode *, CUtexref)) dlsym(cuda_handle, "cuTexRefGetMipmapFilterMode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pfm, hTexRef);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuTexRefGetMipmapLevelBias(float *pbias, CUtexref hTexRef) {
+CUresult cuTexRefGetMipmapLevelBias(float * pbias, CUtexref hTexRef) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefGetMipmapLevelBias");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(float *, CUtexref) = (CUresult(*)(float *, CUtexref))dlsym(cuda_handle, "cuTexRefGetMipmapLevelBias");
+    CUresult (*hookFunc)(float *, CUtexref) = (CUresult(*)(float *, CUtexref)) dlsym(cuda_handle, "cuTexRefGetMipmapLevelBias");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pbias, hTexRef);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuTexRefGetMipmapLevelClamp(float *pminMipmapLevelClamp, float *pmaxMipmapLevelClamp, CUtexref hTexRef) {
+CUresult cuTexRefGetMipmapLevelClamp(float * pminMipmapLevelClamp, float * pmaxMipmapLevelClamp, CUtexref hTexRef) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefGetMipmapLevelClamp");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(float *, float *, CUtexref) = (CUresult(*)(float *, float *, CUtexref))dlsym(cuda_handle, "cuTexRefGetMipmapLevelClamp");
+    CUresult (*hookFunc)(float *, float *, CUtexref) = (CUresult(*)(float *, float *, CUtexref)) dlsym(cuda_handle, "cuTexRefGetMipmapLevelClamp");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(pminMipmapLevelClamp, pmaxMipmapLevelClamp, hTexRef);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuTexRefGetMipmappedArray(CUmipmappedArray *phMipmappedArray, CUtexref hTexRef) {
+CUresult cuTexRefGetMipmappedArray(CUmipmappedArray * phMipmappedArray, CUtexref hTexRef) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefGetMipmappedArray");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUmipmappedArray *, CUtexref) = (CUresult(*)(CUmipmappedArray *, CUtexref))dlsym(cuda_handle, "cuTexRefGetMipmappedArray");
+    CUresult (*hookFunc)(CUmipmappedArray *, CUtexref) = (CUresult(*)(CUmipmappedArray *, CUtexref)) dlsym(cuda_handle, "cuTexRefGetMipmappedArray");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(phMipmappedArray, hTexRef);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuTexRefSetAddress(size_t *ByteOffset, CUtexref hTexRef, CUdeviceptr dptr, size_t bytes) {
+CUresult cuTexRefSetAddress(size_t * ByteOffset, CUtexref hTexRef, CUdeviceptr dptr, size_t bytes) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefSetAddress");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(size_t *, CUtexref, CUdeviceptr, size_t) = (CUresult(*)(size_t *, CUtexref, CUdeviceptr, size_t))dlsym(cuda_handle, "cuTexRefSetAddress");
+    CUresult (*hookFunc)(size_t *, CUtexref, CUdeviceptr, size_t) = (CUresult(*)(size_t *, CUtexref, CUdeviceptr, size_t)) dlsym(cuda_handle, "cuTexRefSetAddress");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(ByteOffset, hTexRef, dptr, bytes);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuTexRefSetAddress2D(CUtexref hTexRef, const CUDA_ARRAY_DESCRIPTOR *desc, CUdeviceptr dptr, size_t Pitch) {
+CUresult cuTexRefSetAddress2D(CUtexref hTexRef, const CUDA_ARRAY_DESCRIPTOR * desc, CUdeviceptr dptr, size_t Pitch) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefSetAddress2D");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUtexref, const CUDA_ARRAY_DESCRIPTOR *, CUdeviceptr, size_t) = (CUresult(*)(CUtexref, const CUDA_ARRAY_DESCRIPTOR *, CUdeviceptr, size_t))dlsym(cuda_handle, "cuTexRefSetAddress2D");
+    CUresult (*hookFunc)(CUtexref, const CUDA_ARRAY_DESCRIPTOR *, CUdeviceptr, size_t) = (CUresult(*)(CUtexref, const CUDA_ARRAY_DESCRIPTOR *, CUdeviceptr, size_t)) dlsym(cuda_handle, "cuTexRefSetAddress2D");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hTexRef, desc, dptr, Pitch);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3361,7 +3750,7 @@ CUresult cuTexRefSetAddress2D(CUtexref hTexRef, const CUDA_ARRAY_DESCRIPTOR *des
 CUresult cuTexRefSetAddressMode(CUtexref hTexRef, int dim, CUaddress_mode am) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefSetAddressMode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUtexref, int, CUaddress_mode) = (CUresult(*)(CUtexref, int, CUaddress_mode))dlsym(cuda_handle, "cuTexRefSetAddressMode");
+    CUresult (*hookFunc)(CUtexref, int, CUaddress_mode) = (CUresult(*)(CUtexref, int, CUaddress_mode)) dlsym(cuda_handle, "cuTexRefSetAddressMode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hTexRef, dim, am);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3371,17 +3760,17 @@ CUresult cuTexRefSetAddressMode(CUtexref hTexRef, int dim, CUaddress_mode am) {
 CUresult cuTexRefSetArray(CUtexref hTexRef, CUarray hArray, unsigned int Flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefSetArray");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUtexref, CUarray, unsigned int) = (CUresult(*)(CUtexref, CUarray, unsigned int))dlsym(cuda_handle, "cuTexRefSetArray");
+    CUresult (*hookFunc)(CUtexref, CUarray, unsigned int) = (CUresult(*)(CUtexref, CUarray, unsigned int)) dlsym(cuda_handle, "cuTexRefSetArray");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hTexRef, hArray, Flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuTexRefSetBorderColor(CUtexref hTexRef, float *pBorderColor) {
+CUresult cuTexRefSetBorderColor(CUtexref hTexRef, float * pBorderColor) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefSetBorderColor");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUtexref, float *) = (CUresult(*)(CUtexref, float *))dlsym(cuda_handle, "cuTexRefSetBorderColor");
+    CUresult (*hookFunc)(CUtexref, float *) = (CUresult(*)(CUtexref, float *)) dlsym(cuda_handle, "cuTexRefSetBorderColor");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hTexRef, pBorderColor);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3391,7 +3780,7 @@ CUresult cuTexRefSetBorderColor(CUtexref hTexRef, float *pBorderColor) {
 CUresult cuTexRefSetFilterMode(CUtexref hTexRef, CUfilter_mode fm) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefSetFilterMode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUtexref, CUfilter_mode) = (CUresult(*)(CUtexref, CUfilter_mode))dlsym(cuda_handle, "cuTexRefSetFilterMode");
+    CUresult (*hookFunc)(CUtexref, CUfilter_mode) = (CUresult(*)(CUtexref, CUfilter_mode)) dlsym(cuda_handle, "cuTexRefSetFilterMode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hTexRef, fm);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3401,7 +3790,7 @@ CUresult cuTexRefSetFilterMode(CUtexref hTexRef, CUfilter_mode fm) {
 CUresult cuTexRefSetFlags(CUtexref hTexRef, unsigned int Flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefSetFlags");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUtexref, unsigned int) = (CUresult(*)(CUtexref, unsigned int))dlsym(cuda_handle, "cuTexRefSetFlags");
+    CUresult (*hookFunc)(CUtexref, unsigned int) = (CUresult(*)(CUtexref, unsigned int)) dlsym(cuda_handle, "cuTexRefSetFlags");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hTexRef, Flags);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3411,7 +3800,7 @@ CUresult cuTexRefSetFlags(CUtexref hTexRef, unsigned int Flags) {
 CUresult cuTexRefSetFormat(CUtexref hTexRef, CUarray_format fmt, int NumPackedComponents) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefSetFormat");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUtexref, CUarray_format, int) = (CUresult(*)(CUtexref, CUarray_format, int))dlsym(cuda_handle, "cuTexRefSetFormat");
+    CUresult (*hookFunc)(CUtexref, CUarray_format, int) = (CUresult(*)(CUtexref, CUarray_format, int)) dlsym(cuda_handle, "cuTexRefSetFormat");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hTexRef, fmt, NumPackedComponents);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3421,7 +3810,7 @@ CUresult cuTexRefSetFormat(CUtexref hTexRef, CUarray_format fmt, int NumPackedCo
 CUresult cuTexRefSetMaxAnisotropy(CUtexref hTexRef, unsigned int maxAniso) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefSetMaxAnisotropy");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUtexref, unsigned int) = (CUresult(*)(CUtexref, unsigned int))dlsym(cuda_handle, "cuTexRefSetMaxAnisotropy");
+    CUresult (*hookFunc)(CUtexref, unsigned int) = (CUresult(*)(CUtexref, unsigned int)) dlsym(cuda_handle, "cuTexRefSetMaxAnisotropy");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hTexRef, maxAniso);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3431,7 +3820,7 @@ CUresult cuTexRefSetMaxAnisotropy(CUtexref hTexRef, unsigned int maxAniso) {
 CUresult cuTexRefSetMipmapFilterMode(CUtexref hTexRef, CUfilter_mode fm) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefSetMipmapFilterMode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUtexref, CUfilter_mode) = (CUresult(*)(CUtexref, CUfilter_mode))dlsym(cuda_handle, "cuTexRefSetMipmapFilterMode");
+    CUresult (*hookFunc)(CUtexref, CUfilter_mode) = (CUresult(*)(CUtexref, CUfilter_mode)) dlsym(cuda_handle, "cuTexRefSetMipmapFilterMode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hTexRef, fm);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3441,7 +3830,7 @@ CUresult cuTexRefSetMipmapFilterMode(CUtexref hTexRef, CUfilter_mode fm) {
 CUresult cuTexRefSetMipmapLevelBias(CUtexref hTexRef, float bias) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefSetMipmapLevelBias");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUtexref, float) = (CUresult(*)(CUtexref, float))dlsym(cuda_handle, "cuTexRefSetMipmapLevelBias");
+    CUresult (*hookFunc)(CUtexref, float) = (CUresult(*)(CUtexref, float)) dlsym(cuda_handle, "cuTexRefSetMipmapLevelBias");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hTexRef, bias);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3451,7 +3840,7 @@ CUresult cuTexRefSetMipmapLevelBias(CUtexref hTexRef, float bias) {
 CUresult cuTexRefSetMipmapLevelClamp(CUtexref hTexRef, float minMipmapLevelClamp, float maxMipmapLevelClamp) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefSetMipmapLevelClamp");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUtexref, float, float) = (CUresult(*)(CUtexref, float, float))dlsym(cuda_handle, "cuTexRefSetMipmapLevelClamp");
+    CUresult (*hookFunc)(CUtexref, float, float) = (CUresult(*)(CUtexref, float, float)) dlsym(cuda_handle, "cuTexRefSetMipmapLevelClamp");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hTexRef, minMipmapLevelClamp, maxMipmapLevelClamp);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3461,27 +3850,27 @@ CUresult cuTexRefSetMipmapLevelClamp(CUtexref hTexRef, float minMipmapLevelClamp
 CUresult cuTexRefSetMipmappedArray(CUtexref hTexRef, CUmipmappedArray hMipmappedArray, unsigned int Flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuTexRefSetMipmappedArray");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUtexref, CUmipmappedArray, unsigned int) = (CUresult(*)(CUtexref, CUmipmappedArray, unsigned int))dlsym(cuda_handle, "cuTexRefSetMipmappedArray");
+    CUresult (*hookFunc)(CUtexref, CUmipmappedArray, unsigned int) = (CUresult(*)(CUtexref, CUmipmappedArray, unsigned int)) dlsym(cuda_handle, "cuTexRefSetMipmappedArray");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(hTexRef, hMipmappedArray, Flags);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuThreadExchangeStreamCaptureMode(CUstreamCaptureMode *mode) {
+CUresult cuThreadExchangeStreamCaptureMode(CUstreamCaptureMode * mode) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuThreadExchangeStreamCaptureMode");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUstreamCaptureMode *) = (CUresult(*)(CUstreamCaptureMode *))dlsym(cuda_handle, "cuThreadExchangeStreamCaptureMode");
+    CUresult (*hookFunc)(CUstreamCaptureMode *) = (CUresult(*)(CUstreamCaptureMode *)) dlsym(cuda_handle, "cuThreadExchangeStreamCaptureMode");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(mode);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuUserObjectCreate(CUuserObject *object_out, void *ptr, CUhostFn destroy, unsigned int initialRefcount, unsigned int flags) {
+CUresult cuUserObjectCreate(CUuserObject * object_out, void * ptr, CUhostFn destroy, unsigned int initialRefcount, unsigned int flags) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuUserObjectCreate");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUuserObject *, void *, CUhostFn, unsigned int, unsigned int) = (CUresult(*)(CUuserObject *, void *, CUhostFn, unsigned int, unsigned int))dlsym(cuda_handle, "cuUserObjectCreate");
+    CUresult (*hookFunc)(CUuserObject *, void *, CUhostFn, unsigned int, unsigned int) = (CUresult(*)(CUuserObject *, void *, CUhostFn, unsigned int, unsigned int)) dlsym(cuda_handle, "cuUserObjectCreate");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(object_out, ptr, destroy, initialRefcount, flags);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3491,7 +3880,7 @@ CUresult cuUserObjectCreate(CUuserObject *object_out, void *ptr, CUhostFn destro
 CUresult cuUserObjectRelease(CUuserObject object, unsigned int count) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuUserObjectRelease");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUuserObject, unsigned int) = (CUresult(*)(CUuserObject, unsigned int))dlsym(cuda_handle, "cuUserObjectRelease");
+    CUresult (*hookFunc)(CUuserObject, unsigned int) = (CUresult(*)(CUuserObject, unsigned int)) dlsym(cuda_handle, "cuUserObjectRelease");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(object, count);
     cudaTimeProfileDestroy(pprof, rs);
@@ -3501,17 +3890,17 @@ CUresult cuUserObjectRelease(CUuserObject object, unsigned int count) {
 CUresult cuUserObjectRetain(CUuserObject object, unsigned int count) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuUserObjectRetain");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(CUuserObject, unsigned int) = (CUresult(*)(CUuserObject, unsigned int))dlsym(cuda_handle, "cuUserObjectRetain");
+    CUresult (*hookFunc)(CUuserObject, unsigned int) = (CUresult(*)(CUuserObject, unsigned int)) dlsym(cuda_handle, "cuUserObjectRetain");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(object, count);
     cudaTimeProfileDestroy(pprof, rs);
     return rs;
 }
 
-CUresult cuWaitExternalSemaphoresAsync(const CUexternalSemaphore *extSemArray, const CUDA_EXTERNAL_SEMAPHORE_WAIT_PARAMS *paramsArray, unsigned int numExtSems, CUstream stream) {
+CUresult cuWaitExternalSemaphoresAsync(const CUexternalSemaphore * extSemArray, const CUDA_EXTERNAL_SEMAPHORE_WAIT_PARAMS * paramsArray, unsigned int numExtSems, CUstream stream) {
     HOOK_TRACE_PROFILE *pprof = TimeProfile("cuWaitExternalSemaphoresAsync");
     void *cuda_handle = dlopen(CudaSo(), RTLD_GLOBAL | RTLD_LAZY);
-    CUresult (*hookFunc)(const CUexternalSemaphore *, const CUDA_EXTERNAL_SEMAPHORE_WAIT_PARAMS *, unsigned int, CUstream) = (CUresult(*)(const CUexternalSemaphore *, const CUDA_EXTERNAL_SEMAPHORE_WAIT_PARAMS *, unsigned int, CUstream))dlsym(cuda_handle, "cuWaitExternalSemaphoresAsync");
+    CUresult (*hookFunc)(const CUexternalSemaphore *, const CUDA_EXTERNAL_SEMAPHORE_WAIT_PARAMS *, unsigned int, CUstream) = (CUresult(*)(const CUexternalSemaphore *, const CUDA_EXTERNAL_SEMAPHORE_WAIT_PARAMS *, unsigned int, CUstream)) dlsym(cuda_handle, "cuWaitExternalSemaphoresAsync");
     HOOK_CHECK(hookFunc);
     CUresult rs = hookFunc(extSemArray, paramsArray, numExtSems, stream);
     cudaTimeProfileDestroy(pprof, rs);

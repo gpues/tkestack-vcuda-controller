@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-set -o errexit
 set -o nounset
 set -o pipefail
 
@@ -10,15 +9,15 @@ ML_LIBRARY=$2
 echo "find new library: "
 
 while read item; do
-  grep -qF "$item" include/cuda.h
+  \grep -qF "$item" src/*
   if [ $? != 0 ]; then
-    echo "$item"
+    echo "cu------> $item"
   fi
-done < <(nm -D ${CUDA_LIBRARY} | grep " T " | awk '{print $3}')
+done < <(nm -D ${CUDA_LIBRARY} | grep " T "| grep "cu[A-Z]" | awk '{print $3}')
 
 while read item; do
-  grep -qF "$item" include/nvml.h
+  \grep -qF "$item" src/*
   if [ $? != 0 ]; then
-    echo "$item"
+    echo "nvml----> $item"
   fi
-done < <(nm -D ${ML_LIBRARY} | grep " T " | awk '{print $3}')
+done < <(nm -D ${ML_LIBRARY} | grep " T " | grep "nvml[A-Z]"| awk '{print $3}')

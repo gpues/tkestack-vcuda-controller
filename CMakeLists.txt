@@ -39,6 +39,6 @@ add_executable(nvml main.c
         )
 
 target_link_libraries(cuda-control ${STATIC_C_LIBRARIES} ${LIBRARIES})
-target_link_libraries(nvml ${STATIC_C_LIBRARIES} ${LIBRARIES})
 target_compile_options(cuda-control PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-std=c++11>)
 
+target_link_libraries(nvml ${STATIC_C_LIBRARIES} ${LIBRARIES})
