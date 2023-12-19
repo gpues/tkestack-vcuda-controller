@@ -11,31 +11,36 @@ SET(LIBRARIES -ldl -lpthread)
 
 add_definitions(-DUSE_ORIGINAL)
 add_library(cuda-control SHARED
-        include/json/cJSON.h
-        include/json/cJSON.c
         include/base.h
         include/cuda.h
         include/nvml.h
-        src/nvml_hook.c
-        src/cuda_hook.c
-        src/base.c
-        src/loader.c
-        src/nvml_originals.c
-        src/cuda_originals.c
+        include/func.h
+        include/cuda-helper.h
+        include/nvml-helper.h
+
+
+        src/multiprocess/multiprocess_memory_limit.c
+        src/multiprocess/multiprocess_utilization_watcher.c
+        src/var.h
+        src/nvml/util.c
+        src/nvml/hook.c
+        src/utils.c
+        src/libvgpu.c
+        src/allocator/allocator.c
+        src/cuda/originals.c
+        src/cuda/utils.c
+        src/cuda/memory.c
+        src/cuda/loader.c
+        src/cuda/device.c
+        src/cuda/export_table.c
+        src/cuda/context.c
+        src/cuda/hook.c
         )
 
 add_executable(nvml main.c
-        include/json/cJSON.h
-        include/json/cJSON.c
         include/base.h
         include/cuda.h
         include/nvml.h
-        src/nvml_hook.c
-        src/cuda_hook.c
-        src/base.c
-        src/loader.c
-        src/nvml_originals.c
-        src/cuda_originals.c
         )
 
 target_link_libraries(cuda-control ${STATIC_C_LIBRARIES} ${LIBRARIES})

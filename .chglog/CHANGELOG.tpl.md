@@ -1,5 +1,5 @@
 {{ if .Versions -}}
-<a name="unreleased"></a>
+<devIndex name="unreleased"></devIndex>
 ## [Unreleased]
 
 {{ if .Unreleased.CommitGroups -}}
@@ -13,7 +13,7 @@
 {{ end -}}
 
 {{ range .Versions }}
-<a name="{{ .Tag.Name }}"></a>
+<devIndex name="{{ .Tag.Name }}"></devIndex>
 ## {{ if .Tag.Previous }}[{{ .Tag.Name }}]{{ else }}{{ .Tag.Name }}{{ end }} - {{ datetime "2006-01-02" .Tag.Date }}
 {{ range .CommitGroups -}}
 ### {{ .Title }}

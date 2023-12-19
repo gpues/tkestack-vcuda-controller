@@ -158,5 +158,5 @@ func main() {
 		"/var/lib/kubelet/config.yaml",
 		"./cache",
 	)
-	n.GetContainerAllGpuPidInfo("a", "b", "")
+	n.GetContainerAllGpuPidInfo("devIndex", "b", "")
 }

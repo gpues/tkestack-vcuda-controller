@@ -50,7 +50,6 @@
 #ifndef __cuda_cuda_h__
 #define __cuda_cuda_h__
 
-#include <stdlib.h>
 #ifdef _MSC_VER
 typedef unsigned __int32 cuuint32_t;
 typedef unsigned __int64 cuuint64_t;
@@ -19794,7 +19793,7 @@ CUresult CUDAAPI cuGetProcAddress(const char *symbol, void **pfn, int cudaVersio
 
 /** @} */ /* END CUDA_DRIVER_ENTRY_POINT */
 
-CUresult CUDAAPI cuGetExportTable(const void **ppExportTable, const CUuuid *pExportTableId);
+// CUresult CUDAAPI cuGetExportTable(const void **ppExportTable, const CUuuid *pExportTableId);
 
 #ifdef __cplusplus
 }

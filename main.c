@@ -38,16 +38,16 @@ int main(void) {
         return 1;
     }
     nvmlDevice_t dev;
-    HLOG(INFO, "Get nvmlDeviceGetCount %d res %d", device_num, ret);
+    LINFO("Get nvmlDeviceGetCount %d res %d", device_num, ret);
     for (i = 0; i < device_num; i++) {
         unsigned int size_on_device = 1024;
         nvmlProcessInfo_t infos[size_on_device];
         ret = nvmlDeviceGetHandleByIndex(i, &dev);
-        HLOG(INFO, "nvmlDeviceGetHandleByIndex %d res %d", i, ret);
+        LINFO("nvmlDeviceGetHandleByIndex %d res %d", i, ret);
         ret = nvmlDeviceGetGraphicsRunningProcesses_v3(dev, &size_on_device, infos);
-        HLOG(INFO, "nvmlDeviceGetGraphicsRunningProcesses_v3 %d res %d", size_on_device, ret);
+        LINFO("nvmlDeviceGetGraphicsRunningProcesses_v3 %d res %d", size_on_device, ret);
         for (j = 0; j < size_on_device; j++) {
-            HLOG(INFO, "summary: %d used %lld", infos[j].pid, infos[j].usedGpuMemory);
+            LINFO("summary: %d used %lld", infos[j].pid, infos[j].usedGpuMemory);
         }
     }
     nvmlShutdown();

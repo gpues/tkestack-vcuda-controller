@@ -1,6 +1,5 @@
 #include <stdbool.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <sys/times.h>
 #include <unistd.h>
 
@@ -34,7 +33,7 @@ typedef void (*atomic_fn_ptr)(int, void *);
 #define MAX_UTILIZATION (100)
 #define CHANGE_LIMIT_INTERVAL (30)
 #define USAGE_THRESHOLD (5)
-
+#define FACTOR (32)
 #define GET_VALID_VALUE(x) (((x) >= 0 && (x) <= 100) ? (x) : 0)
 #define CODEC_NORMALIZE(x) (x * 85 / 100)
 
@@ -47,7 +46,41 @@ typedef enum {
     VERBOSE = 5,
 } log_level_enum_t;
 // sub_4074F0
-#define HLOG(level, format, ...)                                                                                                            \
+
+#define LINFO(format, ...)                                                                                                                  \
+    ({                                                                                                                                      \
+        char *_print_level_str = getenv("LOGGER_LEVEL");                                                                                    \
+        int _print_level = 0;                                                                                                               \
+        if (_print_level_str) {                                                                                                             \
+            _print_level = (int)strtoul(_print_level_str, NULL, 10);                                                                        \
+            _print_level = _print_level < 0 ? 3 : _print_level;                                                                             \
+        }                                                                                                                                   \
+        if (1 <= _print_level) {                                                                                                            \
+            printf("[%s %s %d %s:%d] " format "\n", HOOK_LOG_TAG, curr_time(), getpid(), HOOK_LOG_FILE(__FILE__), __LINE__, ##__VA_ARGS__); \
+        }                                                                                                                                   \
+    })
+
+#define LWARN(format, ...)                                                                                                                         \
+    ({                                                                                                                                             \
+        char *_print_level_str = getenv("LOGGER_LEVEL");                                                                                           \
+        int _print_level = 0;                                                                                                                      \
+        if (_print_level_str) {                                                                                                                    \
+            _print_level = (int)strtoul(_print_level_str, NULL, 10);                                                                               \
+            _print_level = _print_level < 0 ? 3 : _print_level;                                                                                    \
+        }                                                                                                                                          \
+        if (1 < _print_level) {                                                                                                                    \
+            printf("[ %s Warn(%s %d %s:%d)] " format "\n", HOOK_LOG_TAG, curr_time(), getpid(), HOOK_LOG_FILE(__FILE__), __LINE__, ##__VA_ARGS__); \
+        }                                                                                                                                          \
+    })
+
+#define LERROR(format, ...) ({ printf("[ %s ERROR(pid:%s thread:%d %s:%d)] " format "\n", HOOK_LOG_TAG, curr_time(), getpid(), HOOK_LOG_FILE(__FILE__), __LINE__, ##__VA_ARGS__); })
+#define LFATAL(format, ...)                                                                                                                                \
+    ({                                                                                                                                                     \
+        printf("[ %s ERROR(pid:%s thread:%d %s:%d)] " format "\n", HOOK_LOG_TAG, curr_time(), getpid(), HOOK_LOG_FILE(__FILE__), __LINE__, ##__VA_ARGS__); \
+        exit(-1);                                                                                                                                          \
+    })
+
+#define LogAndWait(level, sl, format, ...)                                                                                                  \
     ({                                                                                                                                      \
         char *_print_level_str = getenv("LOGGER_LEVEL");                                                                                    \
         int _print_level = 0;                                                                                                               \
@@ -58,7 +91,9 @@ typedef enum {
         if (level <= _print_level) {                                                                                                        \
             printf("[%s %s %d %s:%d] " format "\n", HOOK_LOG_TAG, curr_time(), getpid(), HOOK_LOG_FILE(__FILE__), __LINE__, ##__VA_ARGS__); \
         }                                                                                                                                   \
+        sleep(sl);                                                                                                                          \
     })
+
 #define HOOK_CHECK(x)                       \
     do {                                    \
         if (HOOK_UNLIKELY(!(x))) {          \
@@ -79,20 +114,6 @@ typedef enum {
 #define CONTROLLER_CONFIG_PATH (VCUDA_CONFIG_PATH "/" CONTROLLER_CONFIG_NAME)
 #define RPC_CLIENT_PATH "/usr/local/nvidia/bin/"
 #define DRIVER_VERSION_PROC_PATH "/proc/driver/nvidia/version"
-char *NvmlSo();
-char *CudaSo();
-#define DataLength 10000
-typedef struct {
-    char pod_uid[DataLength];
-    char occupied[DataLength];
-    char container_name[DataLength];
-    char bus_id[DataLength];
-    int limit;
-    int gpu_memory;
-    int utilization;
-    int hard_limit;
-    int enable; // 是否大于100份
-} resource_data_t;
 
 /*
  * nvmlInitWithFlags
@@ -107,10 +128,9 @@ void write_cuda_config();
 
 void atomic_action(const char *, atomic_fn_ptr, void *);
 void active_utilization_notifier();
-void *utilization_watcher(void *);
 void load_pids_table(int, void *);
 void get_used_gpu_memory(int, void *);
-void get_used_gpu_utilization(int, void *);
+
 void initialization();
 void rate_limiter(unsigned int, unsigned int);
 void change_token(int);
@@ -122,8 +142,6 @@ int delta(int, int, int);
 size_t get_array_base_size(int format);
 CUresult cuArray3DCreate_helper(const CUDA_ARRAY3D_DESCRIPTOR *pAllocateArray);
 CUresult cuArrayCreate_helper(const CUDA_ARRAY_DESCRIPTOR *pAllocateArray);
-char *Marshal(resource_data_t t);
-resource_data_t UnMarshal(char *s);
 
 typedef enum {
     Compute = 0,
@@ -153,68 +171,87 @@ typedef enum CUdriverProcAddressQueryResult_enum {
     CU_GET_PROC_ADDRESS_VERSION_NOT_SUFFICIENT = 2 /**< Symbol was found but version supplied was not sufficient */
 } CUdriverProcAddressQueryResult;
 
-CUresult cuMemAlloc_v2(CUdeviceptr *dptr, size_t bytesize);
-CUresult cuMemAllocPitch_v2(CUdeviceptr *dptr, size_t *pPitch, size_t WidthInBytes, size_t Height, unsigned int ElementSizeBytes);
-CUresult cuArrayCreate_v2(CUarray *pHandle, const CUDA_ARRAY_DESCRIPTOR *pAllocateArray);
-CUresult cuDeviceTotalMem_v2(size_t *bytes, CUdevice dev);
-CUresult cuMemGetInfo_v2(size_t *free, size_t *total);
-CUresult cuLaunchKernel_ptsz(CUfunction f, unsigned int gridDimX, unsigned int gridDimY, unsigned int gridDimZ, unsigned int blockDimX, unsigned int blockDimY, unsigned int blockDimZ, unsigned int sharedMemBytes, CUstream hStream, void **kernelParams, void **extra);
-CUresult cuLaunchCooperativeKernel_ptsz(CUfunction f, unsigned int gridDimX, unsigned int gridDimY, unsigned int gridDimZ, unsigned int blockDimX, unsigned int blockDimY, unsigned int blockDimZ, unsigned int sharedMemBytes, CUstream hStream, void **kernelParams);
-CUresult cuMemsetD2D16_v2(CUdeviceptr dstDevice, size_t dstPitch, unsigned short us, size_t Width, size_t Height);
-CUresult cuMemcpyHtoD_v2_ptds(CUdeviceptr dstDevice, const void *srcHost, size_t ByteCount);
-CUresult cuMemcpyHtoD_v2(CUdeviceptr dstDevice, const void *srcHost, size_t ByteCount);
-CUresult cuMemsetD2D32_v2(CUdeviceptr dstDevice, size_t dstPitch, unsigned int ui, size_t Width, size_t Height);
-CUresult cuArray3DCreate_v2(CUarray *pHandle, const CUDA_ARRAY3D_DESCRIPTOR *pAllocateArray);
-CUresult cuCtxCreate_v2(CUcontext *pctx, unsigned int flags, CUdevice dev);
-CUresult cuCtxDestroy_v2(CUcontext ctx);
-CUresult cuCtxPopCurrent_v2(CUcontext *pctx);
-CUresult cuCtxPushCurrent_v2(CUcontext ctx);
-CUresult cuDevicePrimaryCtxRelease_v2(CUdevice dev);
-CUresult cuDevicePrimaryCtxSetFlags_v2(CUdevice dev, unsigned int flags);
-CUresult cuEventDestroy_v2(CUevent hEvent);
-CUresult cuIpcOpenMemHandle_v2(CUdeviceptr *pdptr, CUipcMemHandle handle, unsigned int Flags);
-CUresult cuLinkAddData_v2(CUlinkState state, CUjitInputType type, void *data, size_t size, const char *name, unsigned int numOptions, CUjit_option *options, void **optionValues);
-CUresult cuLinkAddFile_v2(CUlinkState state, CUjitInputType type, const char *path, unsigned int numOptions, CUjit_option *options, void **optionValues);
-CUresult cuMemsetD16_v2(CUdeviceptr dstDevice, unsigned short us, size_t N);
-CUresult cuMemcpyDtoH_v2(void *dstHost, CUdeviceptr srcDevice, size_t ByteCount);
-CUresult cuMemGetAddressRange_v2(CUdeviceptr *pbase, size_t *psize, CUdeviceptr dptr);
-CUresult cuMemHostGetDevicePointer_v2(CUdeviceptr *pdptr, void *p, unsigned int Flags);
-CUresult cuMemHostRegister_v2(void *p, size_t bytesize, unsigned int Flags);
-CUresult cuMemcpy2DAsync_v2(const CUDA_MEMCPY2D *pCopy, CUstream hStream);
-CUresult cuMemcpy2DUnaligned_v2(const CUDA_MEMCPY2D *pCopy);
-CUresult cuMemcpy3DAsync_v2(const CUDA_MEMCPY3D *pCopy, CUstream hStream);
-CUresult cuMemcpyDtoA_v2(CUarray dstArray, size_t dstOffset, CUdeviceptr srcDevice, size_t ByteCount);
-CUresult cuMemcpyDtoDAsync_v2(CUdeviceptr dstDevice, CUdeviceptr srcDevice, size_t ByteCount, CUstream hStream);
-CUresult cuMemcpyDtoD_v2(CUdeviceptr dstDevice, CUdeviceptr srcDevice, size_t ByteCount);
-CUresult cuMemcpyDtoHAsync_v2(void *dstHost, CUdeviceptr srcDevice, size_t ByteCount, CUstream hStream);
-CUresult cuMemsetD32_v2(CUdeviceptr dstDevice, unsigned int ui, size_t N);
-CUresult cuMemsetD8_v2(CUdeviceptr dstDevice, unsigned char uc, size_t N);
-CUresult cuModuleGetGlobal_v2(CUdeviceptr *dptr, size_t *bytes, CUmodule hmod, const char *name);
-CUresult cuLinkCreate_v2(unsigned int numOptions, CUjit_option *options, void **optionValues, CUlinkState *stateOut);
-CUresult cuMemAllocHost_v2(void **pp, size_t bytesize);
-CUresult cuMemFree_v2(CUdeviceptr dptr);
-CUresult cuMemcpy3D_v2(const CUDA_MEMCPY3D *pCopy);
-CUresult cuMemcpyHtoDAsync_v2(CUdeviceptr dstDevice, const void *srcHost, size_t ByteCount, CUstream hStream);
-CUresult cuMemsetD2D8_v2(CUdeviceptr dstDevice, size_t dstPitch, unsigned char uc, size_t Width, size_t Height);
-CUresult cuStreamDestroy_v2(CUstream hStream);
-CUresult cuGetProcAddress_v2_alt(const char *symbol, void **funcPtr, int driverVersion, cuuint64_t flags, CUdriverProcAddressQueryResult *symbolStatus);
-CUresult cuGetProcAddress_v2_ptsz(const char *symbol, void **funcPtr, int driverVersion, cuuint64_t flags, CUdriverProcAddressQueryResult *symbolStatus);
-CUresult cuGetProcAddress_v2(const char *symbol, void **funcPtr, int driverVersion, cuuint64_t flags, CUdriverProcAddressQueryResult *symbolStatus);
-CUresult cuMemcpyAtoD_v2(CUdeviceptr a1, CUarray a2, size_t a3, size_t a4);
-CUresult cuGraphKernelNodeGetParams_v2(CUgraphNode hNode, CUDA_KERNEL_NODE_PARAMS *nodeParams);
-CUresult cuGraphKernelNodeSetParams_v2(CUgraphNode hNode, const CUDA_KERNEL_NODE_PARAMS *nodeParams);
-CUresult cuGetProcAddress_alt(const char *symbol, void **pfn, int cudaVersion, cuuint64_t flags, CUdriverProcAddressQueryResult *symbolStatus);
-CUresult cuGraphAddKernelNode_v2(CUgraphNode *phGraphNode, CUgraph hGraph, const CUgraphNode *dependencies, size_t numDependencies, const CUDA_KERNEL_NODE_PARAMS *nodeParams);
-CUresult cuMapMemory(CUdeviceptr *dptr, size_t bytesize, const CUmemAccessDesc *desc, size_t count);
-CUresult cuVGPUViewAllocator(void **ptr, size_t size);
-CUresult cuMemoryFree(void *ptr, size_t size);
-CUresult cuMemoryAllocate(CUdeviceptr *dptr, size_t bytesize);
-CUresult cuUnmapMemory(CUdeviceptr dptr, size_t bytesize);
-nvmlReturn_t nvmlInternalGetExportTable(const void **ppExportTable, void *pExportTableId);
-nvmlReturn_t nvmlGpuInstanceGetComputeInstancePossiblePlacements(nvmlGpuInstance_t gpuInstance, unsigned int profileId, nvmlComputeInstancePlacement_t *placements, unsigned int *count);
-nvmlReturn_t nvmlGpuInstanceCreateComputeInstanceWithPlacement(nvmlGpuInstance_t gpuInstance, unsigned int profileId, const nvmlComputeInstancePlacement_t *placement, nvmlComputeInstance_t *computeInstance);
-nvmlReturn_t nvmlGpmMigSampleGet(nvmlDevice_t device, unsigned int gpuInstanceId, nvmlGpmSample_t gpmSample);
-nvmlReturn_t nvmlDeviceGetGpuMaxPcieLinkGeneration(nvmlDevice_t device, unsigned int *maxLinkGenDevice);
-nvmlReturn_t nvmlDeviceClearFieldValues(nvmlDevice_t device, int valuesCount, nvmlFieldValue_t *values);
-nvmlReturn_t nvmlDeviceCcuSetStreamState(nvmlDevice_t device, unsigned int state);
-nvmlReturn_t nvmlDeviceCcuGetStreamState(nvmlDevice_t device, unsigned int *state);
+typedef struct devMemLimit_t {
+    int64_t memoryLimit;
+} devMemLimit;
+
+typedef struct {
+    int user_current;
+    int sys_current;
+    int valid;
+    uint64_t checktime;
+    int sys_process_num;
+    u_int64_t allTimeStamp;
+    u_int64_t allUsedGpuMemory;
+
+} utilization_t;
+
+typedef struct {
+    char uuid[96];
+} uuid;
+
+typedef struct {
+    u_int64_t contextSize;
+    u_int64_t moduleSize;
+    u_int64_t bufferSize;
+    u_int64_t offset;
+    u_int64_t total;
+} deviceMemory;
+
+typedef struct shrregProcSlotT_t {
+    int32_t pid;
+    int32_t hostpid;
+    deviceMemory used[16];
+    u_int64_t monitorused[16];
+    int32_t status;
+} shrregProcSlotT;
+
+typedef struct {
+    char sem[32];
+} semT;
+typedef struct sharedRegionT_t {
+    int32_t initializedFlag;
+    int32_t smInitFlag;
+    u_int32_t ownerPid;
+    semT sem;
+    u_int64_t num;
+    uuid uuids[16];
+    u_int64_t limit[16];
+    u_int64_t sm_limit[16];
+    shrregProcSlotT procs[1024];
+    int32_t procnum;
+    int32_t utilizationSwitch;
+    int32_t recentKernel;
+    int32_t priority;
+} sharedRegionT;
+
+typedef struct asd_t {
+    void *ptr; // 偏移量 48
+    uuid uuid; // 偏移量 56
+    int64_t ss;
+} asd;
+
+typedef struct device_t {  // 整个结构体  152 字节
+    CUcontext ctx;         // 偏移 0
+    CUcontext vctx;        // 偏移 8
+    int index;             // 偏移 0x10
+    int add_gpu_flag;      // 偏移 20
+    int64_t devIndex;      // 偏移 24
+    char *busIdLegacy;     // 偏移 0x20
+    nvmlDevice_t *vhandle; // 偏移 0x28
+    nvmlDevice_t device;   // 偏移 0x30
+    nvmlDevice_t vdevice;  // 偏移 56
+    nvmlDevice_t *handle;  // 偏移 0x40
+    int64_t d6;            // 偏移 72
+    int64_t e7;            // 偏移 0x50
+    int64_t f8;            // 偏移 88
+    int64_t f9;            // 偏移 0x60
+    int64_t f0;            // 偏移 104
+    int64_t f22;           // 偏移 0x70  // 进制相关的
+    int64_t f11;           // 偏移 120
+    int64_t f113;          // 偏移 0x80
+    int64_t f114;          // 偏移 136
+    int64_t f115;          // 偏移 0x90
+    int64_t f116;          // 偏移 152
+    //    asd detail;
+} device;

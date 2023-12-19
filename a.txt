@@ -1,0 +1,25 @@
+dword_610C0    curren_owner
+dword_610C8     child_init_flag
+qword_610D0    flags
+dword_6113C     g_sm_num
+dword_61140     g_max_thread_per_sm
+
+
+
+dword_61144     g_cur_cuda_cores
+dword_61148     g_total_cuda_cores
+
+
+
+
+
+
+vdevices
+handle unsigned int
+ctx
+char *pciBusId
+device
+nvmlDevice_t
+nvmlDevice_t *device
+
+vdevices + 152 * i + 48

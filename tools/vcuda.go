@@ -2,7 +2,7 @@ package main
 
 import (
 	"k8s.io/apimachinery/pkg/util/json"
-	"k8s.io/apimachinery/pkg/util/uuid"
+	"k8s.io/apimachinery/pkg/util/device"
 	"os"
 	"path/filepath"
 )
@@ -30,10 +30,10 @@ func main() {
 	os.MkdirAll(filepath.Dir(FilePath), os.ModePerm)
 
 	data := resourceData{
-		PodUid:        string(uuid.NewUUID()),
+		PodUid:        string(device.NewUUID()),
 		Occupied:      "",
-		ContainerName: string(uuid.NewUUID()),
-		BusId:         "a",
+		ContainerName: string(device.NewUUID()),
+		BusId:         "devIndex",
 		Utilization:   50,
 		HardLimit:     1,
 		Limit:         1,
