@@ -6,11 +6,11 @@
 #include "include/base.h"
 
 int memory_override;
-sharedRegionT *flags; //   [ _,pid,sem,_, _,_,_,_,_]
+sharedRegionT *global_config; //   [ _,pid,sem,_, _,_,_,_,_]
 int64_t in_fs_offset;
 int64_t initial_offset;
 unsigned int curren_owner;
-unsigned int offset = 804680LL;
+unsigned int vgpu_offset = 804680LL;
 
 static int g_sm_num = 0; //  流处理多处理器，它是GPU的核心计算单元，也被称作为CUDA核或CUDA流处理器。SM是一个独立的处理单元，包含一组处理器核心、缓存和共享内存等资源。
 static int g_max_thread_per_sm = 0;

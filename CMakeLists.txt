@@ -12,13 +12,9 @@ SET(LIBRARIES -ldl -lpthread)
 add_definitions(-DUSE_ORIGINAL)
 add_library(cuda-control SHARED
         include/base.h
-        include/cuda.h
-        include/nvml.h
         include/func.h
         include/cuda-helper.h
         include/nvml-helper.h
-
-
         src/multiprocess/multiprocess_memory_limit.c
         src/multiprocess/multiprocess_utilization_watcher.c
         src/var.h
@@ -35,12 +31,10 @@ add_library(cuda-control SHARED
         src/cuda/export_table.c
         src/cuda/context.c
         src/cuda/hook.c
-        )
+        src/nvml/originals.c include/nvml-subset.h include/cuda-subset.h include/vdpau.h)
 
 add_executable(nvml main.c
         include/base.h
-        include/cuda.h
-        include/nvml.h
         )
 
 target_link_libraries(cuda-control ${STATIC_C_LIBRARIES} ${LIBRARIES})

@@ -2768,7 +2768,7 @@ typedef struct CUDA_EXTERNAL_MEMORY_BUFFER_DESC_st {
     /**
      * Offset into the memory object where the buffer's base is
      */
-    unsigned long long offset;
+    unsigned long long vgpu_offset;
     /**
      * Size of the buffer
      */
@@ -2789,7 +2789,7 @@ typedef struct CUDA_EXTERNAL_MEMORY_MIPMAPPED_ARRAY_DESC_st {
      * Offset into the memory object where the base level of the
      * mipmap chain is.
      */
-    unsigned long long offset;
+    unsigned long long vgpu_offset;
     /**
      * Format, dimension and type of base level of the mipmap chain
      */
@@ -3118,16 +3118,16 @@ typedef struct CUarrayMapInfo_st {
         struct {
             unsigned int level;        /**< For CUDA mipmapped arrays must a valid mipmap level. For CUDA arrays must be zero */
             unsigned int layer;        /**< For CUDA layered arrays must be a valid layer index. Otherwise, must be zero */
-            unsigned int offsetX;      /**< Starting X offset in elements */
-            unsigned int offsetY;      /**< Starting Y offset in elements */
-            unsigned int offsetZ;      /**< Starting Z offset in elements */
+            unsigned int offsetX;      /**< Starting X vgpu_offset in elements */
+            unsigned int offsetY;      /**< Starting Y vgpu_offset in elements */
+            unsigned int offsetZ;      /**< Starting Z vgpu_offset in elements */
             unsigned int extentWidth;  /**< Width in elements */
             unsigned int extentHeight; /**< Height in elements */
             unsigned int extentDepth;  /**< Depth in elements */
         } sparseLevel;
         struct {
             unsigned int layer;        /**< For CUDA layered arrays must be a valid layer index. Otherwise, must be zero */
-            unsigned long long offset; /**< Offset within mip tail */
+            unsigned long long vgpu_offset; /**< Offset within mip tail */
             unsigned long long size;   /**< Extent in bytes */
         } miptail;
     } subresource;
@@ -3140,7 +3140,7 @@ typedef struct CUarrayMapInfo_st {
         CUmemGenericAllocationHandle memHandle;
     } memHandle;
 
-    unsigned long long offset;  /**< Offset within the memory */
+    unsigned long long vgpu_offset;  /**< Offset within the memory */
     unsigned int deviceBitMask; /**< Device ordinal bit mask */
     unsigned int flags;         /**< flags for future use, must be zero now. */
     unsigned int reserved[2];   /**< Reserved for future use, must be zero now. */
@@ -4106,7 +4106,7 @@ CUresult CUDAAPI cuDeviceGetTexture1DLinearMaxWidth(size_t *maxWidthInElements, 
  *   registers available to a thread block
  * - ::CU_DEVICE_ATTRIBUTE_CLOCK_RATE: The typical clock frequency in kilohertz
  * - ::CU_DEVICE_ATTRIBUTE_TEXTURE_ALIGNMENT: Alignment requirement; texture
- *   base addresses aligned to ::textureAlign bytes do not need an offset
+ *   base addresses aligned to ::textureAlign bytes do not need an vgpu_offset
  *   applied to texture fetches
  * - ::CU_DEVICE_ATTRIBUTE_TEXTURE_PITCH_ALIGNMENT: Pitch alignment requirement
  *   for 2D texture references bound to pitched memory
@@ -4410,7 +4410,7 @@ CUresult CUDAAPI cuFlushGPUDirectRDMAWrites(CUflushGPUDirectRDMAWritesTarget tar
  * - ::regsPerBlock is the total number of registers available per block;
  * - ::clockRate is the clock frequency in kilohertz;
  * - ::textureAlign is the alignment requirement; texture base addresses that
- *   are aligned to ::textureAlign bytes do not need an offset applied to
+ *   are aligned to ::textureAlign bytes do not need an vgpu_offset applied to
  *   texture fetches.
  *
  * \param prop - Returned properties of device
@@ -7450,7 +7450,7 @@ CUresult CUDAAPI cuMemcpyDtoA(CUarray dstArray, size_t dstOffset, CUdeviceptr sr
  * Copies from one 1D CUDA array to device memory. \p dstDevice specifies the
  * base pointer of the destination and must be naturally aligned with the CUDA
  * array elements. \p srcArray and \p srcOffset specify the CUDA array handle
- * and the offset in bytes into the array where the copy is to begin.
+ * and the vgpu_offset in bytes into the array where the copy is to begin.
  * \p ByteCount specifies the number of bytes to copy and must be evenly
  * divisible by the array element size.
  *
@@ -7486,7 +7486,7 @@ CUresult CUDAAPI cuMemcpyAtoD(CUdeviceptr dstDevice, CUarray srcArray, size_t sr
  * \brief Copies memory from Host to Array
  *
  * Copies from host memory to a 1D CUDA array. \p dstArray and \p dstOffset
- * specify the CUDA array handle and starting offset in bytes of the destination
+ * specify the CUDA array handle and starting vgpu_offset in bytes of the destination
  * data.  \p pSrc specifies the base address of the source. \p ByteCount specifies
  * the number of bytes to copy.
  *
@@ -7524,7 +7524,7 @@ CUresult CUDAAPI cuMemcpyHtoA(CUarray dstArray, size_t dstOffset, const void *sr
  *
  * Copies from one 1D CUDA array to host memory. \p dstHost specifies the base
  * pointer of the destination. \p srcArray and \p srcOffset specify the CUDA
- * array handle and starting offset in bytes of the source data.
+ * array handle and starting vgpu_offset in bytes of the source data.
  * \p ByteCount specifies the number of bytes to copy.
  *
  * \param dstHost   - Destination device pointer
@@ -8320,7 +8320,7 @@ CUresult CUDAAPI cuMemcpyDtoDAsync(CUdeviceptr dstDevice, CUdeviceptr srcDevice,
  * \brief Copies memory from Host to Array
  *
  * Copies from host memory to a 1D CUDA array. \p dstArray and \p dstOffset
- * specify the CUDA array handle and starting offset in bytes of the
+ * specify the CUDA array handle and starting vgpu_offset in bytes of the
  * destination data. \p srcHost specifies the base address of the source.
  * \p ByteCount specifies the number of bytes to copy.
  *
@@ -8363,7 +8363,7 @@ CUresult CUDAAPI cuMemcpyHtoAAsync(CUarray dstArray, size_t dstOffset, const voi
  *
  * Copies from one 1D CUDA array to host memory. \p dstHost specifies the base
  * pointer of the destination. \p srcArray and \p srcOffset specify the CUDA
- * array handle and starting offset in bytes of the source data.
+ * array handle and starting vgpu_offset in bytes of the source data.
  * \p ByteCount specifies the number of bytes to copy.
  *
  * \param dstHost   - Destination pointer
@@ -8920,7 +8920,7 @@ CUresult CUDAAPI cuMemsetD2D8(CUdeviceptr dstDevice, size_t dstPitch, unsigned c
  * Sets the 2D memory range of \p Width 16-bit values to the specified value
  * \p us. \p Height specifies the number of rows to set, and \p dstPitch
  * specifies the number of bytes between each row. The \p dstDevice pointer
- * and \p dstPitch offset must be two byte aligned. This function performs
+ * and \p dstPitch vgpu_offset must be two byte aligned. This function performs
  * fastest when the pitch is one that has been passed back by
  * ::cuMemAllocPitch().
  *
@@ -8961,7 +8961,7 @@ CUresult CUDAAPI cuMemsetD2D16(CUdeviceptr dstDevice, size_t dstPitch, unsigned 
  * Sets the 2D memory range of \p Width 32-bit values to the specified value
  * \p ui. \p Height specifies the number of rows to set, and \p dstPitch
  * specifies the number of bytes between each row. The \p dstDevice pointer
- * and \p dstPitch offset must be four byte aligned. This function performs
+ * and \p dstPitch vgpu_offset must be four byte aligned. This function performs
  * fastest when the pitch is one that has been passed back by
  * ::cuMemAllocPitch().
  *
@@ -9154,7 +9154,7 @@ CUresult CUDAAPI cuMemsetD2D8Async(CUdeviceptr dstDevice, size_t dstPitch, unsig
  * Sets the 2D memory range of \p Width 16-bit values to the specified value
  * \p us. \p Height specifies the number of rows to set, and \p dstPitch
  * specifies the number of bytes between each row. The \p dstDevice pointer
- * and \p dstPitch offset must be two byte aligned. This function performs
+ * and \p dstPitch vgpu_offset must be two byte aligned. This function performs
  * fastest when the pitch is one that has been passed back by
  * ::cuMemAllocPitch().
  *
@@ -9197,7 +9197,7 @@ CUresult CUDAAPI cuMemsetD2D16Async(CUdeviceptr dstDevice, size_t dstPitch, unsi
  * Sets the 2D memory range of \p Width 32-bit values to the specified value
  * \p ui. \p Height specifies the number of rows to set, and \p dstPitch
  * specifies the number of bytes between each row. The \p dstDevice pointer
- * and \p dstPitch offset must be four byte aligned. This function performs
+ * and \p dstPitch vgpu_offset must be four byte aligned. This function performs
  * fastest when the pitch is one that has been passed back by
  * ::cuMemAllocPitch().
  *
@@ -10111,11 +10111,11 @@ CUresult CUDAAPI cuMemRelease(CUmemGenericAllocationHandle handle);
 /**
  * \brief Maps an allocation handle to a reserved virtual address range.
  *
- * Maps bytes of memory represented by \p handle starting from byte \p offset to
+ * Maps bytes of memory represented by \p handle starting from byte \p vgpu_offset to
  * \p size to address range [\p addr, \p addr + \p size]. This range must be an
  * address reservation previously reserved with ::cuMemAddressReserve, and
- * \p offset + \p size must be less than the size of the memory allocation.
- * Both \p ptr, \p size, and \p offset must be a multiple of the value given via
+ * \p vgpu_offset + \p size must be less than the size of the memory allocation.
+ * Both \p ptr, \p size, and \p vgpu_offset must be a multiple of the value given via
  * ::cuMemGetAllocationGranularity with the ::CU_MEM_ALLOC_GRANULARITY_MINIMUM flag.
  *
  * Please note calling ::cuMemMap does not make the address accessible,
@@ -10132,7 +10132,7 @@ CUresult CUDAAPI cuMemRelease(CUmemGenericAllocationHandle handle);
  *
  * \param[in] ptr    - Address where memory will be mapped.
  * \param[in] size   - Size of the memory mapping.
- * \param[in] offset - Offset into the memory represented by
+ * \param[in] vgpu_offset - Offset into the memory represented by
  *                   - \p handle from which to start mapping
  *                   - Note: currently must be zero.
  * \param[in] handle - Handle to a shareable memory
@@ -10150,7 +10150,7 @@ CUresult CUDAAPI cuMemRelease(CUmemGenericAllocationHandle handle);
  *
  * \sa ::cuMemUnmap, ::cuMemSetAccess, ::cuMemCreate, ::cuMemAddressReserve, ::cuMemImportFromShareableHandle
  */
-CUresult CUDAAPI cuMemMap(CUdeviceptr ptr, size_t size, size_t offset, CUmemGenericAllocationHandle handle, unsigned long long flags);
+CUresult CUDAAPI cuMemMap(CUdeviceptr ptr, size_t size, size_t vgpu_offset, CUmemGenericAllocationHandle handle, unsigned long long flags);
 
 /**
  * \brief Maps or unmaps subregions of sparse CUDA arrays and sparse CUDA mipmapped arrays
@@ -10180,7 +10180,7 @@ CUresult CUDAAPI cuMemMap(CUdeviceptr ptr, size_t size, size_t offset, CUmemGene
             } sparseLevel;
             struct {
                 unsigned int layer;
-                unsigned long long offset;
+                unsigned long long vgpu_offset;
                 unsigned long long size;
             } miptail;
         } subresource;
@@ -10192,7 +10192,7 @@ CUresult CUDAAPI cuMemMap(CUdeviceptr ptr, size_t size, size_t offset, CUmemGene
             CUmemGenericAllocationHandle memHandle;
         } memHandle;
 
-        unsigned long long offset;
+        unsigned long long vgpu_offset;
         unsigned int deviceBitMask;
         unsigned int flags;
         unsigned int reserved[2];
@@ -10242,9 +10242,9 @@ CUresult CUDAAPI cuMemMap(CUdeviceptr ptr, size_t size, size_t offset, CUmemGene
  * Tile extents can be obtained by calling ::cuArrayGetSparseProperties and ::cuMipmappedArrayGetSparseProperties
  *
  * If ::CUarrayMapInfo::subresourceType is set to ::CUarraySparseSubresourceType::CU_ARRAY_SPARSE_SUBRESOURCE_TYPE_MIPTAIL
- * then ::CUarrayMapInfo::subresource::miptail struct must contain valid mip tail offset in
- * ::CUarrayMapInfo::subresource::miptail::offset and size in ::CUarrayMapInfo::subresource::miptail::size.
- * Both, mip tail offset and mip tail size must be aligned to the tile size.
+ * then ::CUarrayMapInfo::subresource::miptail struct must contain valid mip tail vgpu_offset in
+ * ::CUarrayMapInfo::subresource::miptail::vgpu_offset and size in ::CUarrayMapInfo::subresource::miptail::size.
+ * Both, mip tail vgpu_offset and mip tail size must be aligned to the tile size.
  * For layered CUDA mipmapped arrays which don't have the flag ::CU_ARRAY_SPARSE_PROPERTIES_SINGLE_MIPTAIL set in ::CUDA_ARRAY_SPARSE_PROPERTIES::flags
  * as returned by ::cuMipmappedArrayGetSparseProperties, ::CUarrayMapInfo::subresource::miptail::layer must specify a valid layer index.
  * Otherwise, must be zero.
@@ -10260,7 +10260,7 @@ CUresult CUDAAPI cuMemMap(CUdeviceptr ptr, size_t size, size_t offset, CUmemGene
     } CUmemOperationType;
  \endcode
  * If ::CUarrayMapInfo::memOperationType is set to ::CUmemOperationType::CU_MEM_OPERATION_TYPE_MAP then the subresource
- * will be mapped onto the tile pool memory specified by ::CUarrayMapInfo::memHandle at offset ::CUarrayMapInfo::offset.
+ * will be mapped onto the tile pool memory specified by ::CUarrayMapInfo::memHandle at vgpu_offset ::CUarrayMapInfo::vgpu_offset.
  * The tile pool allocation has to be created by specifying the ::CU_MEM_CREATE_USAGE_TILE_POOL flag when calling ::cuMemCreate. Also,
  * ::CUarrayMapInfo::memHandleType must be set to ::CUmemHandleType::CU_MEM_HANDLE_TYPE_GENERIC.
  *
@@ -12863,18 +12863,18 @@ CUresult CUDAAPI cuImportExternalMemory(CUexternalMemory *extMem_out, const CUDA
  *
  * \code
         typedef struct CUDA_EXTERNAL_MEMORY_BUFFER_DESC_st {
-            unsigned long long offset;
+            unsigned long long vgpu_offset;
             unsigned long long size;
             unsigned int flags;
         } CUDA_EXTERNAL_MEMORY_BUFFER_DESC;
  * \endcode
  *
- * where ::CUDA_EXTERNAL_MEMORY_BUFFER_DESC::offset is the offset in
+ * where ::CUDA_EXTERNAL_MEMORY_BUFFER_DESC::vgpu_offset is the vgpu_offset in
  * the memory object where the buffer's base address is.
  * ::CUDA_EXTERNAL_MEMORY_BUFFER_DESC::size is the size of the buffer.
  * ::CUDA_EXTERNAL_MEMORY_BUFFER_DESC::flags must be zero.
  *
- * The offset and size have to be suitably aligned to match the
+ * The vgpu_offset and size have to be suitably aligned to match the
  * requirements of the external API. Mapping two buffers whose ranges
  * overlap may or may not result in the same virtual address being
  * returned for the overlapped portion. In such cases, the application
@@ -12917,14 +12917,14 @@ CUresult CUDAAPI cuExternalMemoryGetMappedBuffer(CUdeviceptr *devPtr, CUexternal
  *
  * \code
         typedef struct CUDA_EXTERNAL_MEMORY_MIPMAPPED_ARRAY_DESC_st {
-            unsigned long long offset;
+            unsigned long long vgpu_offset;
             CUDA_ARRAY3D_DESCRIPTOR arrayDesc;
             unsigned int numLevels;
         } CUDA_EXTERNAL_MEMORY_MIPMAPPED_ARRAY_DESC;
  * \endcode
  *
- * where ::CUDA_EXTERNAL_MEMORY_MIPMAPPED_ARRAY_DESC::offset is the
- * offset in the memory object where the base level of the mipmap
+ * where ::CUDA_EXTERNAL_MEMORY_MIPMAPPED_ARRAY_DESC::vgpu_offset is the
+ * vgpu_offset in the memory object where the base level of the mipmap
  * chain is.
  * ::CUDA_EXTERNAL_MEMORY_MIPMAPPED_ARRAY_DESC::arrayDesc describes
  * the format, dimensions and type of the base level of the mipmap
@@ -14746,10 +14746,10 @@ __CUDA_DEPRECATED CUresult CUDAAPI cuParamSetSize(CUfunction hfunc, unsigned int
  * \deprecated
  *
  * Sets an integer parameter that will be specified the next time the
- * kernel corresponding to \p hfunc will be invoked. \p offset is a byte offset.
+ * kernel corresponding to \p hfunc will be invoked. \p vgpu_offset is a byte vgpu_offset.
  *
  * \param hfunc  - Kernel to add parameter to
- * \param offset - Offset to add parameter to argument list
+ * \param vgpu_offset - Offset to add parameter to argument list
  * \param value  - Value of parameter
  *
  * \return
@@ -14771,7 +14771,7 @@ __CUDA_DEPRECATED CUresult CUDAAPI cuParamSetSize(CUfunction hfunc, unsigned int
  * ::cuLaunchGridAsync,
  * ::cuLaunchKernel
  */
-__CUDA_DEPRECATED CUresult CUDAAPI cuParamSeti(CUfunction hfunc, int offset, unsigned int value);
+__CUDA_DEPRECATED CUresult CUDAAPI cuParamSeti(CUfunction hfunc, int vgpu_offset, unsigned int value);
 
 /**
  * \brief Adds a floating-point parameter to the function's argument list
@@ -14779,10 +14779,10 @@ __CUDA_DEPRECATED CUresult CUDAAPI cuParamSeti(CUfunction hfunc, int offset, uns
  * \deprecated
  *
  * Sets a floating-point parameter that will be specified the next time the
- * kernel corresponding to \p hfunc will be invoked. \p offset is a byte offset.
+ * kernel corresponding to \p hfunc will be invoked. \p vgpu_offset is a byte vgpu_offset.
  *
  * \param hfunc  - Kernel to add parameter to
- * \param offset - Offset to add parameter to argument list
+ * \param vgpu_offset - Offset to add parameter to argument list
  * \param value  - Value of parameter
  *
  * \return
@@ -14804,7 +14804,7 @@ __CUDA_DEPRECATED CUresult CUDAAPI cuParamSeti(CUfunction hfunc, int offset, uns
  * ::cuLaunchGridAsync,
  * ::cuLaunchKernel
  */
-__CUDA_DEPRECATED CUresult CUDAAPI cuParamSetf(CUfunction hfunc, int offset, float value);
+__CUDA_DEPRECATED CUresult CUDAAPI cuParamSetf(CUfunction hfunc, int vgpu_offset, float value);
 
 /**
  * \brief Adds arbitrary data to the function's argument list
@@ -14812,11 +14812,11 @@ __CUDA_DEPRECATED CUresult CUDAAPI cuParamSetf(CUfunction hfunc, int offset, flo
  * \deprecated
  *
  * Copies an arbitrary amount of data (specified in \p numbytes) from \p ptr
- * into the parameter space of the kernel corresponding to \p hfunc. \p offset
- * is a byte offset.
+ * into the parameter space of the kernel corresponding to \p hfunc. \p vgpu_offset
+ * is a byte vgpu_offset.
  *
  * \param hfunc    - Kernel to add data to
- * \param offset   - Offset to add data to argument list
+ * \param vgpu_offset   - Offset to add data to argument list
  * \param ptr      - Pointer to arbitrary data
  * \param numbytes - Size of data to copy in bytes
  *
@@ -14839,7 +14839,7 @@ __CUDA_DEPRECATED CUresult CUDAAPI cuParamSetf(CUfunction hfunc, int offset, flo
  * ::cuLaunchGridAsync,
  * ::cuLaunchKernel
  */
-__CUDA_DEPRECATED CUresult CUDAAPI cuParamSetv(CUfunction hfunc, int offset, void *ptr, unsigned int numbytes);
+__CUDA_DEPRECATED CUresult CUDAAPI cuParamSetv(CUfunction hfunc, int vgpu_offset, void *ptr, unsigned int numbytes);
 
 /**
  * \brief Launches a CUDA function
@@ -18030,13 +18030,13 @@ __CUDA_DEPRECATED CUresult CUDAAPI cuTexRefSetMipmappedArray(CUtexref hTexRef, C
  * is unbound.
  *
  * Since the hardware enforces an alignment requirement on texture base
- * addresses, ::cuTexRefSetAddress() passes back a byte offset in
+ * addresses, ::cuTexRefSetAddress() passes back a byte vgpu_offset in
  * \p *ByteOffset that must be applied to texture fetches in order to read from
- * the desired memory. This offset must be divided by the texel size and
+ * the desired memory. This vgpu_offset must be divided by the texel size and
  * passed to kernels that read from the texture so they can be applied to the
  * ::tex1Dfetch() function.
  *
- * If the device memory pointer was returned from ::cuMemAlloc(), the offset
+ * If the device memory pointer was returned from ::cuMemAlloc(), the vgpu_offset
  * is guaranteed to be 0 and NULL may be passed as the \p ByteOffset parameter.
  *
  * The total number of elements (or texels) in the linear address range
@@ -18045,7 +18045,7 @@ __CUDA_DEPRECATED CUresult CUDAAPI cuTexRefSetMipmappedArray(CUtexref hTexRef, C
  * where bytesPerElement is determined from the data format and number of
  * components set using ::cuTexRefSetFormat().
  *
- * \param ByteOffset - Returned byte offset
+ * \param ByteOffset - Returned byte vgpu_offset
  * \param hTexRef    - Texture reference to bind
  * \param dptr       - Device pointer to bind
  * \param bytes      - Size of memory to bind in bytes
@@ -19055,7 +19055,7 @@ __CUDA_DEPRECATED CUresult CUDAAPI cuSurfRefGetArray(CUarray *phArray, CUsurfref
  *
  * - ::CUDA_TEXTURE_DESC::mipmapFilterMode specifies the filter mode when the calculated mipmap level lies between two defined mipmap levels.
  *
- * - ::CUDA_TEXTURE_DESC::mipmapLevelBias specifies the offset to be applied to the calculated mipmap level.
+ * - ::CUDA_TEXTURE_DESC::mipmapLevelBias specifies the vgpu_offset to be applied to the calculated mipmap level.
  *
  * - ::CUDA_TEXTURE_DESC::minMipmapLevelClamp specifies the lower end of the mipmap level range to clamp access to.
  *

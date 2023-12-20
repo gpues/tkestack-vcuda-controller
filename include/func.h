@@ -1,7 +1,5 @@
 #include <stdbool.h>
 
-#include "cuda.h"
-
 void ensure_initialized();
 size_t wait_status_self();
 int64_t check_oom();
@@ -43,11 +41,4 @@ size_t try_unlock_unified_lock();
 size_t set_task_pid();
 size_t try_lock_unified_lock();
 size_t parse_cuda_visible_env();
-int  init_utilization_watcher();
-
-CUresult cuMemoryAllocate(CUdeviceptr *dptr, size_t bytesize, CUmemAccessDesc *desc, const CUmemGenericAllocationHandle *handle);
-CUresult cuArray3DGetDescriptor_v2(CUDA_ARRAY3D_DESCRIPTOR *pArrayDescriptor, CUarray hArray);
-CUresult cuMemoryFree(void *ptr, size_t size);
-CUresult cuDevicePrimaryCtxRelease_v2(CUdevice dev);
-CUresult cuCtxCreate_v2(CUcontext *pctx, unsigned int flags, CUdevice dev);
-CUresult cuGetExportTable(const void ***ppExportTable, const CUuuid *pExportTableId);
+int init_utilization_watcher();

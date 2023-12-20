@@ -8529,62 +8529,62 @@ nvmlReturn_t DECLDIR nvmlDeviceGetDynamicPstatesInfo(nvmlDevice_t device, nvmlGp
 nvmlReturn_t DECLDIR nvmlDeviceSetFanSpeed_v2(nvmlDevice_t device, unsigned int fan, unsigned int speed);
 
 /**
- * Retrieve the GPCCLK VF offset value
+ * Retrieve the GPCCLK VF vgpu_offset value
  * @param[in]   device                         The identifier of the target device
- * @param[out]  offset                         The retrieved GPCCLK VF offset value
+ * @param[out]  vgpu_offset                         The retrieved GPCCLK VF vgpu_offset value
  *
  * @return
- *         - \ref NVML_SUCCESS                 if \a offset has been successfully queried
+ *         - \ref NVML_SUCCESS                 if \a vgpu_offset has been successfully queried
  *         - \ref NVML_ERROR_UNINITIALIZED     if the library has not been successfully initialized
- *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid or \a offset is NULL
+ *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid or \a vgpu_offset is NULL
  *         - \ref NVML_ERROR_NOT_SUPPORTED     if the device does not support this feature
  *         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
  */
-nvmlReturn_t DECLDIR nvmlDeviceGetGpcClkVfOffset(nvmlDevice_t device, int *offset);
+nvmlReturn_t DECLDIR nvmlDeviceGetGpcClkVfOffset(nvmlDevice_t device, int *vgpu_offset);
 
 /**
- * Set the GPCCLK VF offset value
+ * Set the GPCCLK VF vgpu_offset value
  * @param[in]   device                         The identifier of the target device
- * @param[in]   offset                         The GPCCLK VF offset value to set
+ * @param[in]   vgpu_offset                         The GPCCLK VF vgpu_offset value to set
  *
  * @return
- *         - \ref NVML_SUCCESS                 if \a offset has been set
+ *         - \ref NVML_SUCCESS                 if \a vgpu_offset has been set
  *         - \ref NVML_ERROR_UNINITIALIZED     if the library has not been successfully initialized
- *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid or \a offset is NULL
+ *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid or \a vgpu_offset is NULL
  *         - \ref NVML_ERROR_NOT_SUPPORTED     if the device does not support this feature
  *         - \ref NVML_ERROR_GPU_IS_LOST       if the target GPU has fallen off the bus or is otherwise inaccessible
  *         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
  */
-nvmlReturn_t DECLDIR nvmlDeviceSetGpcClkVfOffset(nvmlDevice_t device, int offset);
+nvmlReturn_t DECLDIR nvmlDeviceSetGpcClkVfOffset(nvmlDevice_t device, int vgpu_offset);
 
 /**
- * Retrieve the MemClk (Memory Clock) VF offset value.
+ * Retrieve the MemClk (Memory Clock) VF vgpu_offset value.
  * @param[in]   device                         The identifier of the target device
- * @param[out]  offset                         The retrieved MemClk VF offset value
+ * @param[out]  vgpu_offset                         The retrieved MemClk VF vgpu_offset value
  *
  * @return
- *         - \ref NVML_SUCCESS                 if \a offset has been successfully queried
+ *         - \ref NVML_SUCCESS                 if \a vgpu_offset has been successfully queried
  *         - \ref NVML_ERROR_UNINITIALIZED     if the library has not been successfully initialized
- *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid or \a offset is NULL
+ *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid or \a vgpu_offset is NULL
  *         - \ref NVML_ERROR_NOT_SUPPORTED     if the device does not support this feature
  *         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
  */
-nvmlReturn_t DECLDIR nvmlDeviceGetMemClkVfOffset(nvmlDevice_t device, int *offset);
+nvmlReturn_t DECLDIR nvmlDeviceGetMemClkVfOffset(nvmlDevice_t device, int *vgpu_offset);
 
 /**
- * Set the MemClk (Memory Clock) VF offset value. It requires elevated privileges.
+ * Set the MemClk (Memory Clock) VF vgpu_offset value. It requires elevated privileges.
  * @param[in]   device                         The identifier of the target device
- * @param[in]   offset                         The MemClk VF offset value to set
+ * @param[in]   vgpu_offset                         The MemClk VF vgpu_offset value to set
  *
  * @return
- *         - \ref NVML_SUCCESS                 if \a offset has been set
+ *         - \ref NVML_SUCCESS                 if \a vgpu_offset has been set
  *         - \ref NVML_ERROR_UNINITIALIZED     if the library has not been successfully initialized
- *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid or \a offset is NULL
+ *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid or \a vgpu_offset is NULL
  *         - \ref NVML_ERROR_NOT_SUPPORTED     if the device does not support this feature
  *         - \ref NVML_ERROR_GPU_IS_LOST       if the target GPU has fallen off the bus or is otherwise inaccessible
  *         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
  */
-nvmlReturn_t DECLDIR nvmlDeviceSetMemClkVfOffset(nvmlDevice_t device, int offset);
+nvmlReturn_t DECLDIR nvmlDeviceSetMemClkVfOffset(nvmlDevice_t device, int vgpu_offset);
 
 /**
  * Retrieve min and max clocks of some clock domain for a given PState
@@ -8630,30 +8630,30 @@ nvmlReturn_t DECLDIR nvmlDeviceGetMinMaxClockOfPState(nvmlDevice_t device, nvmlC
 nvmlReturn_t DECLDIR nvmlDeviceGetSupportedPerformanceStates(nvmlDevice_t device, nvmlPstates_t *pstates, unsigned int size);
 
 /**
- * Retrieve the GPCCLK min max VF offset value.
+ * Retrieve the GPCCLK min max VF vgpu_offset value.
  * @param[in]   device                         The identifier of the target device
- * @param[out]  minOffset                      The retrieved GPCCLK VF min offset value
- * @param[out]  maxOffset                      The retrieved GPCCLK VF max offset value
+ * @param[out]  minOffset                      The retrieved GPCCLK VF min vgpu_offset value
+ * @param[out]  maxOffset                      The retrieved GPCCLK VF max vgpu_offset value
  *
  * @return
- *         - \ref NVML_SUCCESS                 if \a offset has been successfully queried
+ *         - \ref NVML_SUCCESS                 if \a vgpu_offset has been successfully queried
  *         - \ref NVML_ERROR_UNINITIALIZED     if the library has not been successfully initialized
- *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid or \a offset is NULL
+ *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid or \a vgpu_offset is NULL
  *         - \ref NVML_ERROR_NOT_SUPPORTED     if the device does not support this feature
  *         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
  */
 nvmlReturn_t DECLDIR nvmlDeviceGetGpcClkMinMaxVfOffset(nvmlDevice_t device, int *minOffset, int *maxOffset);
 
 /**
- * Retrieve the MemClk (Memory Clock) min max VF offset value.
+ * Retrieve the MemClk (Memory Clock) min max VF vgpu_offset value.
  * @param[in]   device                         The identifier of the target device
- * @param[out]  minOffset                      The retrieved MemClk VF min offset value
- * @param[out]  maxOffset                      The retrieved MemClk VF max offset value
+ * @param[out]  minOffset                      The retrieved MemClk VF min vgpu_offset value
+ * @param[out]  maxOffset                      The retrieved MemClk VF max vgpu_offset value
  *
  * @return
- *         - \ref NVML_SUCCESS                 if \a offset has been successfully queried
+ *         - \ref NVML_SUCCESS                 if \a vgpu_offset has been successfully queried
  *         - \ref NVML_ERROR_UNINITIALIZED     if the library has not been successfully initialized
- *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid or \a offset is NULL
+ *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid or \a vgpu_offset is NULL
  *         - \ref NVML_ERROR_NOT_SUPPORTED     if the device does not support this feature
  *         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
  */

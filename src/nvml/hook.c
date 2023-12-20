@@ -4,7 +4,6 @@
 #include "include/base.h"
 #include "include/func.h"
 #include "include/nvml-helper.h"
-#include "include/nvml.h"
 #include "stdio.h"
 #include "string.h"
 
@@ -142,4 +141,10 @@ nvmlReturn_t nvmlInitWithFlags(unsigned int flags) {
     nvmlReturn_t res = NVML_ENTRY_CALL(nvml_library_entry, nvmlInit_v2, flags);
     pthread_once(&init_virtual_map_flag_1, (void (*)(void))nvml_postInit);
     return res;
+}
+
+const char *nvmlErrorString(nvmlReturn_t result) {
+    LINFO("Hijacking %s", "nvmlErrorString");
+    const char *(*hookFunc)(nvmlReturn_t) = (const char *(*)(nvmlReturn_t))NVML_FIND_ENTRY(nvml_library_entry, nvmlErrorString);
+    return hookFunc(result);
 }

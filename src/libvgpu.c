@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "include/base.h"
+#include "include/cuda-helper.h"
 #include "include/func.h"
 
 extern u_int64_t context_size;
@@ -17,6 +18,7 @@ extern bool real_dlsym;
 extern pthread_once_t dlsym_init_flag;
 extern int allocmode;
 extern int pidfound;
+extern void *cuda_library_entry[];
 
 unsigned long strtoul(const char *nptr, char **endptr, int base);
 

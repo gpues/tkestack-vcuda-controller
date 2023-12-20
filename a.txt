@@ -1,6 +1,6 @@
 dword_610C0    curren_owner
 dword_610C8     child_init_flag
-qword_610D0    flags
+qword_610D0    global_config
 dword_6113C     g_sm_num
 dword_61140     g_max_thread_per_sm
 

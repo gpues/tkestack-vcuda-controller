@@ -17,10 +17,10 @@ extern int g_sm_num;
 extern int g_max_thread_per_sm;
 
 extern unsigned int curren_owner;
-extern unsigned int offset;
+extern unsigned int vgpu_offset;
 extern void *cachePtr;
 extern int64_t in_fs_offset;
-extern sharedRegionT *flags;
+extern sharedRegionT *global_config;
 extern int64_t initial_offset;
 extern int memory_override;
 extern bool duplicate_devices;
@@ -82,11 +82,11 @@ bool fix_lock_shrreg() {
     if (fd == -1) {
         LERROR("Uninitialized shrreg");
     }
-    if (lockf(fd, F_LOCK, offset)) {
+    if (lockf(fd, F_LOCK, vgpu_offset)) {
         LERROR("Fail to upgraded lock: errno=%d", errno);
     }
     bool res = false;
-    u_int32_t pid = flags->ownerPid;
+    u_int32_t pid = global_config->ownerPid;
     if (pid) {
         int v26 = 0;
         if (pid == curren_owner) {
@@ -100,12 +100,12 @@ bool fix_lock_shrreg() {
 
         if (v26 == 1) {
             LINFO("Take upgraded lock (%d)", curren_owner);
-            flags->ownerPid = curren_owner;
+            global_config->ownerPid = curren_owner;
             res = true;
         }
     }
 
-    if (lockf(F_ULOCK, 0, offset)) {
+    if (lockf(F_ULOCK, 0, vgpu_offset)) {
         LERROR("Fail to upgraded unlock: errno=%d", errno);
     }
     return res;
@@ -115,26 +115,26 @@ int64_t lock_shrreg() {
     struct timespec abs_timeout;
     clock_gettime(CLOCK_REALTIME, &abs_timeout);
     abs_timeout.tv_sec += 10; // 设置等待时间为 10 秒
-    sharedRegionT flags_bak = *flags;
+    sharedRegionT flags_bak = *global_config;
     int wait_count = 0;
-    while (sem_timedwait(flags + 0x10, &abs_timeout)) {
+    while (sem_timedwait(global_config + 0x10, &abs_timeout)) {
         if (errno == 110) {
-            LWARN("Lock shrreg timeout, try fix (%d:%ld)", *(unsigned int *)flags, *(unsigned int *)(flags + 8));
+            LWARN("Lock shrreg timeout, try fix (%d:%ld)", *(unsigned int *)global_config, *(unsigned int *)(global_config + 8));
         }
-        unsigned int pid = *((unsigned int *)flags + 8);
+        unsigned int pid = *((unsigned int *)global_config + 8);
         if (pid && (pid == curren_owner || proc_alive(pid) == 1)) {
             LWARN("Owner proc dead (%d), try fix", pid);
             if (!fix_lock_shrreg()) {
-                return flags->initializedFlag ^ flags_bak.initializedFlag;
+                return global_config->initializedFlag ^ flags_bak.initializedFlag;
             }
         }
         else if (++wait_count > 30) {
             LWARN("Fail to lock shrreg in %d seconds", 300LL);
             if (!pid) {
                 LWARN(" fix current_owner 0>%d", curren_owner);
-                *(unsigned int *)(flags + 8) = curren_owner;
+                *(unsigned int *)(global_config + 8) = curren_owner;
                 if (!fix_lock_shrreg()) {
-                    return flags->initializedFlag ^ flags_bak.initializedFlag;
+                    return global_config->initializedFlag ^ flags_bak.initializedFlag;
                 }
             }
         }
@@ -142,14 +142,14 @@ int64_t lock_shrreg() {
             LERROR("Failed to lock shrreg: %d", errno);
         }
     }
-    *(unsigned int *)(flags + 8) = curren_owner;
+    *(unsigned int *)(global_config + 8) = curren_owner;
     _mm_mfence();
-    return flags->initializedFlag ^ flags_bak.initializedFlag;
+    return global_config->initializedFlag ^ flags_bak.initializedFlag;
 }
 
 void unlock_shrreg(void) {
-    sharedRegionT flags_bak = *flags;
-    flags->ownerPid = 0;
+    sharedRegionT flags_bak = *global_config;
+    global_config->ownerPid = 0;
     sem_t sem = flags_bak.initializedFlag + 0x10;
     sem_post(&sem);
 }
@@ -245,7 +245,7 @@ int64_t get_limit_from_env(char *envName) {
 int64_t do_init_device_memory_limits(void *arg, int count) {
     int64_t *dml = (int64_t *)arg;
     unsigned int i; // [rsp+14h] [rbp-4Ch]
-    sharedRegionT flags_bak = *flags;
+    sharedRegionT flags_bak = *global_config;
     // CUDA_DEVICE_MEMORY_LIMIT_1=38400m
     // CUDA_DEVICE_MEMORY_LIMIT_0=40960m
     int64_t limit_from_env = get_limit_from_env("CUDA_DEVICE_MEMORY_LIMIT");
@@ -267,13 +267,13 @@ int64_t do_init_device_memory_limits(void *arg, int count) {
             dml[i] = 0;
         }
     }
-    return flags->initializedFlag ^ flags_bak.initializedFlag;
+    return global_config->initializedFlag ^ flags_bak.initializedFlag;
 }
 
 int64_t do_init_device_sm_limits(void *arg, int count) {
     unsigned int i;
     int64_t *dml = (int64_t *)arg;
-    sharedRegionT flags_bak = *flags;
+    sharedRegionT flags_bak = *global_config;
     int64_t limit_from_env = get_limit_from_env("CUDA_DEVICE_SM_LIMIT");
     if (!limit_from_env)
         limit_from_env = 100LL;
@@ -290,16 +290,16 @@ int64_t do_init_device_sm_limits(void *arg, int count) {
         else
             dml[i] = limit_from_env;
     }
-    return flags->initializedFlag ^ flags_bak.initializedFlag;
+    return global_config->initializedFlag ^ flags_bak.initializedFlag;
 }
 
 u_int64_t get_timespec(int delay, struct timespec *t) {
     struct timeval tv;
-    sharedRegionT flags_bak = *flags;
+    sharedRegionT flags_bak = *global_config;
     gettimeofday(&tv, 0LL);
     t->tv_sec = delay + tv.tv_sec;
     t->tv_nsec = 0;
-    return flags->initializedFlag ^ flags_bak.initializedFlag;
+    return global_config->initializedFlag ^ flags_bak.initializedFlag;
 }
 
 int64_t exit_handler() {
@@ -318,30 +318,30 @@ int64_t exit_handler() {
 
     struct timespec abstime;
 
-    sharedRegionT flags_bak = *flags;
+    sharedRegionT flags_bak = *global_config;
     if (child_init_flag) {
         int i = 0;
         LINFO("Calling exit handler %d\n", getpid());
         get_timespec(3LL, &abstime);
-        if (sem_timedwait((sem_t *)(flags + 0x10), &abstime)) {
+        if (sem_timedwait((sem_t *)(global_config + 0x10), &abstime)) {
             LWARN("Failed to take lock on exit: errno=%d\n", errno);
         }
         else {
-            flags->ownerPid = curren_owner;
-            while (i < flags->procnum) {
-                if (flags->procs[i].pid == curren_owner) {
+            global_config->ownerPid = curren_owner;
+            while (i < global_config->procnum) {
+                if (global_config->procs[i].pid == curren_owner) {
                     struct shrregProcSlotT_t source; // 置空
-                    memcpy(&flags->procs[i].pid, &source, sizeof(struct shrregProcSlotT_t));
+                    memcpy(&global_config->procs[i].pid, &source, sizeof(struct shrregProcSlotT_t));
                     break;
                 }
                 ++i;
             }
             _mm_mfence();
-            flags->ownerPid = 0LL;
-            sem_post((sem_t *)(flags + 0x10));
+            global_config->ownerPid = 0LL;
+            sem_post((sem_t *)(global_config + 0x10));
         }
     }
-    return flags->initializedFlag ^ flags_bak.initializedFlag;
+    return global_config->initializedFlag ^ flags_bak.initializedFlag;
 }
 
 int64_t put_device_info() {
@@ -351,7 +351,7 @@ int64_t put_device_info() {
 
     LINFO("put_device_info finished %d", virtual_devices[0]);
 
-    *(int64_t *)(flags + 48) = (int)virtual_devices[0];
+    *(int64_t *)(global_config + 48) = (int)virtual_devices[0];
 
     for (int i = 0;; ++i) {
         if (i >= (int)virtual_devices[0]) {
@@ -364,7 +364,7 @@ int64_t put_device_info() {
             LWARN("NVML error at line %d: %d", __LINE__, HandleByIndex);
             return HandleByIndex;
         }
-        UUID = nvmlDeviceGetUUID(v17[0], (char *)&(flags->uuids[i]), 96);
+        UUID = nvmlDeviceGetUUID(v17[0], (char *)&(global_config->uuids[i]), 96);
         if (UUID)
             break;
     }
@@ -374,7 +374,7 @@ int64_t put_device_info() {
 
 int64_t try_create_shrreg() {
     LINFO("Try create shrreg");
-    sharedRegionT flags_bak = *flags;
+    sharedRegionT flags_bak = *global_config;
     int file_size = sizeof(sharedRegionT);
     if (fd == -1 && (unsigned int)__cxa_atexit(exit_handler)) {
         LERROR("Register exit handler failed: %d", errno);
@@ -460,7 +460,7 @@ int64_t try_create_shrreg() {
         LERROR("Fail to unlock shrreg %s: errno=%d\n", file, errno);
     }
     LINFO("shrreg created");
-    return flags->initializedFlag ^ flags_bak.initializedFlag;
+    return global_config->initializedFlag ^ flags_bak.initializedFlag;
 }
 
 u_int64_t get_gpu_memory_usage(unsigned int dev) {
@@ -469,9 +469,9 @@ u_int64_t get_gpu_memory_usage(unsigned int dev) {
     ensure_initialized();
     u_int64_t total = 0LL;
     lock_shrreg();
-    for (int i = 0; i < flags->procnum; ++i) {
-        LINFO("dev=%d pid=%d host pid=%d i=%lu", dev, flags->procs[i].pid, flags->procs[i].hostpid, flags->procs[i].used[dev].total);
-        total += flags->procs[i].used[dev].total;
+    for (int i = 0; i < global_config->procnum; ++i) {
+        LINFO("dev=%d pid=%d host pid=%d i=%lu", dev, global_config->procs[i].pid, global_config->procs[i].hostpid, global_config->procs[i].used[dev].total);
+        total += global_config->procs[i].used[dev].total;
     }
     u_int64_t v16 = initial_offset + total;
     unlock_shrreg();
@@ -485,19 +485,19 @@ int64_t add_gpu_device_memory_usage(unsigned int pid, int devIndex, size_t bytes
     LINFO("add_gpu_device_memory:%d %d %lu\n", pid, dev, bytesize);
     ensure_initialized();
     lock_shrreg();
-    for (i = 0; i < flags->procnum; ++i) {
-        if (pid == flags->procs[i].pid) {
-            flags->procs[i].used[dev].total += bytesize;
+    for (i = 0; i < global_config->procnum; ++i) {
+        if (pid == global_config->procs[i].pid) {
+            global_config->procs[i].used[dev].total += bytesize;
             if (flag == 2) {
-                flags->procs[i].used[dev].bufferSize += bytesize;
+                global_config->procs[i].used[dev].bufferSize += bytesize;
             }
             else if (flag <= 2) {
                 if (flag) {
                     if (flag == 1)
-                        flags->procs[i].used[dev].moduleSize += bytesize;
+                        global_config->procs[i].used[dev].moduleSize += bytesize;
                 }
                 else {
-                    flags->procs[i].used[dev].contextSize += bytesize;
+                    global_config->procs[i].used[dev].contextSize += bytesize;
                 }
             }
         }
@@ -537,11 +537,11 @@ int64_t resume_all() {
     int i;
     int64_t result;
     for (i = 0;; ++i) {
-        result = flags->procnum;
+        result = global_config->procnum;
         if (i >= (int)result)
             break;
 
-        int32_t pid = flags->procs[i].pid;
+        int32_t pid = global_config->procs[i].pid;
         LINFO("Sending USR1 to %d", pid);
         kill(pid, 10);
     }
@@ -551,10 +551,10 @@ int64_t resume_all() {
 unsigned int wait_status_all(int status) {
     unsigned int res = 1;
     unsigned int i;
-    for (i = 0; (signed int)i < flags->procnum; ++i) {
-        LINFO("i=%d pid=%d status=%d", flags->procs[i].pid, flags->procs[i].status);
-        if (status != flags->procs[i].status) {
-            int pid = flags->procs[i].pid;
+    for (i = 0; (signed int)i < global_config->procnum; ++i) {
+        LINFO("i=%d pid=%d status=%d", global_config->procs[i].pid, global_config->procs[i].status);
+        if (status != global_config->procs[i].status) {
+            int pid = global_config->procs[i].pid;
             if (pid != getpid())
                 res = 0;
         }
@@ -567,10 +567,10 @@ int64_t suspend_all() {
     int i;
     unsigned int result;
     for (i = 0;; ++i) {
-        result = flags->procnum;
+        result = global_config->procnum;
         if (i >= (int)result)
             break;
-        int32_t pid = flags->procs[i].pid;
+        int32_t pid = global_config->procs[i].pid;
         LINFO("Sending USR2 to %d", pid);
 
         kill(pid, 12);
@@ -580,14 +580,14 @@ int64_t suspend_all() {
 
 int64_t set_host_pid(size_t hPid) {
     unsigned int result;
-    for (int i = 0; i < flags->procnum; ++i) {
-        unsigned int pid = flags->procs[i].pid;
+    for (int i = 0; i < global_config->procnum; ++i) {
+        unsigned int pid = global_config->procs[i].pid;
         if (pid == getpid()) {
             LINFO("SET PID= %d", hPid);
             result = 1;
-            flags->procs[i].hostpid = hPid;
+            global_config->procs[i].hostpid = hPid;
             for (int j = 0; j <= 15; ++j) {
-                flags->procs[i].monitorused[j] = 0;
+                global_config->procs[i].monitorused[j] = 0;
             }
         }
     }
@@ -620,7 +620,7 @@ u_int64_t get_current_device_sm_limit(CUdevice dev) {
     if (dev >= 0x10) {
         LERROR("Illegal device id: %d", dev);
     }
-    return flags->sm_limit[dev];
+    return global_config->sm_limit[dev];
 }
 
 u_int64_t get_gpu_memory_monitor(CUdevice dev) {
@@ -629,9 +629,9 @@ u_int64_t get_gpu_memory_monitor(CUdevice dev) {
     u_int64_t used;
     ensure_initialized();
     lock_shrreg();
-    for (int i = 0; i < flags->procnum; ++i) {
-        LINFO("dev=%d i=%lu,%lu", flags->procs[i].monitorused[dev], flags->procs[i].used[dev].total);
-        used += flags->procs[i].monitorused[dev];
+    for (int i = 0; i < global_config->procnum; ++i) {
+        LINFO("dev=%d i=%lu,%lu", global_config->procs[i].monitorused[dev], global_config->procs[i].used[dev].total);
+        used += global_config->procs[i].monitorused[dev];
     }
     unlock_shrreg();
     return used;
@@ -651,7 +651,7 @@ u_int64_t get_current_device_memory_limit(unsigned int dev) {
     if (dev >= 0x10) {
         LERROR("Illegal device id: %d", dev);
     }
-    return flags->limit[dev];
+    return global_config->limit[dev];
 }
 
 int64_t clear_proc_slot_nolock(int64_t a1, int hPid) {
@@ -660,16 +660,16 @@ int64_t clear_proc_slot_nolock(int64_t a1, int hPid) {
     int seq = 0;
     unsigned int pid;
     while (1) {
-        result = flags->procnum;
+        result = global_config->procnum;
         if (index >= (int)result) {
             break;
         }
-        pid = flags->procs[index].pid;
+        pid = global_config->procs[index].pid;
         if (pid) {
             if (hPid > 0 && !proc_alive(pid)) {
                 LWARN("Kick dead proc %d", pid);
                 struct shrregProcSlotT_t source; // 置空
-                memcpy(&flags->procs[index].pid, &source, sizeof(struct shrregProcSlotT_t));
+                memcpy(&global_config->procs[index].pid, &source, sizeof(struct shrregProcSlotT_t));
                 _mm_mfence();
             }
         }
@@ -714,19 +714,19 @@ size_t rm_gpu_device_memory_usage(unsigned int pid, int index, size_t bytesize, 
     LINFO("rm_gpu_device_memory:%d %d %lu", pid, dev, bytesize);
     ensure_initialized();
     lock_shrreg();
-    for (int i = 0; i < flags->procnum; ++i) {
-        if (pid == flags->procs[i].pid) {
-            flags->procs[i].used[dev].total -= bytesize;
+    for (int i = 0; i < global_config->procnum; ++i) {
+        if (pid == global_config->procs[i].pid) {
+            global_config->procs[i].used[dev].total -= bytesize;
             if (flag == 2) {
-                flags->procs[i].used[dev].bufferSize -= bytesize;
+                global_config->procs[i].used[dev].bufferSize -= bytesize;
             }
             else if (flag <= 2) {
                 if (flag) {
                     if (flag == 1)
-                        flags->procs[i].used[dev].moduleSize -= bytesize;
+                        global_config->procs[i].used[dev].moduleSize -= bytesize;
                 }
                 else {
-                    flags->procs[i].used[dev].contextSize -= bytesize;
+                    global_config->procs[i].used[dev].contextSize -= bytesize;
                 }
             }
         }
@@ -753,24 +753,24 @@ int64_t rm_quitted_process() {
             const char *nptr = strtok(line, " ");
             int v14 = atoi(nptr);
             if (v14) {
-                for (int i = 0; i < flags->procnum; ++i) {
-                    if (v14 == flags->procs[i].pid)
+                for (int i = 0; i < global_config->procnum; ++i) {
+                    if (v14 == global_config->procs[i].pid)
                         pids[i] = 1;
                 }
             }
         }
-        for (int j = 0; j < flags->procnum; ++j) {
+        for (int j = 0; j < global_config->procnum; ++j) {
             if (pids[j]) {
-                flags->procs[v12].pid = flags->procs[j].pid;
+                global_config->procs[v12].pid = global_config->procs[j].pid;
                 struct shrregProcSlotT_t sst;
-                memcpy(&flags->procs[v12++].used[0].contextSize, &flags->procs[j].used[0].contextSize, sizeof(sst.used));
+                memcpy(&global_config->procs[v12++].used[0].contextSize, &global_config->procs[j].used[0].contextSize, sizeof(sst.used));
             }
             else {
-                LINFO("rm pid=%d", flags->procs[j].pid);
+                LINFO("rm pid=%d", global_config->procs[j].pid);
                 res = 1;
             }
         }
-        flags->procnum = v12;
+        global_config->procnum = v12;
         pclose(stream);
     }
     unlock_shrreg();
@@ -798,17 +798,17 @@ int64_t nvml_get_device_memory_usage(unsigned int index) {
     lock_shrreg();
     int loopCount;
 
-    sharedRegionT flags_bak = *flags;
+    sharedRegionT flags_bak = *global_config;
     u_int64_t usedGpuMemory = 0;
     while (index < processCount) {
-        for (int i = 0; i < flags->procnum; ++i) {
-            if (infos[loopCount].pid == flags->procs[i].pid)
+        for (int i = 0; i < global_config->procnum; ++i) {
+            if (infos[loopCount].pid == global_config->procs[i].pid)
                 usedGpuMemory += infos[loopCount].usedGpuMemory;
         }
         ++loopCount;
     }
     unlock_shrreg();
-    LINFO("Device %d current memory %lu / %lu", usedGpuMemory, flags->limit[index]);
+    LINFO("Device %d current memory %lu / %lu", usedGpuMemory, global_config->limit[index]);
 }
 
 int64_t set_current_device_memory_limit(unsigned int index, int64_t size) {
@@ -817,22 +817,22 @@ int64_t set_current_device_memory_limit(unsigned int index, int64_t size) {
         LERROR("Illegal device id: %d", index);
     }
     LINFO("dev %d new limit set to %ld", index, size);
-    flags->limit[index] = size;
+    global_config->limit[index] = size;
 
     return 0;
 }
 
 int64_t set_current_device_sm_limit_scale(unsigned int index, unsigned int size) {
     ensure_initialized();
-    if (flags->smInitFlag == 1)
+    if (global_config->smInitFlag == 1)
         return 0;
 
     if (index >= 0x10) {
         LERROR("Illegal device id: %d", index);
     }
     LINFO("dev %d new sm limit set mul by %d", index, size);
-    flags->sm_limit[index] += size;
-    flags->smInitFlag = 1;
+    global_config->sm_limit[index] += size;
+    global_config->smInitFlag = 1;
     return 0;
 }
 
@@ -842,29 +842,29 @@ int64_t set_gpu_device_memory_monitor(unsigned int pid, unsigned int deviceIndex
     int64_t v9;
     double v10;
     lock_shrreg();
-    for (int i = 0; i < flags->procnum; ++i) {
-        if (pid == flags->procs->pid) {
-            LINFO("set_gpu_device_memory_monitor:%d %d %lu->%lu", pid, deviceIndex, flags->procs[i].used[deviceIndex].total, usedGpuMemory);
+    for (int i = 0; i < global_config->procnum; ++i) {
+        if (pid == global_config->procs->pid) {
+            LINFO("set_gpu_device_memory_monitor:%d %d %lu->%lu", pid, deviceIndex, global_config->procs[i].used[deviceIndex].total, usedGpuMemory);
         }
-        flags->procs[i].monitorused[deviceIndex] = usedGpuMemory;
+        global_config->procs[i].monitorused[deviceIndex] = usedGpuMemory;
         if (memory_override == 1) {
-            flags->procs[i].used[deviceIndex].offset = usedGpuMemory - flags->procs[i].used[deviceIndex].total;
-            flags->procs[i].used[deviceIndex].total = usedGpuMemory;
+            global_config->procs[i].used[deviceIndex].offset = usedGpuMemory - global_config->procs[i].used[deviceIndex].total;
+            global_config->procs[i].used[deviceIndex].total = usedGpuMemory;
         }
-        if (!duplicate_devices && flags->limit[deviceIndex]) {
+        if (!duplicate_devices && global_config->limit[deviceIndex]) {
             if (usedGpuMemory < 0) {
                 v8 = (double)(int)((usedGpuMemory & 1) | ((uint64_t)((uint32_t)usedGpuMemory) >> 1)) * 2;
             }
             else
                 v8 = (double)(int)usedGpuMemory;
 
-            int64_t limit = (int64_t)flags->limit[deviceIndex];
+            int64_t limit = (int64_t)global_config->limit[deviceIndex];
             if (limit < 0)
                 v10 = (double)(int)((v9 & 1) | (uint64_t)((uint32_t)limit >> 1)) * 2;
             else
                 v10 = (double)(int)limit;
             if (v8 > v10 * 1.1 && enable_active_oom_killer > 0) {
-                LERROR("device OOM encountered: usage=%lu limit=%lu", usedGpuMemory, flags->limit[deviceIndex]);
+                LERROR("device OOM encountered: usage=%lu limit=%lu", usedGpuMemory, global_config->limit[deviceIndex]);
                 active_oom_killer();
             }
             break;
@@ -877,8 +877,8 @@ int64_t set_gpu_device_memory_monitor(unsigned int pid, unsigned int deviceIndex
 int active_oom_killer() {
     int i; // [rsp+Ch] [rbp-4h]
 
-    for (i = 0; i < flags[0].procnum; ++i) {
-        kill(flags[0].procs[i].pid, 9);
+    for (i = 0; i < global_config[0].procnum; ++i) {
+        kill(global_config[0].procs[i].pid, 9);
     }
     return 0LL;
 }
@@ -917,22 +917,22 @@ int64_t cu_maphostpid(unsigned int pid) {
 size_t wait_status_self(int status) {
     int i; // [rsp+1Ch] [rbp-14h]
 
-    for (i = 0; i < flags[0].procnum; ++i) {
-        if (flags[0].procs[0].pid == getpid())
-            return status == flags[0].procs[0].status;
+    for (i = 0; i < global_config[0].procnum; ++i) {
+        if (global_config[0].procs[0].pid == getpid())
+            return status == global_config[0].procs[0].status;
     }
     return 0xFFFFFFFFLL;
 }
 
 int32_t set_current_gpu_status(int32_t a1) {
-    for (int i = 0; i < flags->procnum; ++i) {
-        if (getpid() == flags->procs[i].pid) {
-            flags->procnum = a1;
-            flags->procs[i].status = a1;
-            return flags->procnum;
+    for (int i = 0; i < global_config->procnum; ++i) {
+        if (getpid() == global_config->procs[i].pid) {
+            global_config->procnum = a1;
+            global_config->procs[i].status = a1;
+            return global_config->procnum;
         }
     }
-    return flags->procnum;
+    return global_config->procnum;
 }
 
 int64_t find_symbols_in_table(const char *a1) {
@@ -966,7 +966,7 @@ int64_t get_listsize(int64_t a1, int64_t *a2) {
     }
 }
 
-size_t   init_proc_slot_withlock(size_t a1) {
+size_t init_proc_slot_withlock(size_t a1) {
     int i;           // [rsp+Ch] [rbp-14h]
     int v3;          // [rsp+10h] [rbp-10h]
     unsigned int v4; // [rsp+14h] [rbp-Ch]

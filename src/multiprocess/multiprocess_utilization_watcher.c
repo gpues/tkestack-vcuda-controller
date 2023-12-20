@@ -3,9 +3,9 @@
 
 #include <pthread.h>
 #include <stddef.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
-#include <stdlib.h>
 
 #include "include/base.h"
 #include "include/func.h"
@@ -15,7 +15,7 @@ extern u_int64_t in_fs_offset;
 extern int memory_override;
 extern bool duplicate_devices;
 extern void **cachePtr;
-extern sharedRegionT *flags;
+extern sharedRegionT *global_config;
 extern int pidfound;
 extern volatile int g_cur_cuda_cores;
 extern volatile int g_total_cuda_cores;
@@ -33,9 +33,9 @@ static const struct timespec g_wait = {
 
 int64_t find_proc_by_hostpid(unsigned int pid) {
     int i;
-    for (i = 0; i < flags->procnum; ++i) {
-        if (pid == flags->procs[i].hostpid)
-            return flags->procs[i].pid;
+    for (i = 0; i < global_config->procnum; ++i) {
+        if (pid == global_config->procs[i].hostpid)
+            return global_config->procs[i].pid;
     }
     return 0LL;
 }
@@ -111,8 +111,8 @@ int64_t reset_task_pid() {
     return 0LL;
 }
 int64_t update_host_pid() {
-    for (int i = 0; i < flags->procnum; ++i) {
-        if (flags->procs[i].pid == getpid() && flags->procs[i].hostpid)
+    for (int i = 0; i < global_config->procnum; ++i) {
+        if (global_config->procs[i].pid == getpid() && global_config->procs[i].hostpid)
             pidfound = 1;
     }
     return 0LL;
@@ -151,7 +151,7 @@ void utilization_watcher() {
 
 int init_utilization_watcher() {
     pthread_t newthread;
-    sharedRegionT flags_bak = *flags;
+    sharedRegionT flags_bak = *global_config;
     LINFO("set core utilization limit to  %d", get_current_device_sm_limit(0LL));
     setspec();
     char *envName = getenv("MEMORY_OVERRIDE");
@@ -160,7 +160,7 @@ int init_utilization_watcher() {
         memory_override = *envName != 'f';
     if ((int)get_current_device_sm_limit(0) <= 'c' && (int)get_current_device_sm_limit(0LL) > 0)
         pthread_create(&newthread, 0LL, (void *(*)(void *))utilization_watcher, 0LL);
-    return flags_bak.initializedFlag ^ flags->initializedFlag;
+    return flags_bak.initializedFlag ^ global_config->initializedFlag;
 }
 
 int delta(int up_limit, int user_current, int share) {

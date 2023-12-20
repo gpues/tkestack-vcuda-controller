@@ -2,7 +2,6 @@
 #include "include/cuda-helper.h"
 #include "include/func.h"
 #include "include/nvml-helper.h"
-#include "include/nvml.h"
 #include "stdio.h"
 #include "string.h"
 unsigned int cuda_to_nvml_map[0x10];

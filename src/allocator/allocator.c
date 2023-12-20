@@ -1,7 +1,8 @@
 #include <pthread.h>
 #include <stdint.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
+
 #include "include/base.h"
 #include "include/cuda-helper.h"
 #include "include/func.h"
@@ -11,7 +12,7 @@ extern void *cuda_library_entry[];
 extern pthread_mutex_t mutex;
 extern size_t **device_overallocated[3];
 extern unsigned int record_cuda_map[17];
-extern sharedRegionT *flags;
+extern sharedRegionT *global_config;
 
 int64_t oom_check(int devIndex, size_t bytesize) {
     CUdevice dev;

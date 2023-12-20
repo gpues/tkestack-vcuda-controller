@@ -13,7 +13,6 @@
 #include "include/base.h"
 #include "include/cuda-helper.h"
 #include "include/func.h"
-#include "include/nvml.h"
 
 extern int virtual_map[0x10];
 extern unsigned int virtual_devices[17];
@@ -23,7 +22,7 @@ extern device vdevices[0x10];
 extern int record_nvml_map[0x10];
 extern unsigned int record_cuda_map[17];
 extern void *cuda_library_entry[];
-extern sharedRegionT *flags;
+extern sharedRegionT *global_config;
 extern int env_utilization_switch;
 extern char *unified_lock;
 
@@ -311,7 +310,7 @@ size_t get_utilization_switch() {
         return 1LL;
     if (env_utilization_switch == 2)
         return 0LL;
-    return flags->procnum;
+    return global_config->procnum;
 }
 
 size_t try_lock_unified_lock() {

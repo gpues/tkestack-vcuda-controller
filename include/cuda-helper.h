@@ -22,18 +22,20 @@ extern "C" {
 #endif
 #include <dlfcn.h>
 
-#include "cuda.h"
-
 /**
  *  CUDA library prefix
  */
 #define CUDA_LIBRARY_PREFIX "libcuda.so"
 #define CUDA_ENTRY_ENUM(x) ENTRY_##x
 #define CUDA_FIND_ENTRY(table, sym) ({ (table)[CUDA_ENTRY_ENUM(sym)]; })
-#define CUDA_ENTRY_CALL(table, sym, ...)                 \
-    ({                                                   \
-        cuda_sym_t _entry = CUDA_FIND_ENTRY(table, sym); \
-        _entry(__VA_ARGS__);                             \
+
+/**
+ * CUDA library function pointer
+ */
+#define CUDA_ENTRY_CALL(table, sym, ...)                            \
+    ({                                                              \
+        int (*hookFunc)() = (int (*)())CUDA_FIND_ENTRY(table, sym); \
+        hookFunc(__VA_ARGS__);                                      \
     })
 #define CUDA_ENTRY_DEBUG_VOID_CALL(table, sym, ...)                 \
     ({                                                              \
@@ -183,7 +185,6 @@ typedef enum {
     CUDA_ENTRY_ENUM(cuSurfObjectDestroy),
     CUDA_ENTRY_ENUM(cuSurfObjectGetResourceDesc),
     CUDA_ENTRY_ENUM(cuLaunchKernel), // 188
-    CUDA_ENTRY_ENUM(cuLaunchKernel_ptsz),
     CUDA_ENTRY_ENUM(cuEventCreate),
     CUDA_ENTRY_ENUM(cuEventRecord),
     CUDA_ENTRY_ENUM(cuEventRecord_ptsz),
@@ -310,7 +311,6 @@ typedef enum {
     CUDA_ENTRY_ENUM(cuLaunch),
     CUDA_ENTRY_ENUM(cuLaunchCooperativeKernel), // 190
     CUDA_ENTRY_ENUM(cuLaunchCooperativeKernelMultiDevice),
-    CUDA_ENTRY_ENUM(cuLaunchCooperativeKernel_ptsz),
     CUDA_ENTRY_ENUM(cuLaunchGrid),
     CUDA_ENTRY_ENUM(cuLaunchGridAsync),
     CUDA_ENTRY_ENUM(cuLinkAddData_v2),
@@ -324,7 +324,6 @@ typedef enum {
     CUDA_ENTRY_ENUM(cuMemcpy2DAsync),
     CUDA_ENTRY_ENUM(cuMemcpy2DUnaligned),
     CUDA_ENTRY_ENUM(cuMemcpy2D_v2),
-    CUDA_ENTRY_ENUM(cuMemcpy2D_v2_ptds),
     CUDA_ENTRY_ENUM(cuMemcpy3D),
     CUDA_ENTRY_ENUM(cuMemcpy3DAsync),
     CUDA_ENTRY_ENUM(cuMemcpyAtoA),
@@ -585,12 +584,14 @@ typedef enum {
     CUDA_ENTRY_ENUM(cuUserObjectCreate),
     CUDA_ENTRY_ENUM(cuUserObjectRelease),
     CUDA_ENTRY_ENUM(cuUserObjectRetain),
+    CUDA_ENTRY_ENUM(cuGraphKernelNodeGetParams_v2),
+    CUDA_ENTRY_ENUM(cuGraphKernelNodeSetParams_v2),
+    CUDA_ENTRY_ENUM(cuGetProcAddress_v2),
+    CUDA_ENTRY_ENUM(cuGraphAddKernelNode_v2),
+    CUDA_ENTRY_ENUM(cuGetProcAddress_alt),
     CUDA_ENTRY_END
 } cuda_entry_enum_t;
-/**
- * CUDA library function pointer
- */
-typedef CUresult (*cuda_sym_t)();
+
 /**
  * CUDA library debug function pointer
  */

@@ -1,15 +1,15 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <stddef.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <stdlib.h>
 
 #include "include/base.h"
 #include "include/func.h"
 
 extern void *cuda_library_entry[];
-extern sharedRegionT *flags;
+extern sharedRegionT *global_config;
 extern u_int64_t *initial_offset;
 extern u_int64_t *in_fs_offset;
 

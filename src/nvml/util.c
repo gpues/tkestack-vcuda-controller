@@ -1,7 +1,7 @@
 #include <ctype.h>
 #include <stdint.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "include/base.h"
 #include "include/cuda-helper.h"

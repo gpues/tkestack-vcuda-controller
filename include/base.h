@@ -1,12 +1,17 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/times.h>
 #include <unistd.h>
 
-#include "cuda.h"
+#include "cuda-helper.h"
+#include "cuda-subset.h"
+#include "func.h"
 #include "limits.h"
-#include "nvml.h"
+#include "nvml-helper.h"
+#include "nvml-subset.h"
 #include "stdint.h"
+#include "vdpau.h"
 
 typedef struct {
     char *name;
@@ -46,13 +51,14 @@ typedef enum {
     VERBOSE = 5,
 } log_level_enum_t;
 // sub_4074F0
+// Incompatible integer to pointer conversion initializing 'char *' with an expression of type 'int'
 
 #define LINFO(format, ...)                                                                                                                  \
     ({                                                                                                                                      \
         char *_print_level_str = getenv("LOGGER_LEVEL");                                                                                    \
-        int _print_level = 0;                                                                                                               \
+        unsigned long _print_level = 0;                                                                                                     \
         if (_print_level_str) {                                                                                                             \
-            _print_level = (int)strtoul(_print_level_str, NULL, 10);                                                                        \
+            _print_level = strtoul(_print_level_str, NULL, 10);                                                                             \
             _print_level = _print_level < 0 ? 3 : _print_level;                                                                             \
         }                                                                                                                                   \
         if (1 <= _print_level) {                                                                                                            \
@@ -65,7 +71,7 @@ typedef enum {
         char *_print_level_str = getenv("LOGGER_LEVEL");                                                                                           \
         int _print_level = 0;                                                                                                                      \
         if (_print_level_str) {                                                                                                                    \
-            _print_level = (int)strtoul(_print_level_str, NULL, 10);                                                                               \
+            _print_level = strtoul(_print_level_str, NULL, 10);                                                                                    \
             _print_level = _print_level < 0 ? 3 : _print_level;                                                                                    \
         }                                                                                                                                          \
         if (1 < _print_level) {                                                                                                                    \
@@ -155,7 +161,6 @@ typedef struct {
     long long int MemoryUsed;
     unsigned int Type; // 是否大于100份
 } cudaCache;
-nvmlReturn_t UnMarshalCudaCache(ProcessType t, unsigned int *processCount, cudaCache *cc);
 
 #define DRIVER_VERSION_PROC_PATH "/proc/driver/nvidia/version"
 #define DRIVER_VERSION_MATCH_PATTERN "([0-9]+)(\\.[0-9]+)+"

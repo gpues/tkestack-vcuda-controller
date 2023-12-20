@@ -1,6 +1,7 @@
 #include <stddef.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
+
 #include "include/base.h"
 #include "include/cuda-helper.h"
 #include "include/func.h"
@@ -11,7 +12,7 @@ extern unsigned int virtual_nvml_devices[17];
 extern unsigned int virtual_devices[17];
 extern unsigned int virtual_map[0x10];
 extern void *cuda_library_entry[];
-extern sharedRegionT *flags;
+extern sharedRegionT *global_config;
 extern device vdevices[16];
 
 size_t assigning_virtual_pcibusID() {

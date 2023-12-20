@@ -1,12 +1,11 @@
 #include <stddef.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/mman.h>
 
 #include "include/base.h"
 #include "include/cuda-helper.h"
 #include "include/func.h"
-
 
 extern int record_nvml_map[0x10];
 extern unsigned int cuda_to_nvml_map[0x10];

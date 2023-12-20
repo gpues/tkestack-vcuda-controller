@@ -1,8 +1,8 @@
 #include "include/base.h"
 #include "include/cuda-helper.h"
 #include "include/func.h"
-#include "string.h"
 #include "stdlib.h"
+#include "string.h"
 extern void *cuda_library_entry[];
 extern int pidfound;
 extern int allocmode;
@@ -444,7 +444,7 @@ CUresult cuMemAllocPitch_v2(CUdeviceptr *dptr, size_t *pPitch, size_t WidthInByt
         LogAndWait(INFO, 1u, "");
     };
     LWARN("Hijacking %s", "cuCtxGetDevice");
-    if (check_oom( )) {
+    if (check_oom()) {
         return CUDA_ERROR_OUT_OF_MEMORY;
     }
     LWARN("Hijacking %s", "cuMemAllocPitch_v2");

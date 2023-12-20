@@ -2,9 +2,6 @@
 #include <stdlib.h>
 
 #include "include/base.h"
-#include "include/func.h"
-#include "include/nvml-helper.h"
-#include "include/nvml.h"
 #include "stdio.h"
 #include "string.h"
 
@@ -49,4 +46,42 @@ u_int64_t load_cuda_libraries() {
     }
     dlclose(handle);
     return;
+}
+
+void cudbgApiAttach() {
+    LINFO("Hijacking %s", "cudbgApiAttach");
+    CUDA_ENTRY_CALL(cuda_library_entry, cudbgApiAttach);
+    return;
+}
+void cudbgApiDetach() {
+    LINFO("Hijacking %s", "cudbgApiDetach");
+    CUDA_ENTRY_CALL(cuda_library_entry, cudbgApiDetach);
+    return;
+}
+void cudbgReportDriverApiError() {
+    LINFO("Hijacking %s", "cudbgReportDriverApiError");
+    CUDA_ENTRY_CALL(cuda_library_entry, cudbgReportDriverApiError, );
+    return;
+}
+void cudbgReportDriverInternalError() {
+    LINFO("Hijacking %s", "cudbgReportDriverInternalError");
+    CUDA_ENTRY_CALL(cuda_library_entry, cudbgReportDriverInternalError, );
+    return;
+}
+void cudbgApiInit(uint32_t arg) {
+    LINFO("Hijacking %s", "cudbgApiInit");
+    CUDA_ENTRY_CALL(cuda_library_entry, cudbgApiInit, arg);
+    return;
+}
+CUDBGResult cudbgGetAPI(uint32_t major, uint32_t minor, uint32_t rev, CUDBGAPI *api) {
+    LINFO("Hijacking %s", "cudbgGetAPI");
+    return CUDA_ENTRY_CALL(cuda_library_entry, cudbgGetAPI, major, minor, rev, api);
+}
+CUDBGResult cudbgGetAPIVersion(uint32_t *major, uint32_t *minor, uint32_t *rev) {
+    LINFO("Hijacking %s", "cudbgGetAPIVersion");
+    return CUDA_ENTRY_CALL(cuda_library_entry, cudbgGetAPIVersion, major, minor, rev);
+}
+CUDBGResult cudbgMain(int apiClientPid, uint32_t apiClientRevision, int sessionId, int attachState, int attachEventInitialized, int writeFd, int detachFd, int attachStubInUse, int enablePreemptionDebugging) {
+    LINFO("Hijacking %s", "cudbgMain");
+    return CUDA_ENTRY_CALL(cuda_library_entry, cudbgMain, apiClientPid, apiClientRevision, sessionId, attachState, attachEventInitialized, writeFd, detachFd, attachStubInUse, enablePreemptionDebugging);
 }
