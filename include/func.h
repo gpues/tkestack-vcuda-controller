@@ -1,7 +1,10 @@
 #include <stdbool.h>
 
+#include "cuda-subset.h"
+#include "nvml-subset.h"
+
 void ensure_initialized();
-size_t wait_status_self();
+size_t wait_status_self(int status);
 int64_t check_oom();
 size_t compute_3d_array_alloc_bytes(const CUDA_ARRAY3D_DESCRIPTOR *pAllocateArray);
 size_t compute_array_alloc_bytes(const CUDA_ARRAY_DESCRIPTOR *pAllocateArray);
@@ -26,7 +29,7 @@ size_t allocate_raw(size_t *dptr, size_t bytesize);
 
 size_t rm_gpu_device_memory_usage(unsigned int pid, int index, size_t bytesize, int flag);
 size_t free_raw(size_t bytesize);
-unsigned int handle_remap(u_int64_t *handle);
+nvmlDevice_t handle_remap(nvmlDevice_t handle);
 int set_env_utilization_switch();
 int64_t set_host_pid(size_t hPid);
 int get_vdevice_index(nvmlDevice_t *handle);
@@ -42,3 +45,11 @@ size_t set_task_pid();
 size_t try_lock_unified_lock();
 size_t parse_cuda_visible_env();
 int init_utilization_watcher();
+CUcontext ctx_remap(CUcontext ctx);
+CUcontext ctx_reversemap(CUcontext ctx);
+int64_t find_symbols_in_table(const char *a1);
+
+u_int64_t load_cuda_libraries();
+
+CUresult cuArray3DCreate_helper(const CUDA_ARRAY3D_DESCRIPTOR *pAllocateArray);
+CUresult cuArrayCreate_helper(const CUDA_ARRAY_DESCRIPTOR *pAllocateArray);

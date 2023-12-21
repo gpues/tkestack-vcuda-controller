@@ -33,10 +33,10 @@ extern "C" {
 #define NVML_ENTRY_ENUM(x) ENTRY_##x
 
 #define NVML_FIND_ENTRY(table, sym) ({ (table)[NVML_ENTRY_ENUM(sym)]; })
-#define NVML_ENTRY_CALL(table, sym, ...)                            \
-    ({                                                              \
-        int (*hookFunc)() = (int (*)())NVML_FIND_ENTRY(table, sym); \
-        hookFunc(__VA_ARGS__);                                      \
+#define NVML_ENTRY_CALL(table, sym, ...)                                 \
+    ({                                                                   \
+        size_t (*hookFunc)() = (size_t(*)())NVML_FIND_ENTRY(table, sym); \
+        hookFunc(__VA_ARGS__);                                           \
     })
 
 /**
@@ -285,7 +285,6 @@ typedef enum {
     NVML_ENTRY_ENUM(nvmlDeviceGetComputeRunningProcesses_v2),
     NVML_ENTRY_ENUM(nvmlDeviceGetGraphicsRunningProcesses_v2),
     NVML_ENTRY_ENUM(nvmlDeviceSetTemperatureThreshold),
-    NVML_ENTRY_ENUM(nvmlRetry_NvRmControl),
     NVML_ENTRY_ENUM(nvmlVgpuInstanceGetGpuInstanceId),
     NVML_ENTRY_ENUM(nvmlVgpuTypeGetGpuInstanceProfileId),
     NVML_ENTRY_ENUM(nvmlDeviceCreateGpuInstanceWithPlacement),

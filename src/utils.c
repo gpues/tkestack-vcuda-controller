@@ -1,18 +1,4 @@
-#include <emmintrin.h>
-#include <errno.h>
-#include <pthread.h>
-#include <semaphore.h>
-#include <signal.h>
-#include <stddef.h>
-#include <string.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <sys/time.h>
-#include <time.h>
-
-#include "include/base.h"
-#include "include/cuda-helper.h"
-#include "include/func.h"
+#include "include/all.h"
 
 extern int virtual_map[0x10];
 extern unsigned int virtual_devices[17];

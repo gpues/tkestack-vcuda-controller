@@ -1,12 +1,4 @@
-#include <pthread.h>
-#include <semaphore.h>
-#include <stddef.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-
-#include "include/base.h"
-#include "include/func.h"
+#include "include/all.h"
 
 extern void *cuda_library_entry[];
 extern sharedRegionT *global_config;

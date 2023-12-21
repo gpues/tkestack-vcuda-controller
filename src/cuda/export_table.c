@@ -1,11 +1,4 @@
-#include <stddef.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/mman.h>
-
-#include "include/base.h"
-#include "include/cuda-helper.h"
-#include "include/func.h"
+#include "include/all.h"
 
 extern int record_nvml_map[0x10];
 extern unsigned int cuda_to_nvml_map[0x10];
@@ -22,8 +15,8 @@ int64_t cudart_interface_fn1(nvmlDevice_t *handle, unsigned int dev) {
             vdevices[cuda_to_nvml_map[dev]].vctx = 0LL;
         }
         else {
-            vdevices[cuda_to_nvml_map[dev]].ctx = (CUcontext)*handle;
-            vdevices[cuda_to_nvml_map[dev]].vctx = (CUcontext)*handle;
+            vdevices[cuda_to_nvml_map[dev]].ctx = (CUcontext *)handle;
+            vdevices[cuda_to_nvml_map[dev]].vctx = (CUcontext *)handle;
         }
     }
     *handle = (nvmlDevice_t)vdevices[cuda_to_nvml_map[dev]].ctx;
@@ -117,4 +110,8 @@ CUresult cuGetExportTable(const void ***ppExportTable, const CUuuid *pExportTabl
 size_t runtime_callback_hooks_fn1(size_t a1, size_t a2) {
     LINFO("runtime_callback_hooks_fn1");
     return fa0p1(a1, a2);
+}
+size_t runtime_callback_hooks_fn5(size_t a1, size_t a2) {
+    LINFO("runtime_callback_hooks_fn5");
+    return fa0p5(a1, a2);
 }

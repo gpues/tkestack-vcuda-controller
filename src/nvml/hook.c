@@ -1,11 +1,4 @@
-#include <pthread.h>
-#include <stdlib.h>
-
-#include "include/base.h"
-#include "include/func.h"
-#include "include/nvml-helper.h"
-#include "stdio.h"
-#include "string.h"
+#include "include/all.h"
 
 extern void *nvml_library_entry[];
 extern device vdevices[16];
@@ -33,7 +26,7 @@ nvmlReturn_t nvmlDeviceGetPciInfo_v3(nvmlDevice_t device, nvmlPciInfo_t *pci) {
     unsigned int vdevice_index = get_vdevice_index((nvmlDevice_t *)device);
     if (vdevices[vdevice_index].busIdLegacy) {
         vdevice_index = get_vdevice_index((nvmlDevice_t *)device);
-        strncpy(pci->busIdLegacy, (char *)vdevices[vdevice_index].busIdLegacy, 0x10);
+        strncpy(pci->busId, (char *)vdevices[vdevice_index].busIdLegacy, 0x10);
     }
     return res;
 }
@@ -45,7 +38,7 @@ nvmlReturn_t nvmlDeviceGetPciInfo_v2(nvmlDevice_t device, nvmlPciInfo_t *pci) {
     unsigned int vdevice_index = get_vdevice_index((nvmlDevice_t *)device);
     if (vdevices[vdevice_index].busIdLegacy) {
         vdevice_index = get_vdevice_index((nvmlDevice_t *)device);
-        strncpy(pci->busIdLegacy, (char *)vdevices[vdevice_index].busIdLegacy, 0x10);
+        strncpy(pci->busId, (char *)vdevices[vdevice_index].busIdLegacy, 0x10);
     }
     return res;
 }
@@ -57,7 +50,7 @@ nvmlReturn_t nvmlDeviceGetPciInfo(nvmlDevice_t device, nvmlPciInfo_t *pci) {
     unsigned int vdevice_index = get_vdevice_index((nvmlDevice_t *)device);
     if (vdevices[vdevice_index].busIdLegacy) {
         vdevice_index = get_vdevice_index((nvmlDevice_t *)device);
-        strncpy(pci->busIdLegacy, (char *)vdevices[vdevice_index].busIdLegacy, 0x10);
+        strncpy(pci->busId, (char *)vdevices[vdevice_index].busIdLegacy, 0x10);
     }
     return res;
 }

@@ -56,6 +56,8 @@ extern "C" {
 #include <stddef.h>
 #include <stdint.h>
 
+#include "vdpau.h"
+
 typedef uint32_t cuuint32_t;
 typedef uint64_t cuuint64_t;
 

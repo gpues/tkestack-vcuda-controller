@@ -1,9 +1,4 @@
-#include <pthread.h>
-#include <stdbool.h>
-#include <stdint.h>
-#include <sys/kern_control.h>
-
-#include "include/base.h"
+#include "include/all.h"
 
 int memory_override;
 sharedRegionT *global_config; //   [ _,pid,sem,_, _,_,_,_,_]
@@ -49,7 +44,11 @@ int dlmap_count;
 char *dlmap[1000];
 
 pthread_once_t dlsym_init_flag = PTHREAD_ONCE_INIT;
+pthread_once_t pre_cuinit_flag = PTHREAD_ONCE_INIT;
+pthread_once_t post_cuinit_flag = PTHREAD_ONCE_INIT;
 
 int env_utilization_switch;
 
 char *unified_lock = "/tmp/vgpulock/lock";
+
+void *cuGetProcAddress_real;

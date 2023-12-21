@@ -1,14 +1,4 @@
-
-// WARNING: Variable defined which should be unmapped: var_20h
-
-#include <pthread.h>
-#include <stddef.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/time.h>
-
-#include "include/base.h"
-#include "include/func.h"
+#include "include/all.h"
 
 extern u_int64_t initial_offset;
 extern u_int64_t in_fs_offset;
@@ -146,7 +136,6 @@ void utilization_watcher() {
         share = delta(current_device_sm_limit, top_result.user_current, share);
         change_token(share);
     }
-    return;
 }
 
 int init_utilization_watcher() {

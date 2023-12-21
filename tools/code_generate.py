@@ -7,8 +7,10 @@ import sys
 
 from CppHeaderParser import CppHeader
 
+absPath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-class CodeGenerate():
+
+class CodeGenerate:
 
     def __init__(self, type_, file_, output_, return_type):
         self.header = None
@@ -16,15 +18,15 @@ class CodeGenerate():
         self.return_type = return_type
         self.file = file_
         self.output = output_
+        self.funcs = set()
 
         self.func_list = []
         self.originals_map = {}
-        self.nvml_header = '''#include "include/base.h"
-#include "string.h"
-extern void *nvml_library_entry[];'''
+        self.nvml_header = '''#include "include/all.h"
+extern void *nvml_library_entry[];
+'''
 
-        self.cuda_header = '''#include "include/base.h"
-#include "string.h"
+        self.cuda_header = '''#include "include/all.h"
 extern void *cuda_library_entry[];
 '''
         self.hook_template = """
@@ -35,14 +37,14 @@ $ret$ $func_name$($func_param$) {
 
         self.cuda_signs = []
         self.cuda_hook = []
-        with open('../include/cuda-helper.h', 'r', encoding='utf8') as f:
+        with open(f'{absPath}/include/cuda-helper.h', 'r', encoding='utf8') as f:
             for line in f.readlines():
                 line = line.split('//')[0].strip()
                 if line.startswith('CUDA_ENTRY_ENUM('):
                     self.cuda_hook.append(line[len("CUDA_ENTRY_ENUM"):].strip('(),'))
         self.nvml_hook = []
         self.nvml_signs = []
-        with open('../include/nvml-helper.h', 'r', encoding='utf8') as f:
+        with open(f'{absPath}/include/nvml-helper.h', 'r', encoding='utf8') as f:
             for line in f.readlines():
                 line = line.split('//')[0].strip()
                 if line.startswith('NVML_ENTRY_ENUM('):
@@ -51,7 +53,7 @@ $ret$ $func_name$($func_param$) {
 
     def get_all_text(self):
         txt = ''
-        for cd, dirs, files in os.walk('../src'):
+        for cd, dirs, files in os.walk(f'{absPath}/src'):
             for file in files:
                 p = os.path.join(cd, file)
                 if file == "originals.c":
@@ -63,11 +65,14 @@ $ret$ $func_name$($func_param$) {
     def parse_header(self):
         with open(self.file, 'r') as f:
             data = f.read()
-        with open('./%s_append.h' % self.type, 'r', encoding='utf8') as f:
+        with open(f'{absPath}/tools/{self.type}_append.h', 'r', encoding='utf8') as f:
             data += '\n' + f.read()
         self.header = CppHeader(data, argType='string')
 
     def generate_func(self):
+        for func in self.header.functions:
+            func_name = func["name"]
+            self.funcs.add(func_name)
         for func in self.header.functions:
             func_name = func["name"]
             ret = func["rtnType"].replace(
@@ -115,22 +120,28 @@ $ret$ $func_name$($func_param$) {
 
             # self.originals_map[f"{self.return_type} {func_name}("] = hook_func
             self.originals_map[f" {func_name}("] = hook_func
+
             _m = getattr(self, f"{self.type}_signs", [])
-            # nvmlReturn_t nvmlDeviceClearEccErrorCounts(nvmlDevice_t device, nvmlEccCounterType_t counterType) {
-            _m.append(func['debug'].replace('CUDAAPI', '').replace('DECLDIR', '').replace('__CUDA_DEPRECATED', ''))
+            if func_name in getattr(self, f"{self.type}_hook", []) and func_name in self.funcs:
+                self.funcs.remove(func_name)
+                _m.append(func['debug'].replace('CUDAAPI', '').replace('DECLDIR', '').replace('__CUDA_DEPRECATED', ''))
 
     def save_output(self):
         txt = self.get_all_text()
 
-        with open(f"../src/{self.type}/originals.c", 'w', encoding='utf-8') as f:
-
-            f.write(getattr(self, f"{self.type}_header"))
-            f.write('\n')
+        with open(f"{absPath}/include/{self.type}.h", 'w', encoding='utf-8') as f:
+            f.write(f'#include "{self.type}-subset.h"\n')
             for item in sorted(list(set(getattr(self, f"{self.type}_signs", [])))):
                 f.write(item + '\n')
+
+        with open(f"{absPath}/src/{self.type}/originals.c", 'w', encoding='utf-8') as f:
+            f.write(getattr(self, f"{self.type}_header"))
+            f.write('\n')
+
             needs = []
             for func in sorted(list(set(getattr(self, f"{self.type}_hook", [])))):
                 # k = f"{self.return_type} {func}("
+
                 k = f" {func}("
                 if k in txt:
                     continue
@@ -138,11 +149,11 @@ $ret$ $func_name$($func_param$) {
                     f.write(self.originals_map.get(k))
                 else:
                     needs.append(func)
-            print(needs)
+            print(needs, len(needs))
 
 
 def main():
-    sys.argv.extend(['-t', 'nvml', '-f', './nvml.txt', '-o', '../src', '--rt', 'nvmlReturn_t'])
+    # sys.argv.extend(['-t', 'nvml', '-f', './nvml.txt', '-o', '../src', '--rt', 'nvmlReturn_t'])
     # sys.argv.extend(['-t', 'cuda', '-f', './cuda.txt', '-o', '../src', '--rt', 'CUresult'])
     usage = "python3 code_generate.py -t/--type cuda -f/--file include/cuda.h -o/--output output"
     parser = optparse.OptionParser(usage)

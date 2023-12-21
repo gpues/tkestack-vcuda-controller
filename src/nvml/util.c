@@ -1,11 +1,4 @@
-#include <ctype.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "include/base.h"
-#include "include/cuda-helper.h"
-#include "include/nvml-helper.h"
+#include "include/all.h"
 
 extern int duplicate_devices;
 extern unsigned int virtual_devices[17];
@@ -205,7 +198,7 @@ int64_t initial_virtual_devices() {
     return 0;
 }
 
-nvmlDevice_t handle_remap(nvmlDevice_t *handle) {
+nvmlDevice_t handle_remap(nvmlDevice_t handle) {
     int i;
     for (i = 0;; ++i) {
         if (i >= virtual_nvml_devices[0]) {
@@ -214,7 +207,7 @@ nvmlDevice_t handle_remap(nvmlDevice_t *handle) {
         }
 
         LINFO("handle_remap %lx %lx", vdevices[i].vhandle, handle);
-        if (handle == vdevices[i].vhandle)
+        if (handle == *vdevices[i].vhandle)
             break;
     }
 
@@ -226,7 +219,7 @@ u_int64_t getdevicefromctx(int *dev, CUcontext ctx) {
     int i; // [rsp+1Ch] [rbp-4h]
 
     for (i = 0; i < virtual_devices[0]; ++i) {
-        if (ctx == vdevices[cuda_to_nvml_map[i]].ctx || ctx == vdevices[cuda_to_nvml_map[i]].vctx) {
+        if (ctx == *vdevices[cuda_to_nvml_map[i]].ctx || ctx == *vdevices[cuda_to_nvml_map[i]].vctx) {
             *dev = i;
             return 0LL;
         }

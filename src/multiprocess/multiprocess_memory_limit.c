@@ -1,18 +1,5 @@
-#include <emmintrin.h>
-#include <errno.h>
-#include <pthread.h>
-#include <semaphore.h>
-#include <signal.h>
-#include <stddef.h>
-#include <string.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <sys/time.h>
-#include <time.h>
+#include "include/all.h"
 
-#include "include/base.h"
-#include "include/cuda-helper.h"
-#include "include/func.h"
 extern int g_sm_num;
 extern int g_max_thread_per_sm;
 
@@ -157,7 +144,7 @@ void unlock_shrreg(void) {
 int enable_active_oom_killer;
 
 int set_active_oom_killer() {
-    const char *s1; // [rsp+8h] [rbp-8h]
+    const char *s1;
     s1 = getenv("ACTIVE_OOM_KILLER");
     if (!s1)
         return 1LL;
@@ -171,7 +158,7 @@ int set_active_oom_killer() {
 }
 
 int set_env_utilization_switch() {
-    const char *s1; // [rsp+8h] [rbp-8h]
+    const char *s1;
 
     s1 = getenv("GPU_CORE_UTILIZATION_POLICY");
     if (!s1)
@@ -477,7 +464,7 @@ u_int64_t get_gpu_memory_usage(unsigned int dev) {
     unlock_shrreg();
     return v16;
 }
-
+// add task device memory analysis
 int64_t add_gpu_device_memory_usage(unsigned int pid, int devIndex, size_t bytesize, int flag) {
     int i;
     unsigned int dev = record_cuda_map[devIndex];

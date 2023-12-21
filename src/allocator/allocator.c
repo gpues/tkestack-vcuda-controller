@@ -1,11 +1,4 @@
-#include <pthread.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "include/base.h"
-#include "include/cuda-helper.h"
-#include "include/func.h"
+#include "include/all.h"
 
 extern unsigned int virtual_devices[17];
 extern void *cuda_library_entry[];

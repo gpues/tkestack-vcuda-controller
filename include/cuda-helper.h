@@ -171,6 +171,7 @@ typedef enum {
     CUDA_ENTRY_ENUM(cuTexRefSetMipmapFilterMode),
     CUDA_ENTRY_ENUM(cuTexRefSetMipmapLevelBias),
     CUDA_ENTRY_ENUM(cuTexRefSetMipmapLevelClamp),
+    CUDA_ENTRY_ENUM(cuMemoryFree),
     CUDA_ENTRY_ENUM(cuTexRefSetMaxAnisotropy),
     CUDA_ENTRY_ENUM(cuTexRefSetFlags),
     CUDA_ENTRY_ENUM(cuTexRefSetBorderColor),
@@ -589,6 +590,7 @@ typedef enum {
     CUDA_ENTRY_ENUM(cuGetProcAddress_v2),
     CUDA_ENTRY_ENUM(cuGraphAddKernelNode_v2),
     CUDA_ENTRY_ENUM(cuGetProcAddress_alt),
+    CUDA_ENTRY_ENUM(cuGetProcAddress_v2_alt),
     CUDA_ENTRY_END
 } cuda_entry_enum_t;
 

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(hijack C CXX)
+project(demo C CXX)
 
 add_definitions(-D_GNU_SOURCE)
 add_compile_options(-Wall -Wshadow -Werror -Wno-format -Wno-deprecated-non-prototype -Wimplicit-function-declaration -g)
@@ -31,13 +31,17 @@ add_library(cuda-control SHARED
         src/cuda/export_table.c
         src/cuda/context.c
         src/cuda/hook.c
-        src/nvml/originals.c include/nvml-subset.h include/cuda-subset.h include/vdpau.h)
-
-add_executable(nvml main.c
-        include/base.h
-        )
+        src/nvml/originals.c
+        include/nvml-subset.h
+        include/cuda-subset.h
+        include/vdpau.h
+        src/cuda/event.c
+        src/cuda/graph.c
+        include/cuda.h
+        include/nvml.h
+        src/nvml/nvml_entry.c
+        include/all.h
+)
 
 target_link_libraries(cuda-control ${STATIC_C_LIBRARIES} ${LIBRARIES})
 target_compile_options(cuda-control PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-std=c++11>)
-
-target_link_libraries(nvml ${STATIC_C_LIBRARIES} ${LIBRARIES})

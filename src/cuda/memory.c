@@ -1,8 +1,5 @@
-#include "include/base.h"
-#include "include/cuda-helper.h"
-#include "include/func.h"
-#include "stdlib.h"
-#include "string.h"
+#include "include/all.h"
+
 extern void *cuda_library_entry[];
 extern int pidfound;
 extern int allocmode;

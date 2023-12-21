@@ -1,27 +1,5 @@
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/times.h>
-#include <unistd.h>
 
-#include "cuda-helper.h"
-#include "cuda-subset.h"
-#include "func.h"
-#include "limits.h"
-#include "nvml-helper.h"
-#include "nvml-subset.h"
-#include "stdint.h"
-#include "vdpau.h"
 
-typedef struct {
-    char *name;
-    clock_t start;
-} HOOK_TRACE_PROFILE;
-
-void cudaTimeProfileDestroy(HOOK_TRACE_PROFILE *obj, CUresult rs);
-void nvmlTimeProfileDestroy(HOOK_TRACE_PROFILE *obj, nvmlReturn_t rs);
-void TimeProfileDestroy(HOOK_TRACE_PROFILE *obj);
-HOOK_TRACE_PROFILE *TimeProfile(char *name);
 char *curr_time();
 typedef void (*atomic_fn_ptr)(int, void *);
 
@@ -146,8 +124,6 @@ char *load_file(char *filename);
 int int_match(const void *, const void *);
 int delta(int, int, int);
 size_t get_array_base_size(int format);
-CUresult cuArray3DCreate_helper(const CUDA_ARRAY3D_DESCRIPTOR *pAllocateArray);
-CUresult cuArrayCreate_helper(const CUDA_ARRAY_DESCRIPTOR *pAllocateArray);
 
 typedef enum {
     Compute = 0,
@@ -214,6 +190,7 @@ typedef struct shrregProcSlotT_t {
 typedef struct {
     char sem[32];
 } semT;
+
 typedef struct sharedRegionT_t {
     int32_t initializedFlag;
     int32_t smInitFlag;
@@ -229,34 +206,3 @@ typedef struct sharedRegionT_t {
     int32_t recentKernel;
     int32_t priority;
 } sharedRegionT;
-
-typedef struct asd_t {
-    void *ptr; // 偏移量 48
-    uuid uuid; // 偏移量 56
-    int64_t ss;
-} asd;
-
-typedef struct device_t {  // 整个结构体  152 字节
-    CUcontext ctx;         // 偏移 0
-    CUcontext vctx;        // 偏移 8
-    int index;             // 偏移 0x10
-    int add_gpu_flag;      // 偏移 20
-    int64_t devIndex;      // 偏移 24
-    char *busIdLegacy;     // 偏移 0x20
-    nvmlDevice_t *vhandle; // 偏移 0x28
-    nvmlDevice_t device;   // 偏移 0x30
-    nvmlDevice_t vdevice;  // 偏移 56
-    nvmlDevice_t *handle;  // 偏移 0x40
-    int64_t d6;            // 偏移 72
-    int64_t e7;            // 偏移 0x50
-    int64_t f8;            // 偏移 88
-    int64_t f9;            // 偏移 0x60
-    int64_t f0;            // 偏移 104
-    int64_t f22;           // 偏移 0x70  // 进制相关的
-    int64_t f11;           // 偏移 120
-    int64_t f113;          // 偏移 0x80
-    int64_t f114;          // 偏移 136
-    int64_t f115;          // 偏移 0x90
-    int64_t f116;          // 偏移 152
-    //    asd detail;
-} device;

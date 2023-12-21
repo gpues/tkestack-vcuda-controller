@@ -1,11 +1,4 @@
-#include <dlfcn.h>
-#include <libc.h>
-#include <pthread.h>
-#include <string.h>
-
-#include "include/base.h"
-#include "include/cuda-helper.h"
-#include "include/func.h"
+#include "include/all.h"
 
 extern u_int64_t context_size;
 extern pthread_mutex_t dlsym_lock;
@@ -19,8 +12,15 @@ extern pthread_once_t dlsym_init_flag;
 extern int allocmode;
 extern int pidfound;
 extern void *cuda_library_entry[];
+extern pthread_once_t pre_cuinit_flag;
+extern pthread_once_t post_cuinit_flag;
+extern unsigned int record_cuda_map[17];
+extern int record_nvml_map[0x10];
+extern unsigned int cuda_to_nvml_map[0x10];
+extern unsigned int virtual_map[0x10];
 
-unsigned long strtoul(const char *nptr, char **endptr, int base);
+//
+// unsigned long strtoul(const char *nptr, char **endptr, int base);
 
 extern int env_utilization_switch;
 
@@ -50,7 +50,7 @@ size_t check_dlmap(int a1, size_t a2) {
     return 0LL;
 }
 
-size_t dlsym(size_t a1, size_t a2) {
+size_t dlsym(size_t a1, char *funcName) {
     char *v2;         // rax
     char *v3;         // r12
     pthread_t v4;     // rbx
@@ -67,8 +67,8 @@ size_t dlsym(size_t a1, size_t a2) {
     __int64 v16;      // [rsp+20h] [rbp-20h]
     __int64 v17;      // [rsp+28h] [rbp-18h]
 
-    pthread_once(dlsym_init_flag, (void (*)(void))init_dlsym);
-    LINFO("into dlsym %s", (const char *)a2);
+    pthread_once(&dlsym_init_flag, (void (*)(void))init_dlsym);
+    LINFO("into dlsym %s", (const char *)funcName);
     if (!real_dlsym) {
         real_dlsym = (__int64(__fastcall *)(_QWORD, _QWORD))dlvsym((void *)0xFFFFFFFFFFFFFFFFLL, "dlsym", "GLIBC_2.2.5");
         if (!real_dlsym) {
@@ -80,24 +80,24 @@ size_t dlsym(size_t a1, size_t a2) {
     }
 
     if (a1 == -1) {
-        v15 = real_dlsym(-1LL, a2);
+        v15 = real_dlsym(-1LL, funcName);
         pthread_mutex_lock(&dlsym_lock);
         v14 = pthread_self();
         if ((unsigned int)check_dlmap(v14, v15)) {
-            LINFO("recursive dlsym : %s", (const char *)a2);
+            LINFO("recursive dlsym : %s", (const char *)funcName);
             v15 = 0LL;
         }
         pthread_mutex_unlock(&dlsym_lock);
         return v15;
     }
-    else if (*(char *)a2 == 99 && *(char *)(a2 + 1) == 117 && (pthread_once(&pre_cuinit_flag, (void (*)(void))preInit), (v16 = __dlsym_hook_section(a1, a2)) != 0)) {
+    else if (*(char *)funcName == 99 && *(char *)(funcName + 1) == 117 && (pthread_once(&pre_cuinit_flag, (void (*)(void))preInit), (v16 = __dlsym_hook_section(a1, funcName)) != 0)) {
         return v16;
     }
-    else if (*(char *)a2 == 110 && *(char *)(a2 + 1) == 118 && *(char *)(a2 + 2) == 109 && *(char *)(a2 + 3) == 108 && (v17 = __dlsym_hook_section_nvml(a1, a2)) != 0) {
+    else if (*(char *)funcName == 110 && *(char *)(funcName + 1) == 118 && *(char *)(funcName + 2) == 109 && *(char *)(funcName + 3) == 108 && (v17 = __dlsym_hook_section_nvml(a1, funcName)) != 0) {
         return v17;
     }
     else {
-        return real_dlsym(a1, a2);
+        return real_dlsym(a1, funcName);
     }
 }
 
@@ -172,4 +172,39 @@ int postInit() {
     }
     env_utilization_switch = set_env_utilization_switch();
     return init_utilization_watcher();
+}
+size_t preInit() {
+    char *v0;        // rdi
+    char *v1;        // r12
+    pthread_t v2;    // rbx
+    unsigned int v3; // eax
+    int i;           // [rsp+Ch] [rbp-14h]
+
+    LINFO("Initializing.....");
+    if (!real_dlsym)
+        real_dlsym = _dl_sym(-1LL, "dlsym", dlsym);
+    du = 0;
+    real_realpath = 0LL;
+    load_cuda_libraries();
+    nvmlInit();
+    for (i = 0; i <= 15; ++i) {
+        record_cuda_map[i] = record_nvml_map[i];
+        cuda_to_nvml_map[i] = i;
+    }
+    ensure_initialized();
+    return map_cuda_visible_devices();
+}
+CUresult cuInit(unsigned int Flags) {
+    LINFO("Hijacking %s", "cuInit");
+    pthread_once(&pre_cuinit_flag, (void (*)(void))preInit);
+    ensure_initialized();
+    CUresult res = CUDA_ENTRY_CALL(cuda_library_entry, cuInit, Flags);
+    if (res) {
+        LERROR("cuInit failed:%d", res);
+        return res;
+    }
+    else {
+        pthread_once(&post_cuinit_flag, (void (*)(void))postInit);
+        return 0LL;
+    }
 }

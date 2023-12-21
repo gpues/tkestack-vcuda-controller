@@ -1,10 +1,4 @@
-#include <pthread.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "include/base.h"
-#include "include/cuda-helper.h"
-#include "include/func.h"
+#include "include/all.h"
 
 extern pthread_mutex_t mutex;
 extern int64_t **device_overallocated[3];
