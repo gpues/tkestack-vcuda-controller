@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(demo C CXX)
+project(vcuda C CXX)
 
 
 add_definitions(-D_GNU_SOURCE)
