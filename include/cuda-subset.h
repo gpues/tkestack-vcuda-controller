@@ -51,6 +51,7 @@
 
 #ifdef __cplusplus
 extern "C" {
+
 #endif
 
 #include <stddef.h>
@@ -65,7 +66,8 @@ typedef unsigned long long CUdeviceptr;
 typedef unsigned int GLuint; /* 4-byte unsigned */
 typedef unsigned int GLenum;
 
-typedef struct CUuuid_st { /**< CUDA definition of UUID */
+typedef struct CUuuid_st {
+    /**< CUDA definition of UUID */
     char bytes[16];
 } CUuuid;
 
@@ -94,6 +96,7 @@ typedef struct CUgraphExec_st *CUgraphExec;            /**< CUDA executable grap
  * Error codes
  */
 typedef enum cudaError_enum {
+
     /**
      * The API call returned with no errors. In the case of query calls, this
      * can also mean that the operation being queried is complete (see
@@ -631,7 +634,7 @@ typedef enum CUdevice_attribute_enum {
  */
 typedef enum CUdevice_P2PAttribute_enum {
     CU_DEVICE_P2P_ATTRIBUTE_PERFORMANCE_RANK = 0x01,       /**< A relative value indicating the performance of the link between
-                                                                              two devices */
+                                                                                                two devices */
     CU_DEVICE_P2P_ATTRIBUTE_ACCESS_SUPPORTED = 0x02,       /**< P2P Access is enable */
     CU_DEVICE_P2P_ATTRIBUTE_NATIVE_ATOMIC_SUPPORTED = 0x03 /**< Atomic operation over the link supported */
 } CUdevice_P2PAttribute;
@@ -671,6 +674,7 @@ typedef enum CUsharedconfig_enum {
  * Online compiler and linker options
  */
 typedef enum CUjit_option_enum {
+
     /**
      * Max number of registers that a thread may use.\n
      * Option type: unsigned int\n
@@ -815,6 +819,7 @@ typedef enum CUjit_option_enum {
  * Device code formats
  */
 typedef enum CUjitInputType_enum {
+
     /**
      * Compiled device-class-specific device code\n
      * Applicable options: none
@@ -981,6 +986,7 @@ typedef struct CUDA_MEMCPY3D_PEER_st {
  * Function properties
  */
 typedef enum CUfunction_attribute_enum {
+
     /**
      * The maximum number of threads per block, beyond which a launch of the
      * function would fail. This number depends on both the function and the
@@ -1283,7 +1289,7 @@ typedef struct CUipcMemHandle_st {
  */
 typedef enum CUGLDeviceList_enum {
     CU_GL_DEVICE_LIST_ALL = 0x01,           /**< The CUDA devices for all GPUs used by the
-                                               current OpenGL context */
+                                                                 current OpenGL context */
     CU_GL_DEVICE_LIST_CURRENT_FRAME = 0x02, /**< The CUDA devices for the GPUs used by the current OpenGL
                                                                context in its currently rendering frame */
     CU_GL_DEVICE_LIST_NEXT_FRAME = 0x03,    /**< The CUDA devices for the GPUs to be used by the current OpenGL
@@ -1316,7 +1322,7 @@ typedef enum CUmem_advise_enum {
 
 typedef enum CUmem_range_attribute_enum {
     CU_MEM_RANGE_ATTRIBUTE_READ_MOSTLY = 1,           /**< Whether the range will mostly be read and only occassionally be
-                                                                         written to */
+                                                                                           written to */
     CU_MEM_RANGE_ATTRIBUTE_PREFERRED_LOCATION = 2,    /**< The preferred location of the range */
     CU_MEM_RANGE_ATTRIBUTE_ACCESSED_BY = 3,           /**< Memory range has
                                                          ::CU_MEM_ADVISE_SET_ACCESSED_BY set
@@ -1544,6 +1550,7 @@ typedef struct CUDA_MEMSET_NODE_PARAMS_st {
  * External memory handle types
  */
 typedef enum CUexternalMemoryHandleType_enum {
+
     /**
      * Handle is an opaque file descriptor
      */
@@ -1621,6 +1628,7 @@ typedef struct CUDA_EXTERNAL_MEMORY_HANDLE_DESC_st {
  * External semaphore handle types
  */
 typedef enum CUexternalSemaphoreHandleType_enum {
+
     /**
      * Handle is an opaque file descriptor
      */
@@ -1781,7 +1789,7 @@ typedef enum CUmemAllocationType_enum {
  */
 typedef enum CUmemAllocationHandleType_enum {
     CU_MEM_HANDLE_TYPE_POSIX_FILE_DESCRIPTOR = 0x1, /**< Allows a file descriptor to be used for exporting. Permitted
-                                                           only on POSIX systems. (int) */
+                                                                             only on POSIX systems. (int) */
     CU_MEM_HANDLE_TYPE_WIN32 = 0x2,                 /**< Allows a Win32 NT handle to be used for exporting. (HANDLE) */
     CU_MEM_HANDLE_TYPE_WIN32_KMT = 0x4,             /**< Allows a Win32 KMT handle to be used
                                                        for exporting. (D3DKMT_HANDLE) */
@@ -2083,6 +2091,7 @@ typedef struct CUexecAffinityParam_st {
 typedef CUexecAffinityParam_v1 CUexecAffinityParam;
 
 typedef enum CUgraphMem_attribute_enum {
+
     /**
      * (value type = cuuint64_t)
      * Amount of memory, in bytes, currently associated with graphs
@@ -2135,7 +2144,7 @@ typedef struct CUuserObject_st *CUuserObject; /**< CUDA user object for graphs *
  */
 typedef enum CUflushGPUDirectRDMAWritesTarget_enum {
     CU_FLUSH_GPU_DIRECT_RDMA_WRITES_TARGET_CURRENT_CTX = 0 /**< Sets the target for ::cuFlushGPUDirectRDMAWrites() to the currently
-                                                              active CUDA device context. */
+                                                                                active CUDA device context. */
 } CUflushGPUDirectRDMAWritesTarget;
 
 /**
@@ -2143,7 +2152,7 @@ typedef enum CUflushGPUDirectRDMAWritesTarget_enum {
  */
 typedef enum CUflushGPUDirectRDMAWritesScope_enum {
     CU_FLUSH_GPU_DIRECT_RDMA_WRITES_TO_OWNER = 100,      /**< Blocks until remote writes are visible to the CUDA device
-                                                            context owning the data. */
+                                                                              context owning the data. */
     CU_FLUSH_GPU_DIRECT_RDMA_WRITES_TO_ALL_DEVICES = 200 /**< Blocks until remote writes are visible to all CUDA device
                                                             contexts. */
 } CUflushGPUDirectRDMAWritesScope;

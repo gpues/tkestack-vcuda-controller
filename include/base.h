@@ -1,7 +1,12 @@
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/times.h>
+#include <unistd.h>
 
+#include "stdint.h"
 
 char *curr_time();
-typedef void (*atomic_fn_ptr)(int, void *);
 
 #define HOOK_LIKELY(x) __builtin_expect(!!(x), 1)
 #define HOOK_UNLIKELY(x) __builtin_expect(!!(x), 0)
@@ -28,13 +33,13 @@ typedef enum {
     FATAL = 4,
     VERBOSE = 5,
 } log_level_enum_t;
-// sub_4074F0
-// Incompatible integer to pointer conversion initializing 'char *' with an expression of type 'int'
+
+#define CAS(ptr, old, new) __sync_bool_compare_and_swap((ptr), (old), (new))
 
 #define LINFO(format, ...)                                                                                                                  \
     ({                                                                                                                                      \
         char *_print_level_str = getenv("LOGGER_LEVEL");                                                                                    \
-        unsigned long _print_level = 0;                                                                                                     \
+        unsigned long _print_level = 10;                                                                                                    \
         if (_print_level_str) {                                                                                                             \
             _print_level = strtoul(_print_level_str, NULL, 10);                                                                             \
             _print_level = _print_level < 0 ? 3 : _print_level;                                                                             \
@@ -44,17 +49,17 @@ typedef enum {
         }                                                                                                                                   \
     })
 
-#define LWARN(format, ...)                                                                                                                         \
-    ({                                                                                                                                             \
-        char *_print_level_str = getenv("LOGGER_LEVEL");                                                                                           \
-        int _print_level = 0;                                                                                                                      \
-        if (_print_level_str) {                                                                                                                    \
-            _print_level = strtoul(_print_level_str, NULL, 10);                                                                                    \
-            _print_level = _print_level < 0 ? 3 : _print_level;                                                                                    \
-        }                                                                                                                                          \
-        if (1 < _print_level) {                                                                                                                    \
-            printf("[ %s Warn(%s %d %s:%d)] " format "\n", HOOK_LOG_TAG, curr_time(), getpid(), HOOK_LOG_FILE(__FILE__), __LINE__, ##__VA_ARGS__); \
-        }                                                                                                                                          \
+#define LWARN(format, ...)                                                                                                                        \
+    ({                                                                                                                                            \
+        char *_print_level_str = getenv("LOGGER_LEVEL");                                                                                          \
+        int _print_level = 10;                                                                                                                    \
+        if (_print_level_str) {                                                                                                                   \
+            _print_level = strtoul(_print_level_str, NULL, 10);                                                                                   \
+            _print_level = _print_level < 0 ? 3 : _print_level;                                                                                   \
+        }                                                                                                                                         \
+        if (1 < _print_level) {                                                                                                                   \
+            printf("[%s Warn(%s %d %s:%d)] " format "\n", HOOK_LOG_TAG, curr_time(), getpid(), HOOK_LOG_FILE(__FILE__), __LINE__, ##__VA_ARGS__); \
+        }                                                                                                                                         \
     })
 
 #define LERROR(format, ...) ({ printf("[ %s ERROR(pid:%s thread:%d %s:%d)] " format "\n", HOOK_LOG_TAG, curr_time(), getpid(), HOOK_LOG_FILE(__FILE__), __LINE__, ##__VA_ARGS__); })
@@ -77,53 +82,6 @@ typedef enum {
         }                                                                                                                                   \
         sleep(sl);                                                                                                                          \
     })
-
-#define HOOK_CHECK(x)                       \
-    do {                                    \
-        if (HOOK_UNLIKELY(!(x))) {          \
-            printf("Check failed: %s", #x); \
-        }                                   \
-    } while (0)
-
-#define likely(x) __builtin_expect(!!(x), 1)
-#define unlikely(x) __builtin_expect(!!(x), 0)
-#define ROUND_UP(n, base) ((n) % (base) ? (n) + (base) - (n) % (base) : (n))
-#define CAS(ptr, old, new) __sync_bool_compare_and_swap((ptr), (old), (new))
-
-#define CONTROLLER_CONFIG_NAME "vcuda.config"
-#define VCUDA_CONFIG_PATH "/etc/vcuda"
-#define PIDS_CONFIG_NAME "pids.config"
-
-#define PIDS_CONFIG_PATH (VCUDA_CONFIG_PATH "/" PIDS_CONFIG_NAME)
-#define CONTROLLER_CONFIG_PATH (VCUDA_CONFIG_PATH "/" CONTROLLER_CONFIG_NAME)
-#define RPC_CLIENT_PATH "/usr/local/nvidia/bin/"
-#define DRIVER_VERSION_PROC_PATH "/proc/driver/nvidia/version"
-
-/*
- * nvmlInitWithFlags
- * nvmlInit_v2
- * cuGetProcAddress
- * cuInit
- * cuDriverGetVersion
- * */
-void load_necessary_data();
-void cudaNecessary();
-void write_cuda_config();
-
-void atomic_action(const char *, atomic_fn_ptr, void *);
-void active_utilization_notifier();
-void load_pids_table(int, void *);
-void get_used_gpu_memory(int, void *);
-
-void initialization();
-void rate_limiter(unsigned int, unsigned int);
-void change_token(int);
-void set_so_path_once();
-void read_controller_configuration();
-char *load_file(char *filename);
-int int_match(const void *, const void *);
-int delta(int, int, int);
-size_t get_array_base_size(int format);
 
 typedef enum {
     Compute = 0,
@@ -168,10 +126,6 @@ typedef struct {
 } utilization_t;
 
 typedef struct {
-    char uuid[96];
-} uuid;
-
-typedef struct {
     u_int64_t contextSize;
     u_int64_t moduleSize;
     u_int64_t bufferSize;
@@ -188,21 +142,52 @@ typedef struct shrregProcSlotT_t {
 } shrregProcSlotT;
 
 typedef struct {
-    char sem[32];
-} semT;
+    char uuid[96];
+} sharedRegionUuid;
 
 typedef struct sharedRegionT_t {
-    int32_t initializedFlag;
-    int32_t smInitFlag;
-    u_int32_t ownerPid;
-    semT sem;
-    u_int64_t num;
-    uuid uuids[16];
-    u_int64_t limit[16];
-    u_int64_t sm_limit[16];
-    shrregProcSlotT procs[1024];
-    int32_t procnum;
-    int32_t utilizationSwitch;
-    int32_t recentKernel;
-    int32_t priority;
+    int32_t initializedFlag;     // 0
+    int32_t smInitFlag;          // 4
+    u_int32_t ownerPid;          // 8
+    int sem;                     // 12
+    u_int64_t num;               // 16
+    sharedRegionUuid uuids[16];  // 24
+    u_int64_t limit[16];         // 1560
+    u_int64_t sm_limit[16];      // 1688
+    shrregProcSlotT procs[1024]; // 1816
+    int32_t procnum;             // 804632
+    int32_t utilizationSwitch;   // 804636
+    int32_t recentKernel;        // 804640
+    int32_t priority;            // 804644
 } sharedRegionT;
+
+typedef struct FatbinFileHeader_t {
+    unsigned short kind;                // 0
+    unsigned short version;             // 2
+    u_int header_size;                  // 4
+    u_int padded_payload_size;          // 8
+    u_int unknown0;                     // 12 check if it's written into separately
+    u_int payload_size;                 // 16
+    u_int unknown1;                     // 20
+    u_int unknown2;                     // 24
+    u_int sm_version;                   // 28
+    u_int bit_width;                    // 32
+    u_int unknown3;                     // 36
+    unsigned long unknown4;             // 40
+    unsigned long unknown5;             // 48
+    unsigned long uncompressed_payload; // 56
+} FatbinFileHeader;
+
+typedef struct FatbinHeader_t {
+    u_int magic;                // 0
+    unsigned short version;     // 4
+    unsigned short header_size; // 6
+    unsigned long files_size;   // 8  excluding frame header, size of all blocks framed by this frame
+} FatbinHeader;
+
+typedef struct FatbincWrapper_t {
+    u_int magic;               // 0
+    u_int version;             // 4
+    FatbinHeader *data;        // 8
+    void *filename_or_fatbins; // 16
+} FatbincWrapper;

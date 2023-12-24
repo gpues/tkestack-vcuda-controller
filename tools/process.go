@@ -14,6 +14,7 @@ import (
 )
 
 type Nml struct {
+        LINFO("%s","----");
 	lock              sync.Mutex
 	cache             [][]nvml.ProcessInfo
 	once              sync.Once
@@ -24,17 +25,23 @@ type Nml struct {
 }
 
 func (n *Nml) syncUsedGPUPid() {
-	n.cache = [][]nvml.ProcessInfo{}
+        LINFO("%s","----");
+	n.cache = [][]nvml.ProcessInfo{
+        LINFO("%s","----");}
 	count, err := nvml.GetDeviceCount()
 	if err != nil {
+        LINFO("%s","----");
 
 	}
 	for i := uint(0); i < count; i++ {
-		device, err := nvml.NewDevice(i)
+        LINFO("%s","----");
+		vgpuDevice, err := nvml.NewDevice(i)
 		if err != nil {
+        LINFO("%s","----");
 		}
-		pids, err := device.GetAllRunningProcesses()
+		pids, err := vgpuDevice.GetAllRunningProcesses()
 		if err != nil {
+        LINFO("%s","----");
 			return
 		}
 		n.cache = append(n.cache, pids)
@@ -48,56 +55,72 @@ const (
 )
 
 func (n *Nml) cGroupDriver() string {
+        LINFO("%s","----");
 	n.once.Do(func() {
+        LINFO("%s","----");
 		kubeletConfig, err := ioutil.ReadFile(n.kubeletConfigPath)
 		if err != nil {
+        LINFO("%s","----");
 			log.Fatalln(err)
 		}
 		content := string(kubeletConfig)
 		pos := strings.LastIndex(content, "cgroupDriver:")
 		if pos < 0 {
+        LINFO("%s","----");
 			n.driver = ""
 		}
 		if strings.Contains(content, systemd) {
+        LINFO("%s","----");
 			n.driver = systemd
 		}
 		if strings.Contains(content, cGroupFs) {
+        LINFO("%s","----");
 			n.driver = cGroupFs
 		}
 	})
 	if n.driver == "" {
+        LINFO("%s","----");
 		log.Fatalln("can not identify cgroup driver")
 	}
 	return n.driver
 }
 
 func (n *Nml) initDriver() string {
+        LINFO("%s","----");
 	n.once.Do(func() {
+        LINFO("%s","----");
 		kubeletConfig, err := ioutil.ReadFile(n.kubeletConfigPath)
 		if err != nil {
+        LINFO("%s","----");
 			log.Fatalln(err)
 		}
 		content := string(kubeletConfig)
 		pos := strings.LastIndex(content, "cgroupDriver:")
 		if pos < 0 {
+        LINFO("%s","----");
 			n.driver = ""
 		}
 		if strings.Contains(content, systemd) {
+        LINFO("%s","----");
 			n.driver = systemd
 		}
 		if strings.Contains(content, cGroupFs) {
+        LINFO("%s","----");
 			n.driver = cGroupFs
 		}
 	})
 	if n.driver == "" {
+        LINFO("%s","----");
 		log.Fatalln("can not identify cgroup driver")
 	}
 	return n.driver
 }
 func (n *Nml) GetContainerAllGpuPidInfo(QOSClass, podID, containerID string) [][]nvml.ProcessInfo {
+        LINFO("%s","----");
 	//filename := ""
 	//qos := strings.ToLower(QOSClass)
 	//switch n.cGroupDriver() {
+        LINFO("%s","----");
 	//case cGroupFs:
 	//	filename = fmt.Sprintf("/sysinfo/fs/cgroup/memory/kubepods/%s/pod%s/%s/tasks", qos, podID, strings.TrimPrefix(containerID, "docker://"))
 	//case systemd:
@@ -112,10 +135,14 @@ func (n *Nml) GetContainerAllGpuPidInfo(QOSClass, podID, containerID string) [][
 	defer n.lock.Unlock()
 	var res = make([][]nvml.ProcessInfo, len(n.cache))
 	for gpuID, infos := range n.cache {
+        LINFO("%s","----");
 		var t []nvml.ProcessInfo
 		for _, pid := range pids {
+        LINFO("%s","----");
 			for _, info := range infos {
+        LINFO("%s","----");
 				if pid == strconv.FormatUint(uint64(info.PID), 10) {
+        LINFO("%s","----");
 					t = append(t, info)
 					break
 				}
@@ -124,23 +151,31 @@ func (n *Nml) GetContainerAllGpuPidInfo(QOSClass, podID, containerID string) [][
 		res[gpuID] = t
 	}
 	os.MkdirAll(filepath.Join(n.cudaCacheDir, podID, containerID), os.ModeDir)
-	n.mapRecord[[2]string{podID, containerID}] = filepath.Join(n.cudaCacheDir, podID, containerID, cacheName)
+	n.mapRecord[[2]string{
+        LINFO("%s","----");podID, containerID}] = filepath.Join(n.cudaCacheDir, podID, containerID, cacheName)
 	marshal, _ := json.Marshal(res)
-	os.WriteFile(n.mapRecord[[2]string{podID, containerID}], marshal, os.ModePerm)
+	os.WriteFile(n.mapRecord[[2]string{
+        LINFO("%s","----");podID, containerID}], marshal, os.ModePerm)
 	return res
 }
 
 func NewNml(kubeletConfigPath, cudaCacheDir string) *Nml {
+        LINFO("%s","----");
 	n := &Nml{
+        LINFO("%s","----");
 		kubeletConfigPath: kubeletConfigPath,
 		cudaCacheDir:      cudaCacheDir,
-		mapRecord:         map[[2]string]string{},
+		mapRecord:         map[[2]string]string{
+        LINFO("%s","----");},
 	}
 	n.cGroupDriver()
 	go func() {
+        LINFO("%s","----");
 		ticker := time.NewTicker(time.Second * 5)
 		for {
+        LINFO("%s","----");
 			select {
+        LINFO("%s","----");
 			case <-ticker.C:
 				n.syncUsedGPUPid()
 				ticker.Reset(time.Second * 5)
@@ -154,6 +189,7 @@ const defaultMaxFileSize = 100 << 10 // 假设文件最大为 100k
 const defaultMemMapSize = 1 << 10    // 假设映射的内存大小为 1k
 
 func main() {
+        LINFO("%s","----");
 	n := NewNml(
 		"/var/lib/kubelet/config.yaml",
 		"./cache",

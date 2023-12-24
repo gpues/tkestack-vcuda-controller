@@ -1,3 +1,4 @@
+
 /*
  * Tencent is pleased to support the open source community by making TKEStack
  * available.
@@ -19,13 +20,13 @@
 #define HIJACK_CUDA_HELPER_H
 #ifdef __cplusplus
 extern "C" {
+
 #endif
 #include <dlfcn.h>
 
 /**
  *  CUDA library prefix
  */
-#define CUDA_LIBRARY_PREFIX "libcuda.so"
 #define CUDA_ENTRY_ENUM(x) ENTRY_##x
 #define CUDA_FIND_ENTRY(table, sym) ({ (table)[CUDA_ENTRY_ENUM(sym)]; })
 
@@ -37,16 +38,7 @@ extern "C" {
         int (*hookFunc)() = (int (*)())CUDA_FIND_ENTRY(table, sym); \
         hookFunc(__VA_ARGS__);                                      \
     })
-#define CUDA_ENTRY_DEBUG_VOID_CALL(table, sym, ...)                 \
-    ({                                                              \
-        cuda_debug_void_sym_t _entry = CUDA_FIND_ENTRY(table, sym); \
-        _entry(__VA_ARGS__);                                        \
-    })
-#define CUDA_ENTRY_DEBUG_RESULT_CALL(table, sym, ...)                 \
-    ({                                                                \
-        cuda_debug_result_sym_t _entry = CUDA_FIND_ENTRY(table, sym); \
-        _entry(__VA_ARGS__);                                          \
-    })
+
 /**
  * CUDA library enumerator entry
  */
@@ -97,17 +89,18 @@ typedef enum {
     CUDA_ENTRY_ENUM(cuMemGetInfo_v2),
     CUDA_ENTRY_ENUM(cuMemAllocManaged),
     CUDA_ENTRY_ENUM(cuMemAlloc_v2),
+    CUDA_ENTRY_ENUM(cuMemoryAllocate),
     CUDA_ENTRY_ENUM(cuMemAllocPitch_v2),
     CUDA_ENTRY_ENUM(cuMemFree_v2),
     CUDA_ENTRY_ENUM(cuMemGetAddressRange_v2),
-    CUDA_ENTRY_ENUM(cuMemFreeHost), // 102
+    CUDA_ENTRY_ENUM(cuMemFreeHost),
     CUDA_ENTRY_ENUM(cuMemHostAlloc),
-    CUDA_ENTRY_ENUM(cuMemHostGetDevicePointer_v2), // 232
-    CUDA_ENTRY_ENUM(cuMemHostGetFlags),            // 234
+    CUDA_ENTRY_ENUM(cuMemHostGetDevicePointer_v2),
+    CUDA_ENTRY_ENUM(cuMemHostGetFlags),
     CUDA_ENTRY_ENUM(cuMemHostRegister_v2),
     CUDA_ENTRY_ENUM(cuMemHostUnregister),
-    CUDA_ENTRY_ENUM(cuPointerGetAttribute),  // 122
-    CUDA_ENTRY_ENUM(cuPointerGetAttributes), // 124
+    CUDA_ENTRY_ENUM(cuPointerGetAttribute),
+    CUDA_ENTRY_ENUM(cuPointerGetAttributes),
     CUDA_ENTRY_ENUM(cuMemcpy),
     CUDA_ENTRY_ENUM(cuMemcpy_ptds),
     CUDA_ENTRY_ENUM(cuMemcpyAsync),
@@ -128,37 +121,37 @@ typedef enum {
     CUDA_ENTRY_ENUM(cuMemcpyDtoD_v2_ptds),
     CUDA_ENTRY_ENUM(cuMemcpyDtoDAsync_v2),
     CUDA_ENTRY_ENUM(cuMemcpyDtoDAsync_v2_ptsz),
-    CUDA_ENTRY_ENUM(cuMemcpy2DUnaligned_v2), // 260
+    CUDA_ENTRY_ENUM(cuMemcpy2DUnaligned_v2),
     CUDA_ENTRY_ENUM(cuMemcpy2DUnaligned_v2_ptds),
-    CUDA_ENTRY_ENUM(cuMemcpy2DAsync_v2), // 262
+    CUDA_ENTRY_ENUM(cuMemcpy2DAsync_v2),
     CUDA_ENTRY_ENUM(cuMemcpy2DAsync_v2_ptsz),
-    CUDA_ENTRY_ENUM(cuMemcpy3D_v2), // 264
+    CUDA_ENTRY_ENUM(cuMemcpy3D_v2),
     CUDA_ENTRY_ENUM(cuMemcpy3D_v2_ptds),
-    CUDA_ENTRY_ENUM(cuMemcpy3DAsync_v2), // 266
+    CUDA_ENTRY_ENUM(cuMemcpy3DAsync_v2),
     CUDA_ENTRY_ENUM(cuMemcpy3DAsync_v2_ptsz),
-    CUDA_ENTRY_ENUM(cuMemcpy3DPeer), // 268
+    CUDA_ENTRY_ENUM(cuMemcpy3DPeer),
     CUDA_ENTRY_ENUM(cuMemcpy3DPeer_ptds),
-    CUDA_ENTRY_ENUM(cuMemcpy3DPeerAsync), // 270
+    CUDA_ENTRY_ENUM(cuMemcpy3DPeerAsync),
     CUDA_ENTRY_ENUM(cuMemcpy3DPeerAsync_ptsz),
-    CUDA_ENTRY_ENUM(cuMemsetD8_v2), // 174
+    CUDA_ENTRY_ENUM(cuMemsetD8_v2),
     CUDA_ENTRY_ENUM(cuMemsetD8_v2_ptds),
-    CUDA_ENTRY_ENUM(cuMemsetD8Async), // 176
+    CUDA_ENTRY_ENUM(cuMemsetD8Async),
     CUDA_ENTRY_ENUM(cuMemsetD8Async_ptsz),
-    CUDA_ENTRY_ENUM(cuMemsetD2D8_v2), // 166
+    CUDA_ENTRY_ENUM(cuMemsetD2D8_v2),
     CUDA_ENTRY_ENUM(cuMemsetD2D8_v2_ptds),
-    CUDA_ENTRY_ENUM(cuMemsetD2D8Async), // 168
+    CUDA_ENTRY_ENUM(cuMemsetD2D8Async),
     CUDA_ENTRY_ENUM(cuMemsetD2D8Async_ptsz),
     CUDA_ENTRY_ENUM(cuFuncSetCacheConfig),
     CUDA_ENTRY_ENUM(cuFuncSetSharedMemConfig),
     CUDA_ENTRY_ENUM(cuFuncGetAttribute),
     CUDA_ENTRY_ENUM(cuArrayGetDescriptor_v2),
-    CUDA_ENTRY_ENUM(cuArray3DCreate_v2), // 86
-    CUDA_ENTRY_ENUM(cuArrayCreate_v2),   // 88
+    CUDA_ENTRY_ENUM(cuArray3DCreate_v2),
+    CUDA_ENTRY_ENUM(cuArrayCreate_v2),
     CUDA_ENTRY_ENUM(cuArray3DGetDescriptor_v2),
-    CUDA_ENTRY_ENUM(cuArrayDestroy),         // 90
-    CUDA_ENTRY_ENUM(cuMipmappedArrayCreate), // 114
+    CUDA_ENTRY_ENUM(cuArrayDestroy),
+    CUDA_ENTRY_ENUM(cuMipmappedArrayCreate),
     CUDA_ENTRY_ENUM(cuMipmappedArrayGetLevel),
-    CUDA_ENTRY_ENUM(cuMipmappedArrayDestroy), // 116
+    CUDA_ENTRY_ENUM(cuMipmappedArrayDestroy),
     CUDA_ENTRY_ENUM(cuTexRefCreate),
     CUDA_ENTRY_ENUM(cuTexRefDestroy),
     CUDA_ENTRY_ENUM(cuTexRefSetArray),
@@ -185,7 +178,7 @@ typedef enum {
     CUDA_ENTRY_ENUM(cuSurfObjectCreate),
     CUDA_ENTRY_ENUM(cuSurfObjectDestroy),
     CUDA_ENTRY_ENUM(cuSurfObjectGetResourceDesc),
-    CUDA_ENTRY_ENUM(cuLaunchKernel), // 188
+    CUDA_ENTRY_ENUM(cuLaunchKernel),
     CUDA_ENTRY_ENUM(cuEventCreate),
     CUDA_ENTRY_ENUM(cuEventRecord),
     CUDA_ENTRY_ENUM(cuEventRecord_ptsz),
@@ -222,9 +215,8 @@ typedef enum {
     CUDA_ENTRY_ENUM(cuIpcGetEventHandle),
     CUDA_ENTRY_ENUM(cuIpcOpenEventHandle),
     CUDA_ENTRY_ENUM(cuIpcOpenMemHandle),
-    CUDA_ENTRY_ENUM(cuIpcCloseMemHandle), // 128
-    CUDA_ENTRY_ENUM(cuIpcGetMemHandle),   // 130
-
+    CUDA_ENTRY_ENUM(cuIpcCloseMemHandle),
+    CUDA_ENTRY_ENUM(cuIpcGetMemHandle),
     CUDA_ENTRY_ENUM(cuGLCtxCreate_v2),
     CUDA_ENTRY_ENUM(cuGLInit),
     CUDA_ENTRY_ENUM(cuGLGetDevices),
@@ -258,10 +250,10 @@ typedef enum {
     CUDA_ENTRY_ENUM(cuGetExportTable),
     CUDA_ENTRY_ENUM(cuOccupancyMaxActiveBlocksPerMultiprocessor),
     CUDA_ENTRY_ENUM(cuMemAdvise),
-    CUDA_ENTRY_ENUM(cuMemPrefetchAsync), // 272
+    CUDA_ENTRY_ENUM(cuMemPrefetchAsync),
     CUDA_ENTRY_ENUM(cuMemPrefetchAsync_ptsz),
-    CUDA_ENTRY_ENUM(cuMemRangeGetAttribute),  // 274
-    CUDA_ENTRY_ENUM(cuMemRangeGetAttributes), // 276
+    CUDA_ENTRY_ENUM(cuMemRangeGetAttribute),
+    CUDA_ENTRY_ENUM(cuMemRangeGetAttributes),
     CUDA_ENTRY_ENUM(cuGetErrorString),
     CUDA_ENTRY_ENUM(cuGetErrorName),
     CUDA_ENTRY_ENUM(cuArray3DCreate),
@@ -310,7 +302,7 @@ typedef enum {
     CUDA_ENTRY_ENUM(cuGraphicsResourceGetMappedPointer),
     CUDA_ENTRY_ENUM(cuGraphicsResourceSetMapFlags),
     CUDA_ENTRY_ENUM(cuLaunch),
-    CUDA_ENTRY_ENUM(cuLaunchCooperativeKernel), // 190
+    CUDA_ENTRY_ENUM(cuLaunchCooperativeKernel),
     CUDA_ENTRY_ENUM(cuLaunchCooperativeKernelMultiDevice),
     CUDA_ENTRY_ENUM(cuLaunchGrid),
     CUDA_ENTRY_ENUM(cuLaunchGridAsync),
@@ -356,32 +348,29 @@ typedef enum {
     CUDA_ENTRY_ENUM(cuMemcpyHtoDAsync),
     CUDA_ENTRY_ENUM(cuMemFree),
     CUDA_ENTRY_ENUM(cuMemGetAddressRange),
-    // Deprecated
-    // CUDA_ENTRY_ENUM(cuMemGetAttribute),
-    // CUDA_ENTRY_ENUM(cuMemGetAttribute_v2),
     CUDA_ENTRY_ENUM(cuMemGetInfo),
     CUDA_ENTRY_ENUM(cuMemHostGetDevicePointer),
     CUDA_ENTRY_ENUM(cuMemHostRegister),
     CUDA_ENTRY_ENUM(cuMemsetD16),
-    CUDA_ENTRY_ENUM(cuMemsetD16Async), // 156
+    CUDA_ENTRY_ENUM(cuMemsetD16Async),
     CUDA_ENTRY_ENUM(cuMemsetD16Async_ptsz),
-    CUDA_ENTRY_ENUM(cuMemsetD16_v2), // 154
+    CUDA_ENTRY_ENUM(cuMemsetD16_v2),
     CUDA_ENTRY_ENUM(cuMemsetD16_v2_ptds),
     CUDA_ENTRY_ENUM(cuMemsetD2D16),
     CUDA_ENTRY_ENUM(cuMemsetD2D16Async),
     CUDA_ENTRY_ENUM(cuMemsetD2D16Async_ptsz),
-    CUDA_ENTRY_ENUM(cuMemsetD2D16_v2), // 158
+    CUDA_ENTRY_ENUM(cuMemsetD2D16_v2),
     CUDA_ENTRY_ENUM(cuMemsetD2D16_v2_ptds),
     CUDA_ENTRY_ENUM(cuMemsetD2D32),
-    CUDA_ENTRY_ENUM(cuMemsetD2D32Async), // 164
+    CUDA_ENTRY_ENUM(cuMemsetD2D32Async),
     CUDA_ENTRY_ENUM(cuMemsetD2D32Async_ptsz),
     CUDA_ENTRY_ENUM(cuMemsetD2D32_v2),
     CUDA_ENTRY_ENUM(cuMemsetD2D32_v2_ptds),
     CUDA_ENTRY_ENUM(cuMemsetD2D8),
     CUDA_ENTRY_ENUM(cuMemsetD32),
-    CUDA_ENTRY_ENUM(cuMemsetD32Async), // 172
+    CUDA_ENTRY_ENUM(cuMemsetD32Async),
     CUDA_ENTRY_ENUM(cuMemsetD32Async_ptsz),
-    CUDA_ENTRY_ENUM(cuMemsetD32_v2), // 170
+    CUDA_ENTRY_ENUM(cuMemsetD32_v2),
     CUDA_ENTRY_ENUM(cuMemsetD32_v2_ptds),
     CUDA_ENTRY_ENUM(cuMemsetD8),
     CUDA_ENTRY_ENUM(cuModuleGetGlobal),
@@ -418,10 +407,10 @@ typedef enum {
     CUDA_ENTRY_ENUM(cuTexRefSetAddress2D_v2),
     CUDA_ENTRY_ENUM(cuVDPAUCtxCreate),
     CUDA_ENTRY_ENUM(cuEGLApiInit),
-    CUDA_ENTRY_ENUM(cuExternalMemoryGetMappedBuffer),         // 280
-    CUDA_ENTRY_ENUM(cuExternalMemoryGetMappedMipmappedArray), // 282
-    CUDA_ENTRY_ENUM(cuDestroyExternalMemory),                 // 284
-    CUDA_ENTRY_ENUM(cuDestroyExternalSemaphore),              // 292
+    CUDA_ENTRY_ENUM(cuExternalMemoryGetMappedBuffer),
+    CUDA_ENTRY_ENUM(cuExternalMemoryGetMappedMipmappedArray),
+    CUDA_ENTRY_ENUM(cuDestroyExternalMemory),
+    CUDA_ENTRY_ENUM(cuDestroyExternalSemaphore),
     CUDA_ENTRY_ENUM(cuDeviceGetUuid),
     CUDA_ENTRY_ENUM(cuGraphAddChildGraphNode),
     CUDA_ENTRY_ENUM(cuGraphAddDependencies),
@@ -455,11 +444,11 @@ typedef enum {
     CUDA_ENTRY_ENUM(cuGraphNodeGetDependentNodes),
     CUDA_ENTRY_ENUM(cuGraphNodeGetType),
     CUDA_ENTRY_ENUM(cuGraphRemoveDependencies),
-    CUDA_ENTRY_ENUM(cuImportExternalMemory),    // 278
-    CUDA_ENTRY_ENUM(cuImportExternalSemaphore), // 286
+    CUDA_ENTRY_ENUM(cuImportExternalMemory),
+    CUDA_ENTRY_ENUM(cuImportExternalSemaphore),
     CUDA_ENTRY_ENUM(cuLaunchHostFunc),
     CUDA_ENTRY_ENUM(cuLaunchHostFunc_ptsz),
-    CUDA_ENTRY_ENUM(cuSignalExternalSemaphoresAsync), // 288
+    CUDA_ENTRY_ENUM(cuSignalExternalSemaphoresAsync),
     CUDA_ENTRY_ENUM(cuSignalExternalSemaphoresAsync_ptsz),
     CUDA_ENTRY_ENUM(cuStreamBeginCapture),
     CUDA_ENTRY_ENUM(cuStreamBeginCapture_ptsz),
@@ -469,7 +458,7 @@ typedef enum {
     CUDA_ENTRY_ENUM(cuStreamGetCtx_ptsz),
     CUDA_ENTRY_ENUM(cuStreamIsCapturing),
     CUDA_ENTRY_ENUM(cuStreamIsCapturing_ptsz),
-    CUDA_ENTRY_ENUM(cuWaitExternalSemaphoresAsync), // 290
+    CUDA_ENTRY_ENUM(cuWaitExternalSemaphoresAsync),
     CUDA_ENTRY_ENUM(cuWaitExternalSemaphoresAsync_ptsz),
     CUDA_ENTRY_ENUM(cuGraphExecKernelNodeSetParams),
     CUDA_ENTRY_ENUM(cuStreamBeginCapture_v2),
@@ -483,14 +472,14 @@ typedef enum {
     CUDA_ENTRY_ENUM(cuGraphExecMemsetNodeSetParams),
     CUDA_ENTRY_ENUM(cuGraphExecUpdate),
     CUDA_ENTRY_ENUM(cuMemAddressFree),
-    CUDA_ENTRY_ENUM(cuMemAddressReserve), // 224
-    CUDA_ENTRY_ENUM(cuMemCreate),         // 226
+    CUDA_ENTRY_ENUM(cuMemAddressReserve),
+    CUDA_ENTRY_ENUM(cuMemCreate),
     CUDA_ENTRY_ENUM(cuMemExportToShareableHandle),
     CUDA_ENTRY_ENUM(cuMemGetAccess),
     CUDA_ENTRY_ENUM(cuMemGetAllocationGranularity),
     CUDA_ENTRY_ENUM(cuMemGetAllocationPropertiesFromHandle),
     CUDA_ENTRY_ENUM(cuMemImportFromShareableHandle),
-    CUDA_ENTRY_ENUM(cuMemMap), // 228
+    CUDA_ENTRY_ENUM(cuMemMap),
     CUDA_ENTRY_ENUM(cuMemRelease),
     CUDA_ENTRY_ENUM(cuMemSetAccess),
     CUDA_ENTRY_ENUM(cuMemUnmap),
@@ -511,7 +500,6 @@ typedef enum {
     CUDA_ENTRY_ENUM(cuStreamGetAttribute_ptsz),
     CUDA_ENTRY_ENUM(cuStreamSetAttribute),
     CUDA_ENTRY_ENUM(cuStreamSetAttribute_ptsz),
-    // 11.2
     CUDA_ENTRY_ENUM(cuArrayGetPlane),
     CUDA_ENTRY_ENUM(cuArrayGetSparseProperties),
     CUDA_ENTRY_ENUM(cuDeviceGetDefaultMemPool),
@@ -540,26 +528,26 @@ typedef enum {
     CUDA_ENTRY_ENUM(cuGraphExternalSemaphoresWaitNodeSetParams),
     CUDA_ENTRY_ENUM(cuGraphUpload),
     CUDA_ENTRY_ENUM(cuGraphUpload_ptsz),
-    CUDA_ENTRY_ENUM(cuIpcOpenMemHandle_v2), // 132
-    CUDA_ENTRY_ENUM(cuMemAllocAsync),       // 230
+    CUDA_ENTRY_ENUM(cuIpcOpenMemHandle_v2),
+    CUDA_ENTRY_ENUM(cuMemAllocAsync),
     CUDA_ENTRY_ENUM(cuMemAllocAsync_ptsz),
-    CUDA_ENTRY_ENUM(cuMemAllocFromPoolAsync), // 250
+    CUDA_ENTRY_ENUM(cuMemAllocFromPoolAsync),
     CUDA_ENTRY_ENUM(cuMemAllocFromPoolAsync_ptsz),
     CUDA_ENTRY_ENUM(cuMemFreeAsync),
     CUDA_ENTRY_ENUM(cuMemFreeAsync_ptsz),
     CUDA_ENTRY_ENUM(cuMemMapArrayAsync),
     CUDA_ENTRY_ENUM(cuMemMapArrayAsync_ptsz),
-    CUDA_ENTRY_ENUM(cuMemPoolCreate),                    // 246
-    CUDA_ENTRY_ENUM(cuMemPoolDestroy),                   // 248
-    CUDA_ENTRY_ENUM(cuMemPoolExportPointer),             // 256
-    CUDA_ENTRY_ENUM(cuMemPoolExportToShareableHandle),   // 252
-    CUDA_ENTRY_ENUM(cuMemPoolGetAccess),                 // 244
-    CUDA_ENTRY_ENUM(cuMemPoolGetAttribute),              // 240
-    CUDA_ENTRY_ENUM(cuMemPoolImportFromShareableHandle), // 254
-    CUDA_ENTRY_ENUM(cuMemPoolImportPointer),             // 258
-    CUDA_ENTRY_ENUM(cuMemPoolSetAccess),                 // 242
-    CUDA_ENTRY_ENUM(cuMemPoolSetAttribute),              // 238
-    CUDA_ENTRY_ENUM(cuMemPoolTrimTo),                    // 236
+    CUDA_ENTRY_ENUM(cuMemPoolCreate),
+    CUDA_ENTRY_ENUM(cuMemPoolDestroy),
+    CUDA_ENTRY_ENUM(cuMemPoolExportPointer),
+    CUDA_ENTRY_ENUM(cuMemPoolExportToShareableHandle),
+    CUDA_ENTRY_ENUM(cuMemPoolGetAccess),
+    CUDA_ENTRY_ENUM(cuMemPoolGetAttribute),
+    CUDA_ENTRY_ENUM(cuMemPoolImportFromShareableHandle),
+    CUDA_ENTRY_ENUM(cuMemPoolImportPointer),
+    CUDA_ENTRY_ENUM(cuMemPoolSetAccess),
+    CUDA_ENTRY_ENUM(cuMemPoolSetAttribute),
+    CUDA_ENTRY_ENUM(cuMemPoolTrimTo),
     CUDA_ENTRY_ENUM(cuMipmappedArrayGetSparseProperties),
     CUDA_ENTRY_ENUM(cuCtxCreate_v3),
     CUDA_ENTRY_ENUM(cuCtxGetExecAffinity),
@@ -594,10 +582,6 @@ typedef enum {
     CUDA_ENTRY_END
 } cuda_entry_enum_t;
 
-/**
- * CUDA library debug function pointer
- */
-typedef void (*cuda_debug_void_sym_t)();
 #ifdef __cplusplus
 }
 #endif

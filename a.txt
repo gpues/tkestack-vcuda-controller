@@ -12,23 +12,9 @@ dword_61148     g_total_cuda_cores
 
 
 
-vdevices
-handle unsigned int
-ctx
-char *pciBusId
-device
-nvmlDevice_t
-nvmlDevice_t *device
-
-vdevices + 152 * i + 48
-
-
-
 todo
 
-
 remove_chunk
-init_virtual_devices
 cuGetExportTable
 init_utilization_watcher
 get_module_from_cubin
@@ -47,12 +33,13 @@ rm_gpu_device_memory_usage
 put_device_info                         update device_plugin version to nvidia v0.14.0
 
 
-fix node device order and upgrade to compatable with cuda 12.2
+fix node vgpuDevice order and upgrade to compatable with cuda 12.2
 cuDeviceGetCount
 cuDeviceTotalMem_v2
 cuMemGetInfo_v2
 cuGetProcAddress_v2
 cuGetProcAddress_v2_alt
+cuGetProcAddress_v2_ptsz
 cuGraphInstantiateWithFlags
 parse_cuda_visible_env
 parser
@@ -67,3 +54,8 @@ postInit
 preInit
 rm_gpu_device_memory_usage
 try_lock_unified_lock
+
+
+
+
+cuDeviceTotalMem_v2  没有定义

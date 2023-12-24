@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(demo C CXX)
 
+
 add_definitions(-D_GNU_SOURCE)
 add_compile_options(-Wall -Wshadow -Werror -Wno-format -Wno-deprecated-non-prototype -Wimplicit-function-declaration -g)
 
@@ -8,16 +9,17 @@ include_directories(${CMAKE_SOURCE_DIR})
 
 #set(STATIC_C_LIBRARIES -static-libgcc -static-libstdc++)
 SET(LIBRARIES -ldl -lpthread)
+set(CMAKE_CXX_STANDARD 11)
 
 add_definitions(-DUSE_ORIGINAL)
-add_library(cuda-control SHARED
+add_library(vgpu SHARED
         include/base.h
         include/func.h
         include/cuda-helper.h
         include/nvml-helper.h
         src/multiprocess/multiprocess_memory_limit.c
         src/multiprocess/multiprocess_utilization_watcher.c
-        src/var.h
+        src/var.c
         src/nvml/util.c
         src/nvml/hook.c
         src/utils.c
@@ -35,13 +37,12 @@ add_library(cuda-control SHARED
         include/nvml-subset.h
         include/cuda-subset.h
         include/vdpau.h
-        src/cuda/event.c
-        src/cuda/graph.c
         include/cuda.h
         include/nvml.h
         src/nvml/nvml_entry.c
         include/all.h
-)
+        src/func_strs.c
+        )
 
-target_link_libraries(cuda-control ${STATIC_C_LIBRARIES} ${LIBRARIES})
-target_compile_options(cuda-control PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-std=c++11>)
+target_link_libraries(vgpu ${STATIC_C_LIBRARIES} ${LIBRARIES})
+target_compile_options(vgpu PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-std=c++11>)

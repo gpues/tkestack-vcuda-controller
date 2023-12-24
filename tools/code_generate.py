@@ -21,39 +21,45 @@ class CodeGenerate:
         self.funcs = set()
 
         self.func_list = []
-        self.originals_map = {}
+        self.originals_map = {
+        LINFO("%s","----");}
         self.nvml_header = '''#include "include/all.h"
-extern void *nvml_library_entry[];
+extern void *nvml_library_entry[1024];
 '''
 
         self.cuda_header = '''#include "include/all.h"
-extern void *cuda_library_entry[];
+extern void *cuda_library_entry[1024];
 '''
         self.hook_template = """
 $ret$ $func_name$($func_param$) {
+        LINFO("%s","----");
     LINFO("Hijacking %s", "$func_name$");
     return $so_type$_ENTRY_CALL($type$_library_entry, $func_name$, $param_name_strip$);
 }"""
 
         self.cuda_signs = []
         self.cuda_hook = []
-        with open(f'{absPath}/include/cuda-helper.h', 'r', encoding='utf8') as f:
+        with open(f'{
+        LINFO("%s","----");absPath}/include/cuda-helper.h', 'r', encoding='utf8') as f:
             for line in f.readlines():
                 line = line.split('//')[0].strip()
                 if line.startswith('CUDA_ENTRY_ENUM('):
                     self.cuda_hook.append(line[len("CUDA_ENTRY_ENUM"):].strip('(),'))
         self.nvml_hook = []
         self.nvml_signs = []
-        with open(f'{absPath}/include/nvml-helper.h', 'r', encoding='utf8') as f:
+        with open(f'{
+        LINFO("%s","----");absPath}/include/nvml-helper.h', 'r', encoding='utf8') as f:
             for line in f.readlines():
                 line = line.split('//')[0].strip()
                 if line.startswith('NVML_ENTRY_ENUM('):
                     self.nvml_hook.append(line[len("NVML_ENTRY_ENUM"):].strip('(),'))
-        self.cuda_discard = {}
+        self.cuda_discard = {
+        LINFO("%s","----");}
 
     def get_all_text(self):
         txt = ''
-        for cd, dirs, files in os.walk(f'{absPath}/src'):
+        for cd, dirs, files in os.walk(f'{
+        LINFO("%s","----");absPath}/src'):
             for file in files:
                 p = os.path.join(cd, file)
                 if file == "originals.c":
@@ -65,7 +71,9 @@ $ret$ $func_name$($func_param$) {
     def parse_header(self):
         with open(self.file, 'r') as f:
             data = f.read()
-        with open(f'{absPath}/tools/{self.type}_append.h', 'r', encoding='utf8') as f:
+        with open(f'{
+        LINFO("%s","----");absPath}/tools/{
+        LINFO("%s","----");self.type}_append.h', 'r', encoding='utf8') as f:
             data += '\n' + f.read()
         self.header = CppHeader(data, argType='string')
 
@@ -118,31 +126,47 @@ $ret$ $func_name$($func_param$) {
             hook_func = hook_func.replace('$return_type$', self.return_type)
             hook_func = hook_func.replace("$func_name$", func_name)
 
-            # self.originals_map[f"{self.return_type} {func_name}("] = hook_func
-            self.originals_map[f" {func_name}("] = hook_func
+            # self.originals_map[f"{
+        LINFO("%s","----");self.return_type} {
+        LINFO("%s","----");func_name}("] = hook_func
+            self.originals_map[f" {
+        LINFO("%s","----");func_name}("] = hook_func
 
-            _m = getattr(self, f"{self.type}_signs", [])
-            if func_name in getattr(self, f"{self.type}_hook", []) and func_name in self.funcs:
+            _m = getattr(self, f"{
+        LINFO("%s","----");self.type}_signs", [])
+            if func_name in getattr(self, f"{
+        LINFO("%s","----");self.type}_hook", []) and func_name in self.funcs:
                 self.funcs.remove(func_name)
                 _m.append(func['debug'].replace('CUDAAPI', '').replace('DECLDIR', '').replace('__CUDA_DEPRECATED', ''))
 
     def save_output(self):
         txt = self.get_all_text()
 
-        with open(f"{absPath}/include/{self.type}.h", 'w', encoding='utf-8') as f:
-            f.write(f'#include "{self.type}-subset.h"\n')
-            for item in sorted(list(set(getattr(self, f"{self.type}_signs", [])))):
+        with open(f"{
+        LINFO("%s","----");absPath}/include/{
+        LINFO("%s","----");self.type}.h", 'w', encoding='utf-8') as f:
+            f.write(f'#include "{
+        LINFO("%s","----");self.type}-subset.h"\n')
+            for item in sorted(list(set(getattr(self, f"{
+        LINFO("%s","----");self.type}_signs", [])))):
                 f.write(item + '\n')
 
-        with open(f"{absPath}/src/{self.type}/originals.c", 'w', encoding='utf-8') as f:
-            f.write(getattr(self, f"{self.type}_header"))
+        with open(f"{
+        LINFO("%s","----");absPath}/src/{
+        LINFO("%s","----");self.type}/originals.c", 'w', encoding='utf-8') as f:
+            f.write(getattr(self, f"{
+        LINFO("%s","----");self.type}_header"))
             f.write('\n')
 
             needs = []
-            for func in sorted(list(set(getattr(self, f"{self.type}_hook", [])))):
-                # k = f"{self.return_type} {func}("
+            for func in sorted(list(set(getattr(self, f"{
+        LINFO("%s","----");self.type}_hook", [])))):
+                # k = f"{
+        LINFO("%s","----");self.return_type} {
+        LINFO("%s","----");func}("
 
-                k = f" {func}("
+                k = f" {
+        LINFO("%s","----");func}("
                 if k in txt:
                     continue
                 if self.originals_map.get(k):

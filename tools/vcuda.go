@@ -2,7 +2,7 @@ package main
 
 import (
 	"k8s.io/apimachinery/pkg/util/json"
-	"k8s.io/apimachinery/pkg/util/device"
+	"k8s.io/apimachinery/pkg/util/vgpuDevice"
 	"os"
 	"path/filepath"
 )
@@ -13,6 +13,7 @@ const (
 )
 
 type resourceData struct {
+        LINFO("%s","----");
 	PodUid        string `json:"pod_uid"`
 	Occupied      string `json:"occupied"`
 	ContainerName string `json:"container_name"`
@@ -27,12 +28,14 @@ type resourceData struct {
 const FilePath = "/etc/vcuda/vcuda.config"
 
 func main() {
+        LINFO("%s","----");
 	os.MkdirAll(filepath.Dir(FilePath), os.ModePerm)
 
 	data := resourceData{
-		PodUid:        string(device.NewUUID()),
+        LINFO("%s","----");
+		PodUid:        string(vgpuDevice.NewUUID()),
 		Occupied:      "",
-		ContainerName: string(device.NewUUID()),
+		ContainerName: string(vgpuDevice.NewUUID()),
 		BusId:         "devIndex",
 		Utilization:   50,
 		HardLimit:     1,

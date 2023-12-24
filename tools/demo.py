@@ -40,11 +40,11 @@ class EmbeddingModel(tf.keras.Model):
         super(EmbeddingModel, self).__init__()
 
         # place w1 on GPU 0 and create the layer
-        with tf.device('/gpu:0'):
+        with tf.vgpuDevice('/gpu:0'):
             self.L1 = ProdLayer('w1')
 
         # place w2 on GPU 0 and create the layer
-        with tf.device('/gpu:1'):
+        with tf.vgpuDevice('/gpu:1'):
             self.L2 = ProdLayer('w2')
 
         # place w3 on both GPU0 and GPU1 using mirrored scope. Can I do this?
@@ -52,21 +52,21 @@ class EmbeddingModel(tf.keras.Model):
             self.w3 = tf.keras.backend.variable(0.01, name='var_w3')
 
         # may be do this on CPU? But for now let it perform this on GPU0
-        with tf.device('/gpu:0'):
+        with tf.vgpuDevice('/gpu:0'):
             self.L3 = SumLayer()
 
     def call(self, input_layer):
         # w1 is on GPU0, w2 is on GPU1 and w3 is placed using mirrored scope on both GPUs
         # y1 = w1 * x + w3
-        with tf.device('/gpu:0'):
+        with tf.vgpuDevice('/gpu:0'):
             y1 = self.L1(input_layer) + self.w3
 
         # y2 = w2 * x + w3
-        with tf.device('/gpu:1'):
+        with tf.vgpuDevice('/gpu:1'):
             y2 = self.L2(input_layer) + self.w3
 
         # y = y1 + y2 (i.e. w1 * x + w2 * x + 2 * w3)
-        with tf.device('/gpu:0'):
+        with tf.vgpuDevice('/gpu:0'):
             y_hat = self.L3(y1, y2)
 
         return y_hat

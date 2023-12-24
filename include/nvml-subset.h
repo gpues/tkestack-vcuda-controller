@@ -51,6 +51,7 @@
 
 #ifdef __cplusplus
 extern "C" {
+
 #endif
 
 /**
@@ -215,9 +216,9 @@ typedef unsigned int nvmlVgpuInstance_t;
  * API types that allow changes to default permission restrictions
  */
 typedef enum nvmlRestrictedAPI_enum {
-    NVML_RESTRICTED_API_SET_APPLICATION_CLOCKS = 0, //!< APIs that change application clocks, see
-    //!< nvmlDeviceSetApplicationsClocks
-    //!< and see nvmlDeviceResetApplicationsClocks
+    NVML_RESTRICTED_API_SET_APPLICATION_CLOCKS = 0,  //!< APIs that change application clocks, see
+                                                     //!< nvmlDeviceSetApplicationsClocks
+                                                     //!< and see nvmlDeviceResetApplicationsClocks
     NVML_RESTRICTED_API_SET_AUTO_BOOSTED_CLOCKS = 1, //!< APIs that enable/disable Auto Boosted clocks
     //!< see nvmlDeviceSetAutoBoostedClocksEnabled
     // Keep this last
@@ -477,6 +478,7 @@ typedef enum nvmlInforomObject_enum {
  * Memory error types
  */
 typedef enum nvmlMemoryErrorType_enum {
+
     /**
      * A memory error that was corrected
      *
@@ -693,7 +695,7 @@ typedef enum nvmlTemperatureSensors_enum {
  */
 typedef enum nvmlTemperatureThresholds_enum {
     NVML_TEMPERATURE_THRESHOLD_SHUTDOWN = 0, // Temperature at which the GPU will
-    // shut down for HW protection
+                                             // shut down for HW protection
     NVML_TEMPERATURE_THRESHOLD_SLOWDOWN = 1, // Temperature at which the GPU will begin HW slowdown
     NVML_TEMPERATURE_THRESHOLD_MEM_MAX = 2,  // Memory Temperature at which the GPU will begin SW slowdown
     NVML_TEMPERATURE_THRESHOLD_GPU_MAX = 3,  // GPU Temperature at which the GPU can be throttled below base clock
@@ -773,8 +775,8 @@ typedef struct nvmlVgpuInstanceUtilizationSample_st {
  * Represents type of perf policy for which violation times can be queried
  */
 typedef enum nvmlPerfPolicyType_enum {
-    NVML_PERF_POLICY_POWER = 0, //!< How long did power violations cause the GPU
-    //!< to be below application clocks
+    NVML_PERF_POLICY_POWER = 0,   //!< How long did power violations cause the GPU
+                                  //!< to be below application clocks
     NVML_PERF_POLICY_THERMAL = 1, //!< How long did thermal violations cause the
     //!< GPU to be below application clocks
     NVML_PERF_POLICY_SYNC_BOOST = 2, //!< How long did sync boost cause the GPU

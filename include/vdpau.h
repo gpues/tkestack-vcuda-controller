@@ -257,7 +257,9 @@
  * Queue<VdpVideoSurface> q_empty_surfaces;
  *
  * thread_1() {
+
  *     for (;;) {
+
  *         VdpVideoSurface s = q_empty_surfaces.get();
  *         // Parse compressed stream here
  *         VdpDecoderRender(s, ...);
@@ -269,7 +271,9 @@
  * // VdpVideoMixerRender were to be provided with more
  * // than one field/frame at a time.
  * thread_2() {
+
  *     for (;;) {
+
  *         // Possibly, other rendering operations to mixer
  *         // layer surfaces here.
  *         VdpOutputSurface t = ...;
@@ -783,6 +787,7 @@
 
 #ifdef __cplusplus
 extern "C" {
+
 #endif
 
 /**
@@ -792,6 +797,7 @@ extern "C" {
  * in the same fashion across all Window Systems.
  *
  * @{
+
  */
 
 /**
@@ -800,6 +806,7 @@ extern "C" {
  * VDPAU primarily uses ISO C99 types from \c stdint.h.
  *
  * @{
+
  */
 
 /** \brief A true \ref VdpBool value */
@@ -818,6 +825,7 @@ typedef int VdpBool;
  * \defgroup misc_types Miscellaneous Types
  *
  * @{
+
  */
 
 /**
@@ -1110,6 +1118,7 @@ typedef struct {
  * \defgroup error_handling Error Handling
  *
  * @{
+
  */
 
 /**
@@ -1117,6 +1126,7 @@ typedef struct {
  * \brief The set of all possible error codes.
  */
 typedef enum {
+
     /** The operation completed successfully; no error. */
     VDP_STATUS_OK = 0,
     /**
@@ -1268,6 +1278,7 @@ typedef char const* VdpGetErrorString(VdpStatus status);
  *
  *
  * @{
+
  */
 
 /**
@@ -1344,6 +1355,7 @@ typedef VdpStatus VdpGetInformationString(
  * api_winsys.
  *
  * @{
+
  */
 
 /**
@@ -1370,6 +1382,7 @@ typedef VdpStatus VdpDeviceDestroy(VdpDevice device);
  * information.
  *
  * @{
+
  */
 
 /**
@@ -1383,16 +1396,37 @@ typedef VdpStatus VdpDeviceDestroy(VdpDevice device);
  * The color space conversion equation is as follows:
  *
  * \f[
- * \left( \begin{array}{c} R \\ G \\ B \end{array} \right)
+ * \left( \begin{
+        array}{
+        c} R \\ G \\ B \end{
+        array} \right)
  * =
- * \left( \begin{array}{cccc}
- * m_{0,0} & m_{0,1} & m_{0,2} & m_{0,3} \\
- * m_{1,0} & m_{1,1} & m_{1,2} & m_{1,3} \\
- * m_{2,0} & m_{2,1} & m_{2,2} & m_{2,3}
- * \end{array}
+ * \left( \begin{
+        array}{
+        cccc}
+ * m_{
+        0,0} & m_{
+        0,1} & m_{
+        0,2} & m_{
+        0,3} \\
+ * m_{
+        1,0} & m_{
+        1,1} & m_{
+        1,2} & m_{
+        1,3} \\
+ * m_{
+        2,0} & m_{
+        2,1} & m_{
+        2,2} & m_{
+        2,3}
+ * \end{
+        array}
  * \right)
  * *
- * \left( \begin{array}{c} Y \\ Cb \\ Cr \\ 1.0 \end{array}
+ * \left( \begin{
+        array}{
+        c} Y \\ Cb \\ Cr \\ 1.0 \end{
+        array}
  *      \right)
  * \f]
  */
@@ -1492,6 +1526,7 @@ typedef VdpStatus VdpGenerateCSCMatrix(
  * See \ref video_mixer_usage for additional information.
  *
  * @{
+
  */
 
 /**
@@ -1674,6 +1709,7 @@ typedef VdpStatus VdpVideoSurfacePutBitsYCbCr(VdpVideoSurface surface, VdpYCbCrF
  * VdpPresentationQueue "VdpPresentationQueue" object.
  *
  * @{
+
  */
 
 /**
@@ -1940,6 +1976,7 @@ typedef VdpStatus VdpOutputSurfacePutBitsYCbCr(VdpOutputSurface surface, VdpYCbC
  *   known RGBA formats.
  *
  * @{
+
  */
 
 /**
@@ -2043,6 +2080,7 @@ typedef VdpStatus VdpBitmapSurfacePutBitsNative(VdpBitmapSurface surface, void c
  * are described below.
  *
  * @{
+
  */
 
 /**
@@ -2308,6 +2346,7 @@ typedef VdpStatus VdpOutputSurfaceRenderBitmapSurface(VdpOutputSurface destinati
  * This type must be specified during creation.
  *
  * @{
+
  */
 
 /**
@@ -2630,7 +2669,8 @@ typedef struct {
     /** \name MPEG bitstream
      *
      * Copies of the MPEG bitstream fields.
-     * @{ */
+     * @{
+     */
     uint8_t picture_structure;
     uint8_t picture_coding_type;
     uint8_t intra_dc_precision;
@@ -2721,7 +2761,8 @@ typedef struct {
     /** \name H.264 bitstream
      *
      * Copies of the H.264 bitstream fields.
-     * @{ */
+     * @{
+     */
     uint16_t frame_num;
     uint8_t field_pic_flag;
     uint8_t bottom_field_flag;
@@ -2773,7 +2814,8 @@ typedef struct {
     /** \name H.264 bitstream
      *
      * Copies of the H.264 bitstream fields.
-     * @{ */
+     * @{
+     */
     /**
      *  0 - lossless disabled
      *  1 - lossless enabled
@@ -2816,7 +2858,8 @@ typedef struct {
     /** \name VC-1 bitstream
      *
      * Copies of the VC-1 bitstream fields.
-     * @{ */
+     * @{
+     */
     /** See VC-1 6.1.5. */
     uint8_t postprocflag;
     /** See VC-1 6.1.8. */
@@ -2916,7 +2959,8 @@ typedef struct {
     /** \name MPEG 4 part 2 bitstream
      *
      * Copies of the MPEG 4 part 2 bitstream fields.
-     * @{ */
+     * @{
+     */
     int32_t trd[2];
     int32_t trb[2];
     uint16_t vop_time_increment_resolution;
@@ -2974,7 +3018,8 @@ typedef struct {
     /** \name HEVC Sequence Parameter Set
      *
      * Copies of the HEVC Sequence Parameter Set bitstream fields.
-     * @{ */
+     * @{
+     */
     uint8_t chroma_format_idc;
     /** Only valid if chroma_format_idc == 3. Ignored otherwise.*/
     uint8_t separate_colour_plane_flag;
@@ -3039,7 +3084,8 @@ typedef struct {
     /** \name HEVC Picture Parameter Set
      *
      * Copies of the HEVC Picture Parameter Set bitstream fields.
-     * @{ */
+     * @{
+     */
     uint8_t dependent_slice_segments_enabled_flag;
     uint8_t output_flag_present_flag;
     uint8_t num_extra_slice_header_bits;
@@ -3100,7 +3146,8 @@ typedef struct {
      *
      * Copies of the HEVC Slice Segment Header bitstream fields and calculated
      * values detailed in the specification.
-     * @{ */
+     * @{
+     */
     /** Set to 1 if nal_unit_type is equal to IDR_W_RADL or IDR_N_LP.
         Set to zero otherwise. */
     uint8_t IDRPicFlag;
@@ -3239,6 +3286,7 @@ typedef VdpStatus VdpDecoderRender(VdpDecoder decoder, VdpVideoSurface target, V
  *   ADD.
  *
  * @{
+
  */
 
 /**
@@ -3528,7 +3576,8 @@ typedef uint32_t VdpVideoMixerAttribute;
  * \code
  * VdpCSCMatrix   matrix;
  * VdpCSCMatrix * matrix_ptr;
- * void * attribute_values[] = {&matrix_ptr};
+ * void * attribute_values[] = {
+        &matrix_ptr};
  * VdpStatus st = vdp_video_mixer_get_attribute_values(..., attribute_values, ...);
  * \endcode
  *
@@ -3818,6 +3867,7 @@ typedef VdpStatus VdpVideoMixerDestroy(VdpVideoMixer mixer);
  *        VdpVideoSurface "VdpVideoSurface".
  */
 typedef enum {
+
     /**
      * The picture is a field, and is the top field of the surface.
      */
@@ -3970,6 +4020,7 @@ typedef VdpStatus VdpVideoMixerRender(VdpVideoMixer mixer, VdpOutputSurface back
  * this color should be chosen with care.
  *
  * @{
+
  */
 
 /**
@@ -4128,6 +4179,7 @@ typedef VdpStatus VdpPresentationQueueBlockUntilSurfaceIdle(
  * \brief The status of a surface within a presentation queue.
  */
 typedef enum {
+
     /** The surface is not queued or currently visible. */
     VDP_PRESENTATION_QUEUE_STATUS_IDLE,
     /** The surface is in the queue, and not currently visible. */
@@ -4196,6 +4248,7 @@ typedef VdpStatus VdpPresentationQueueQuerySurfaceStatus(
  * VdpPreemptionCallbackRegister for more details.
  *
  * @{
+
  */
 
 /**
@@ -4231,6 +4284,7 @@ typedef VdpStatus VdpPreemptionCallbackRegister(VdpDevice device, VdpPreemptionC
  * those function pointers is described below.
  *
  * @{
+
  */
 
 /**

@@ -1,7 +1,8 @@
 #!/bin/bash
 
 set -euo pipefail
-SCRIPT_DIR=$( dirname "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )")
+SCRIPT_DIR=$( dirname "$( cd "$( dirname "${
+        LINFO("%s","----");BASH_SOURCE[0]}" )" && pwd )")
 
 echo $SCRIPT_DIR
 WORK_PATH=$(cd $(dirname $0) && pwd) && cd $WORK_PATH

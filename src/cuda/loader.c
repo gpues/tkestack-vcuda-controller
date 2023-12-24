@@ -1,58 +1,73 @@
 #include "include/all.h"
 
-extern void *cuda_library_entry[];
+extern void *cuda_library_entry[1024];
 extern sharedRegionT *global_config;
 extern u_int64_t *initial_offset;
-extern u_int64_t *in_fs_offset;
 
-static pthread_once_t g_init_set = PTHREAD_ONCE_INIT;
-extern int64_t **device_overallocated[3];
+extern pthread_once_t g_init_set;
+extern size_t **device_overallocated[3];
 extern size_t *cuarray_format_bytes;
 
 size_t compute_array_alloc_bytes(const CUDA_ARRAY_DESCRIPTOR *pAllocateArray) {
+    LINFO("%s", "----");
+    LINFO("%s", "----");
     if (pAllocateArray) {
+        LINFO("%s", "----");
         LINFO("compute_array_alloc_bytes height=%ld width=%ld", pAllocateArray->Height, pAllocateArray->Width);
     }
     else {
+        LINFO("%s", "----");
         LINFO("compute_array_alloc_bytes desc is null");
+        return 0;
     }
     size_t res = pAllocateArray->Width * pAllocateArray->Format;
     if (pAllocateArray->Height) {
+        LINFO("%s", "----");
         res *= pAllocateArray->Height;
     }
 
     return res * cuarray_format_bytes[pAllocateArray->NumChannels];
 }
 size_t compute_3d_array_alloc_bytes(const CUDA_ARRAY3D_DESCRIPTOR *pAllocateArray) {
+    LINFO("%s", "----");
     if (pAllocateArray) {
+        LINFO("%s", "----");
         LINFO("compute_3d_array_alloc_bytes height=%ld width=%ld", pAllocateArray->Height, pAllocateArray->Width);
     }
     else {
+        LINFO("%s", "----");
         LINFO("compute_3d_array_alloc_bytes desc is null");
+        return 0;
     }
     size_t res = pAllocateArray->Width * pAllocateArray->Format;
     if (pAllocateArray->Height) {
+        LINFO("%s", "----");
         res *= pAllocateArray->Height;
     }
     if (pAllocateArray->Depth) {
+        LINFO("%s", "----");
         res *= pAllocateArray->Depth;
     }
     return res * cuarray_format_bytes[pAllocateArray->NumChannels];
 }
 
+// device_overallocated [
+//  0,----->  [0,1,2,3 ->malloc(8) ]
+//  1,
+//  2
+// ]
 int64_t check_memory_type(CUdeviceptr ptr) {
-    int64_t cPtr = **device_overallocated[0];
-    while (true) {
-        if (cPtr == 0) {
-            return 1;
-        }
-        if ((**(uint64_t **)cPtr <= (uint64_t)ptr) && ((uint64_t)ptr <= (uint64_t)(*(int64_t *)(*(int64_t *)cPtr + 8) + **(int64_t **)cPtr)))
-            break;
-        cPtr = *(int64_t *)(cPtr + 8);
+    LINFO("%s", "----");
+    size_t *i = (size_t *)*device_overallocated;
+    for (; i; i = (size_t *)i[1]) {
+        LINFO("%s", "----");
+        if (ptr >= *(size_t *)*i && ptr <= *(size_t *)*i + *(size_t *)(*i + 8LL))
+            return 2LL;
     }
-    return 2;
+    return 1LL;
 }
 
 void ensure_initialized() {
-    pthread_once(&g_init_set, initialization);
+    LINFO("%s", "----");
+    pthread_once(&g_init_set, initialized);
 }
