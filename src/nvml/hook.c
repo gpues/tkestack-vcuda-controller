@@ -11,7 +11,7 @@ extern char *NVML_FUNCS[1024];
 extern char driver_version[FILENAME_MAX];
 
 void load_nvml_libraries() {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     LINFO("Start hijacking");
     read_version_from_proc((char *)&driver_version);
 
@@ -22,11 +22,11 @@ void load_nvml_libraries() {
 
     void *nvml_handle = dlopen(nvml_filename, RTLD_GLOBAL | RTLD_LAZY);
     if (!nvml_handle) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         LINFO("can't find library %s", nvml_filename);
     }
     for (int64_t i = 0; i < NVML_ENTRY_END; ++i) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         void *hookFunc = dlsym(nvml_handle, NVML_FUNCS[i]);
         nvml_library_entry[i] = hookFunc;
     }
@@ -35,7 +35,7 @@ void load_nvml_libraries() {
 }
 
 nvmlReturn_t nvmlDeviceGetUUID(nvmlDevice_t device, char *uuid, unsigned int length) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     LINFO("Hijacking %s", "nvmlDeviceGetUUID");
 
     nvmlReturn_t res = NVML_ENTRY_CALL(nvml_library_entry, nvmlDeviceGetUUID, handle_remap(device), uuid, length);
@@ -48,13 +48,13 @@ nvmlReturn_t nvmlDeviceGetUUID(nvmlDevice_t device, char *uuid, unsigned int len
 }
 
 nvmlReturn_t nvmlDeviceGetPciInfo_v3(nvmlDevice_t device, nvmlPciInfo_t *pci) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     LINFO("Hijacking %s", "nvmlDeviceGetPciInfo_v3");
 
     nvmlReturn_t res = NVML_ENTRY_CALL(nvml_library_entry, nvmlDeviceGetPciInfo, handle_remap(device), pci);
     unsigned int vdevice_index = get_vdevice_index((nvmlDevice_t *)device);
     if (vdevices[vdevice_index].busIdLegacy) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         vdevice_index = get_vdevice_index((nvmlDevice_t *)device);
         strncpy(pci->busId, (char *)vdevices[vdevice_index].busIdLegacy, 0x10);
     }
@@ -62,13 +62,13 @@ nvmlReturn_t nvmlDeviceGetPciInfo_v3(nvmlDevice_t device, nvmlPciInfo_t *pci) {
 }
 
 nvmlReturn_t nvmlDeviceGetPciInfo_v2(nvmlDevice_t device, nvmlPciInfo_t *pci) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     LINFO("Hijacking %s", "nvmlDeviceGetPciInfo_v2");
 
     nvmlReturn_t res = NVML_ENTRY_CALL(nvml_library_entry, nvmlDeviceGetPciInfo_v2, handle_remap(device), pci);
     unsigned int vdevice_index = get_vdevice_index((nvmlDevice_t *)device);
     if (vdevices[vdevice_index].busIdLegacy) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         vdevice_index = get_vdevice_index((nvmlDevice_t *)device);
         strncpy(pci->busId, (char *)vdevices[vdevice_index].busIdLegacy, 0x10);
     }
@@ -76,13 +76,13 @@ nvmlReturn_t nvmlDeviceGetPciInfo_v2(nvmlDevice_t device, nvmlPciInfo_t *pci) {
 }
 
 nvmlReturn_t nvmlDeviceGetPciInfo(nvmlDevice_t device, nvmlPciInfo_t *pci) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     LINFO("Hijacking %s", "nvmlDeviceGetPciInfo");
 
     nvmlReturn_t res = NVML_ENTRY_CALL(nvml_library_entry, nvmlDeviceGetPciInfo, handle_remap(device), pci);
     unsigned int vdevice_index = get_vdevice_index((nvmlDevice_t *)device);
     if (vdevices[vdevice_index].busIdLegacy) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         vdevice_index = get_vdevice_index((nvmlDevice_t *)device);
         strncpy(pci->busId, (char *)vdevices[vdevice_index].busIdLegacy, 0x10);
     }
@@ -90,7 +90,7 @@ nvmlReturn_t nvmlDeviceGetPciInfo(nvmlDevice_t device, nvmlPciInfo_t *pci) {
 }
 
 nvmlReturn_t nvmlDeviceGetHandleByPciBusId_v2(const char *pciBusId, nvmlDevice_t *device) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     LINFO("Hijacking %s", "nvmlDeviceGetHandleByPciBusId_v2");
 
     char dest[24];
@@ -98,9 +98,9 @@ nvmlReturn_t nvmlDeviceGetHandleByPciBusId_v2(const char *pciBusId, nvmlDevice_t
     my_strlwr(dest);
 
     for (int i = 0; i < virtual_nvml_devices[0]; ++i) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         if (!(unsigned int)comparelwr(vdevices[i].busIdLegacy, dest)) {
-            LINFO("%s", "----");
+            printf("%s %s", __FILE__, __LINE__);
             *device = *(nvmlDevice_t *)(char *)vdevices[i].busIdLegacy;
             return 0LL;
         }
@@ -109,19 +109,19 @@ nvmlReturn_t nvmlDeviceGetHandleByPciBusId_v2(const char *pciBusId, nvmlDevice_t
 }
 
 void nvml_preInit() {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     load_env_from_file("/overrideEnv");
     load_nvml_libraries();
 }
 
 void nvml_postInit() {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     init_virtual_map();
     initial_virtual_devices();
 }
 
 nvmlReturn_t nvmlInit() {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     LINFO("nvmlInit");
     pthread_once(&init_virtual_map_flag, (void (*)(void))nvml_preInit);
     LINFO("Hijacking %s", "nvmlInit_v2");
@@ -131,7 +131,7 @@ nvmlReturn_t nvmlInit() {
 }
 
 nvmlReturn_t nvmlInit_v2() {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     LINFO("nvmlInit_v2");
     pthread_once(&init_virtual_map_flag, (void (*)(void))nvml_preInit);
     LINFO("Hijacking %s", "nvmlInit_v2");
@@ -141,7 +141,7 @@ nvmlReturn_t nvmlInit_v2() {
 }
 
 nvmlReturn_t nvmlInitWithFlags(unsigned int flags) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     LINFO("nvmlInitWithFlags");
     pthread_once(&init_virtual_map_flag, (void (*)(void))nvml_preInit);
     LINFO("Hijacking %s", "nvmlInitWithFlags");
@@ -151,7 +151,7 @@ nvmlReturn_t nvmlInitWithFlags(unsigned int flags) {
 }
 
 const char *nvmlErrorString(nvmlReturn_t result) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     LINFO("Hijacking %s", "nvmlErrorString");
     const char *(*hookFunc)(nvmlReturn_t) = (const char *(*)(nvmlReturn_t))NVML_FIND_ENTRY(nvml_library_entry, nvmlErrorString);
     return hookFunc(result);

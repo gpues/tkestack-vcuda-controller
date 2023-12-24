@@ -32,32 +32,32 @@ CUuuid cudart_interface_guid = {
         },
 };
 size_t assigning_virtual_pcibusID() {
-    LINFO("%s", "----");
-    LINFO("%s", "----"); // 分配虚拟的 busID
+    printf("%s %s", __FILE__, __LINE__);
+    printf("%s %s", __FILE__, __LINE__); // 分配虚拟的 busID
     const void ***ppExportTable = NULL;
     LINFO("assigning_virtual_pcibusID num=%d", virtual_devices[0]);
 
     cuGetExportTable(ppExportTable, (CUuuid *)&cudart_interface_guid);
     int offset = 0;
     for (int i = 0; i < virtual_devices[0]; ++i) {
-        LINFO("%s", "----");
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
+        printf("%s %s", __FILE__, __LINE__);
         if (!vdevices[cuda_to_nvml_map[i]].busIdLegacy) {
-            LINFO("%s", "----");
-            LINFO("%s", "----");
+            printf("%s %s", __FILE__, __LINE__);
+            printf("%s %s", __FILE__, __LINE__);
             vdevices[cuda_to_nvml_map[i]].busIdLegacy = malloc(0x10);
             LINFO("Hijacking %s", "cuDeviceGetPCIBusId");
             CUDA_ENTRY_CALL(cuda_library_entry, cuDeviceGetPCIBusId, vdevices[i].busIdLegacy, 0x10, virtual_map[i]);
 
             if (virtual_map[i] == virtual_map[i - 1] && i) {
-                LINFO("%s", "----");
-                LINFO("%s", "----");
+                printf("%s %s", __FILE__, __LINE__);
+                printf("%s %s", __FILE__, __LINE__);
                 ++offset;
                 // 虚拟设备,末尾自增
                 vdevices[i].busIdLegacy[strlen(vdevices[i].busIdLegacy) - 1] = (char)(vdevices[i].busIdLegacy[strlen(vdevices[i].busIdLegacy) - 1] + offset);
             }
             else {
-                LINFO("%s", "----");
+                printf("%s %s", __FILE__, __LINE__);
                 offset = 0;
             }
             vdevices[cuda_to_nvml_map[i]].add_gpu_flag = 0;
@@ -72,12 +72,12 @@ size_t assigning_virtual_pcibusID() {
 }
 
 CUcontext ctx_remap(CUcontext ctx) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     signed int i;
     if (!ctx)
         return 0LL;
     for (i = 0; i < virtual_nvml_devices[0]; ++i) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         if (ctx == *vdevices[i].ctx || ctx == *vdevices[i].vctx)
             return *vdevices[i].vctx;
     }
@@ -85,12 +85,12 @@ CUcontext ctx_remap(CUcontext ctx) {
 }
 
 CUcontext ctx_reversemap(CUcontext ctx) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     signed int i;
     if (!ctx)
         return 0LL;
     for (i = 0; i < virtual_nvml_devices[0]; ++i) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         if (ctx == *vdevices[i].vctx)
             return *vdevices[i].ctx;
     }
@@ -98,37 +98,37 @@ CUcontext ctx_reversemap(CUcontext ctx) {
 }
 
 CUresult cuDeviceCanAccessPeer(int *canAccessPeer, CUdevice dev, CUdevice peerDev) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     LINFO("cuDeviceCanAccessPeer %d %d %d", dev, peerDev, dup);
     if (duplicate_devices) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         *canAccessPeer = 0;
         return 0LL;
     }
     else {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         LINFO("Hijacking %s", "cuDeviceCanAccessPeer");
         return CUDA_ENTRY_CALL(cuda_library_entry, cuDeviceCanAccessPeer, canAccessPeer, dev, peerDev);
     }
 }
 
 CUresult cuDeviceGet(CUdevice *device, int ordinal) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     LINFO("into cuDeviceGet ordinal=%d", ordinal);
     *device = ordinal;
     return CUDA_SUCCESS;
 }
 
 CUresult cuDeviceGetAttribute(int *pi, CUdevice_attribute attrib, CUdevice dev) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     if (duplicate_devices == 1 && (attrib == CU_DEVICE_ATTRIBUTE_COOPERATIVE_LAUNCH || attrib == CU_DEVICE_ATTRIBUTE_COOPERATIVE_MULTI_DEVICE_LAUNCH)) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         *pi = 0;
         LINFO("cuDeviceGetAttribute dev=%d attrib=%d disable cooperative", dev, attrib);
         return 0LL;
     }
     else {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         LINFO("Hijacking %s", "cuDeviceGetAttribute");
         CUresult res = CUDA_ENTRY_CALL(cuda_library_entry, cuDeviceGetAttribute, pi, attrib, virtual_map[dev]);
 
@@ -138,13 +138,13 @@ CUresult cuDeviceGetAttribute(int *pi, CUdevice_attribute attrib, CUdevice dev) 
 }
 
 CUresult cuDeviceGetByPCIBusId(CUdevice *dev, const char *pciBusId) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     LINFO("into cuDeviceGetByPCIBusId pciBusid=%s", pciBusId);
     int i;
     for (i = 0;; ++i) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         if (i >= (int)virtual_devices[0]) {
-            LINFO("%s", "----");
+            printf("%s %s", __FILE__, __LINE__);
             LINFO("Hijacking %s", "cuDeviceGetByPCIBusId");
             return CUDA_ENTRY_CALL(cuda_library_entry, cuDeviceGetByPCIBusId, dev, pciBusId);
         }
@@ -157,23 +157,23 @@ CUresult cuDeviceGetByPCIBusId(CUdevice *dev, const char *pciBusId) {
 }
 
 CUresult cuDeviceGetCount(int *count) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     LINFO("Hijacking %s", "cuDeviceGetCount");
     CUresult res = CUDA_ENTRY_CALL(cuda_library_entry, cuDeviceGetCount, count);
     if (res) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         LWARN("cuDeviceGetCount failed,res=%d", res);
         return res;
     }
     else {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         *count = (int)virtual_devices[0];
         return 0LL;
     }
 }
 
 CUresult cuDeviceGetPCIBusId(char *pciBusId, int len, CUdevice dev) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     LINFO("into cuDeviceGetPCIBusId dev=%d len=%d", dev, len);
     LINFO("Hijacking %s", "cuDeviceGetPCIBusId");
     CUresult res = CUDA_ENTRY_CALL(cuda_library_entry, cuDeviceGetPCIBusId, pciBusId, len, virtual_map[dev]);
@@ -188,7 +188,7 @@ CUresult cuDeviceGetPCIBusId(char *pciBusId, int len, CUdevice dev) {
 }
 
 CUresult cuDeviceTotalMem_v2(size_t *bytes, CUdevice dev) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     LINFO("Hijacking %s", "cuDeviceTotalMem_v2");
     ensure_initialized();
     *bytes = get_current_device_memory_limit(dev);
@@ -196,13 +196,13 @@ CUresult cuDeviceTotalMem_v2(size_t *bytes, CUdevice dev) {
 }
 
 CUresult cuDriverGetVersion(int *driverVersion) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     LINFO("Hijacking %s", "cuDriverGetVersion");
     CUresult res = CUDA_ENTRY_CALL(cuda_library_entry, cuDriverGetVersion, driverVersion);
     if (!res) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         if (driverVersion) {
-            LINFO("%s", "----");
+            printf("%s %s", __FILE__, __LINE__);
             LINFO("driver version=%d", *driverVersion);
         }
     }

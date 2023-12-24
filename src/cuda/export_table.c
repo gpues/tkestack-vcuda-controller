@@ -14,21 +14,21 @@ CUresult (*f6bp6)(CUmodule *module, const FatbincWrapper *fatbinc_wrapper, void 
 unsigned int (*fc6p0)(int64_t, int64_t, int64_t, int64_t);
 
 size_t cudart_interface_fn1(nvmlDevice_t *handle, unsigned int dev) {
-    LINFO("%s", "----");
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
+    printf("%s %s", __FILE__, __LINE__);
     size_t res = f6bp2(handle, virtual_map[dev]);
     if (!vdevices[cuda_to_nvml_map[dev]].ctx) {
-        LINFO("%s", "----");
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
+        printf("%s %s", __FILE__, __LINE__);
         if (dev && virtual_map[dev] == virtual_map[dev - 1]) {
-            LINFO("%s", "----");
-            LINFO("%s", "----");
+            printf("%s %s", __FILE__, __LINE__);
+            printf("%s %s", __FILE__, __LINE__);
             vdevices[cuda_to_nvml_map[dev]].ctx = (CUcontext *)(*(size_t *)handle + (size_t)dev);
             vdevices[cuda_to_nvml_map[dev]].vctx = 0LL;
         }
         else {
-            LINFO("%s", "----");
-            LINFO("%s", "----");
+            printf("%s %s", __FILE__, __LINE__);
+            printf("%s %s", __FILE__, __LINE__);
             vdevices[cuda_to_nvml_map[dev]].ctx = (CUcontext *)*handle;
             vdevices[cuda_to_nvml_map[dev]].vctx = (CUcontext *)*handle;
         }
@@ -39,7 +39,7 @@ size_t cudart_interface_fn1(nvmlDevice_t *handle, unsigned int dev) {
 }
 
 unsigned int context_local_storate_ctor(int64_t a1, int64_t a2, int64_t a3, int64_t a4) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     LINFO("into context_local_storage_ctor......");
     return (unsigned int)fc6p0(a1, a2, a3, a4);
 }
@@ -53,7 +53,7 @@ u_int FATBIN_MAGIC = 0xBA55ED50;
 u_int FATBIN_VERSION = 0x01;
 
 CUresult get_module_from_cubin(CUmodule *module, const FatbincWrapper *fatbinc_wrapper, void *ptr1, void *ptr2, void *ptr3) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     CUdevice dev;
     LINFO("get module_from_cubin version=%x:%d", *fatbinc_wrapper, fatbinc_wrapper->version);
     FatbinHeader *v45 = fatbinc_wrapper->data;
@@ -62,12 +62,12 @@ CUresult get_module_from_cubin(CUmodule *module, const FatbincWrapper *fatbinc_w
 
     unsigned long bytesize = 0;
     if (module == NULL || (*fatbinc_wrapper).magic != FATBINC_MAGIC || (*fatbinc_wrapper).version != FATBINC_VERSION) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         return CUDA_ERROR_INVALID_VALUE;
     }
     FatbinHeader *fatbin_header = (*fatbinc_wrapper).data;
     if ((*fatbin_header).magic != FATBIN_MAGIC || (*fatbin_header).version != FATBIN_VERSION) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         return CUDA_ERROR_INVALID_VALUE;
     }
 
@@ -76,10 +76,10 @@ CUresult get_module_from_cubin(CUmodule *module, const FatbincWrapper *fatbinc_w
     size_t *end = file + fatbin_header->files_size;
     size_t index = (size_t)file;
     while (index < (size_t)end) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         FatbinFileHeader *f = (FatbinFileHeader *)(size_t *)index;
         if (f->kind == 1 || f->kind == 2) {
-            LINFO("%s", "----");
+            printf("%s %s", __FILE__, __LINE__);
             bytesize = f->uncompressed_payload;
         }
 
@@ -87,7 +87,7 @@ CUresult get_module_from_cubin(CUmodule *module, const FatbincWrapper *fatbinc_w
     }
     CUresult res = f6bp6(module, fatbinc_wrapper, ptr1, ptr2, ptr3);
     if (!res) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         cuCtxGetDevice(&dev);
         if (oom_check(dev, bytesize))
             return CUDA_ERROR_OUT_OF_MEMORY;
@@ -100,7 +100,7 @@ CUresult get_module_from_cubin(CUmodule *module, const FatbincWrapper *fatbinc_w
 }
 
 int64_t check_software_valid(unsigned int a1, int64_t a2, int64_t a3) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     LWARN("into fd4p0 %d", a1);
     unsigned int res = fd4p0(a1, a2, a3);
     LINFO("res=%d", res);
@@ -108,19 +108,19 @@ int64_t check_software_valid(unsigned int a1, int64_t a2, int64_t a3) {
 }
 
 CUresult cuGetExportTable(const void ***ppExportTable, const CUuuid *pExportTableId) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     const void **v21;
     LINFO("Hijacking %s", "cuGetExportTable");
     CUresult res = CUDA_ENTRY_CALL(cuda_library_entry, cuGetExportTable, ppExportTable, pExportTableId);
     int64_t cu = *(int64_t *)pExportTableId;
     //    LINFO("res=%d cuGetExportTable TableId=%p p=%p:%p:k=%x", res, ppExportTable, *ppExportTable, **ppExportTable, cu);
     if (cu == 107) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         v21 = *ppExportTable;
 
         LINFO("Internal function call: 6b initiated=%d exportTable=%p", initiated, v21);
         if (!initiated) {
-            LINFO("%s", "----");
+            printf("%s %s", __FILE__, __LINE__);
             f6bp2 = v21[2];
             f6bp6 = v21[6];
             initiated = 1;
@@ -131,10 +131,10 @@ CUresult cuGetExportTable(const void ***ppExportTable, const CUuuid *pExportTabl
         v21[6] = get_module_from_cubin;
     }
     else if (cu == 212) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         fd4p0 = (*ppExportTable)[1];
         for (int i = 0; i <= 2; ++i) {
-            LINFO("%s", "----");
+            printf("%s %s", __FILE__, __LINE__);
             export_func[i] = *ppExportTable[i];
         }
         export_func[3] = check_software_valid;

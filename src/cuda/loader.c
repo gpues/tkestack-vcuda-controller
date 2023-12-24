@@ -9,43 +9,43 @@ extern size_t **device_overallocated[3];
 extern size_t *cuarray_format_bytes;
 
 size_t compute_array_alloc_bytes(const CUDA_ARRAY_DESCRIPTOR *pAllocateArray) {
-    LINFO("%s", "----");
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
+    printf("%s %s", __FILE__, __LINE__);
     if (pAllocateArray) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         LINFO("compute_array_alloc_bytes height=%ld width=%ld", pAllocateArray->Height, pAllocateArray->Width);
     }
     else {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         LINFO("compute_array_alloc_bytes desc is null");
         return 0;
     }
     size_t res = pAllocateArray->Width * pAllocateArray->Format;
     if (pAllocateArray->Height) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         res *= pAllocateArray->Height;
     }
 
     return res * cuarray_format_bytes[pAllocateArray->NumChannels];
 }
 size_t compute_3d_array_alloc_bytes(const CUDA_ARRAY3D_DESCRIPTOR *pAllocateArray) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     if (pAllocateArray) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         LINFO("compute_3d_array_alloc_bytes height=%ld width=%ld", pAllocateArray->Height, pAllocateArray->Width);
     }
     else {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         LINFO("compute_3d_array_alloc_bytes desc is null");
         return 0;
     }
     size_t res = pAllocateArray->Width * pAllocateArray->Format;
     if (pAllocateArray->Height) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         res *= pAllocateArray->Height;
     }
     if (pAllocateArray->Depth) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         res *= pAllocateArray->Depth;
     }
     return res * cuarray_format_bytes[pAllocateArray->NumChannels];
@@ -57,10 +57,10 @@ size_t compute_3d_array_alloc_bytes(const CUDA_ARRAY3D_DESCRIPTOR *pAllocateArra
 //  2
 // ]
 int64_t check_memory_type(CUdeviceptr ptr) {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     size_t *i = (size_t *)*device_overallocated;
     for (; i; i = (size_t *)i[1]) {
-        LINFO("%s", "----");
+        printf("%s %s", __FILE__, __LINE__);
         if (ptr >= *(size_t *)*i && ptr <= *(size_t *)*i + *(size_t *)(*i + 8LL))
             return 2LL;
     }
@@ -68,6 +68,6 @@ int64_t check_memory_type(CUdeviceptr ptr) {
 }
 
 void ensure_initialized() {
-    LINFO("%s", "----");
+    printf("%s %s", __FILE__, __LINE__);
     pthread_once(&g_init_set, initialized);
 }
