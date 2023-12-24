@@ -8,8 +8,6 @@ extern unsigned int record_cuda_map[16];
 extern sharedRegionT *global_config;
 
 int64_t oom_check(int devIndex, size_t bytesize) {
-    printf("%s %s", __FILE__, __LINE__);
-    printf("%s %s", __FILE__, __LINE__);
     CUdevice dev;
     int deviceCount;
     LINFO("Hijacking %s", "cuDeviceGetCount");
@@ -40,24 +38,19 @@ int64_t oom_check(int devIndex, size_t bytesize) {
 }
 
 size_t add_chunk_only(CUdeviceptr dptr, size_t bytesize) {
-    printf("%s %s", __FILE__, __LINE__);
-    printf("%s %s", __FILE__, __LINE__);
     CUdevice dev;
     pthread_mutex_lock(&mutex);
     CUcontext cut;
     cuCtxGetDevice(&dev);
     if (oom_check(dev, bytesize)) {
-        printf("%s %s", __FILE__, __LINE__);
         pthread_mutex_unlock(&mutex);
         return 0xFFFFFFFFLL;
     }
     else if ((unsigned int)cuCtxGetCurrent(&cut)) {
-        printf("%s %s", __FILE__, __LINE__);
         LERROR("cuCtxGetCurrent failed");
         return 0xFFFFFFFFLL;
     }
     else {
-        printf("%s %s", __FILE__, __LINE__);
         size_t *ptrArray = malloc(8 * 3);
         // ptrArray [
         //  0,----->  [0,1,2,3 ->malloc(8) ]
@@ -70,7 +63,6 @@ size_t add_chunk_only(CUdeviceptr dptr, size_t bytesize) {
         //  2
         // ]
         if (ptrArray && (*ptrArray = (size_t)(size_t *)malloc(8 * 4)) != 0) {
-            printf("%s %s", __FILE__, __LINE__);
             ((size_t *)(*(size_t *)(ptrArray[0])))[0] = 0;
             ((size_t *)(*(size_t *)(ptrArray[0])))[1] = bytesize;
             ((size_t *)(*(size_t *)(ptrArray[0])))[3] = (size_t)malloc(8uLL);
@@ -79,14 +71,12 @@ size_t add_chunk_only(CUdeviceptr dptr, size_t bytesize) {
             ptrArray[2] = 0LL;
 
             if (*device_overallocated) {
-                printf("%s %s", __FILE__, __LINE__);
                 ptrArray[2] = *(size_t *)device_overallocated[1];
                 ((size_t *)(*(size_t *)(ptrArray[1])))[1] = (size_t)ptrArray;
                 *(size_t *)(device_overallocated[1]) = (size_t)ptrArray;
                 ++*(size_t *)(device_overallocated[2]);
             }
             else {
-                printf("%s %s", __FILE__, __LINE__);
                 *device_overallocated = ptrArray;
                 *(size_t *)(device_overallocated[1]) = (size_t)ptrArray;
                 *(size_t *)(device_overallocated[2]) = 1;
@@ -98,7 +88,6 @@ size_t add_chunk_only(CUdeviceptr dptr, size_t bytesize) {
             return 0LL;
         }
         else {
-            printf("%s %s", __FILE__, __LINE__);
             LERROR("malloc failed");
             return 0xFFFFFFFFLL;
         }
@@ -106,13 +95,11 @@ size_t add_chunk_only(CUdeviceptr dptr, size_t bytesize) {
 }
 
 size_t remove_chunk(size_t *doa, size_t bytesize) {
-    printf("%s %s", __FILE__, __LINE__);
     size_t *ptr;
 
     if (doa[2])
         return 0xFFFFFFFFLL;
     for (ptr = doa;; ptr += sizeof(size_t)) {
-        printf("%s %s", __FILE__, __LINE__);
         if (ptr == 0)
             return 0xFFFFFFFFLL;
         if (bytesize == **(size_t **)ptr)
@@ -121,16 +108,13 @@ size_t remove_chunk(size_t *doa, size_t bytesize) {
 
     cuMemoryFree(ptr, bytesize);
     if (ptr[2]) {
-        printf("%s %s", __FILE__, __LINE__);
         ptr[3] = ptr[1];
     }
     if (ptr[1]) {
-        printf("%s %s", __FILE__, __LINE__);
         ptr[3] = ptr[2];
         ptr[1] = ptr[2];
     }
     if (ptr[0]) {
-        printf("%s %s", __FILE__, __LINE__);
         ptr[0] = ptr[1];
     }
 
@@ -145,7 +129,6 @@ size_t remove_chunk(size_t *doa, size_t bytesize) {
 }
 
 size_t free_raw(size_t bytesize) {
-    printf("%s %s", __FILE__, __LINE__);
     pthread_mutex_lock(&mutex);
     unsigned int res = remove_chunk(*device_overallocated, bytesize);
     pthread_mutex_unlock(&mutex);
@@ -153,7 +136,6 @@ size_t free_raw(size_t bytesize) {
 }
 
 int allocator_init() {
-    printf("%s %s", __FILE__, __LINE__);
     LINFO("Allocator_init");
     device_overallocated[0] = 0LL;
     device_overallocated[1] = 0LL;
@@ -162,11 +144,9 @@ int allocator_init() {
 }
 
 size_t view_vgpu_allocator() {
-    printf("%s %s", __FILE__, __LINE__);
     size_t total = 0LL;
     LINFO("[view1]:overallocated:");
     for (int i = 0; i < 3; i++) {
-        printf("%s %s", __FILE__, __LINE__);
         LINFO("(%p %lu)", *(size_t *)*device_overallocated[i], *(size_t *)*device_overallocated[i + 1]);
         total += *(size_t *)*device_overallocated[i];
     }

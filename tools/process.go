@@ -35,11 +35,11 @@ func (n *Nml) syncUsedGPUPid() {
 	}
 	for i := uint(0); i < count; i++ {
         LINFO("%s","----");
-		vgpuDevice, err := nvml.NewDevice(i)
+		vmDevice, err := nvml.NewDevice(i)
 		if err != nil {
         LINFO("%s","----");
 		}
-		pids, err := vgpuDevice.GetAllRunningProcesses()
+		pids, err := vmDevice.GetAllRunningProcesses()
 		if err != nil {
         LINFO("%s","----");
 			return

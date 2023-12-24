@@ -1,4 +1,61 @@
+dword_610C0     curren_owner
+dword_610C8     child_init_flag
+qword_610D0     global_config
+qword_23D940    global_config
+dword_6113C     g_sm_num
+dword_61140     g_max_thread_per_sm
+dword_61144     g_cur_cuda_cores
+dword_61148     g_total_cuda_cores
 
+
+
+
+
+
+todo
+
+remove_chunk
+cuGetExportTable
+init_utilization_watcher
+get_module_from_cubin
+assigning_virtual_pcibusID
+getextrapid
+read_pcibus_from_file
+ctx_reversemap
+ctx_remap
+readfromdir
+cudart_interface_fn1
+cuDeviceGetByPCIBusId
+cuDevicePrimaryCtxGetState
+cuDevicePrimaryCtxRetain
+cuDevicePrimaryCtxRelease_v2
+rm_gpu_device_memory_usage
+put_device_info                         update device_plugin version to nvidia v0.14.0
+
+
+fix node vmDevice order and upgrade to compatable with cuda 12.2
+cuDeviceGetCount
+cuDeviceTotalMem_v2
+cuMemGetInfo_v2
+cuGetProcAddress_v2
+cuGetProcAddress_v2_alt
+cuGetProcAddress_v2_ptsz
+cuGraphInstantiateWithFlags
+parse_cuda_visible_env
+parser
+put_device_info
+need_cuda_virtualize
+setthreadmap
+cuDeviceGetCount
+check_validator
+
+
+postInit
+preInit
+rm_gpu_device_memory_usage
+try_lock_unified_lock
+
+ 
 
 NVIDIA_DEVICE_MAP 存储: i:devID ...
 

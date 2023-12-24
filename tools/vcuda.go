@@ -2,7 +2,7 @@ package main
 
 import (
 	"k8s.io/apimachinery/pkg/util/json"
-	"k8s.io/apimachinery/pkg/util/vgpuDevice"
+	"k8s.io/apimachinery/pkg/util/vmDevice"
 	"os"
 	"path/filepath"
 )
@@ -33,9 +33,9 @@ func main() {
 
 	data := resourceData{
         LINFO("%s","----");
-		PodUid:        string(vgpuDevice.NewUUID()),
+		PodUid:        string(vmDevice.NewUUID()),
 		Occupied:      "",
-		ContainerName: string(vgpuDevice.NewUUID()),
+		ContainerName: string(vmDevice.NewUUID()),
 		BusId:         "devIndex",
 		Utilization:   50,
 		HardLimit:     1,

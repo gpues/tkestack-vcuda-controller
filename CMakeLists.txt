@@ -41,8 +41,7 @@ add_library(vgpu SHARED
         include/nvml.h
         src/nvml/nvml_entry.c
         include/all.h
-        src/func_strs.c
-        )
+        src/func_strs.c )
 
 target_link_libraries(vgpu ${STATIC_C_LIBRARIES} ${LIBRARIES})
 target_compile_options(vgpu PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-std=c++11>)

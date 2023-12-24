@@ -47,8 +47,10 @@ size_t parse_cuda_visible_env();
 int init_utilization_watcher();
 CUcontext ctx_remap(CUcontext ctx);
 CUcontext ctx_reversemap(CUcontext ctx);
-void *find_symbols_in_table(const char *symbol);
+void *find_cuda_symbols_in_table(const char *symbol);
+void *find_nvml_symbols_in_table(const char *symbol);
 u_int64_t getdevicefromctx(int *dev, CUcontext ctx);
+void load_nvml_libraries();
 void load_cuda_libraries();
 int64_t initial_virtual_devices();
 bool need_cuda_virtualize();
@@ -63,5 +65,11 @@ CUresult get_module_from_cubin(CUmodule *module, const FatbincWrapper *fatbinc_w
 void init_proc_slot_withlock();
 void read_version_from_proc(char *version);
 
-// CUresult cuArray3DCreate_helper(const CUDA_ARRAY3D_DESCRIPTOR *pAllocateArray);
-// CUresult cuArrayCreate_helper(const CUDA_ARRAY_DESCRIPTOR *pAllocateArray);
+void nvml_preInit();
+void nvml_postInit();
+
+// void *my_dlsym(void *handle, char *symbol);
+void *my_dlvsym(void *handle, const char *symbol, const char *version);
+// void *dlvsym(void *handle, const char *symbol, const char *version);
+//  CUresult cuArray3DCreate_helper(const CUDA_ARRAY3D_DESCRIPTOR *pAllocateArray);
+//  CUresult cuArrayCreate_helper(const CUDA_ARRAY_DESCRIPTOR *pAllocateArray);

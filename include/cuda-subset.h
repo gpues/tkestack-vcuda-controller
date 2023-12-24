@@ -96,7 +96,6 @@ typedef struct CUgraphExec_st *CUgraphExec;            /**< CUDA executable grap
  * Error codes
  */
 typedef enum cudaError_enum {
-
     /**
      * The API call returned with no errors. In the case of query calls, this
      * can also mean that the operation being queried is complete (see
@@ -674,7 +673,6 @@ typedef enum CUsharedconfig_enum {
  * Online compiler and linker options
  */
 typedef enum CUjit_option_enum {
-
     /**
      * Max number of registers that a thread may use.\n
      * Option type: unsigned int\n
@@ -819,7 +817,6 @@ typedef enum CUjit_option_enum {
  * Device code formats
  */
 typedef enum CUjitInputType_enum {
-
     /**
      * Compiled device-class-specific device code\n
      * Applicable options: none
@@ -888,8 +885,8 @@ typedef enum CUmemorytype_enum {
  * 2D memory copy parameters
  */
 typedef struct CUDA_MEMCPY2D_st {
-    size_t srcXInBytes; /**< Source X in bytes */
-    size_t srcY;        /**< Source Y */
+    size_t srcXInBytes;         /**< Source X in bytes */
+    size_t srcY;                /**< Source Y */
 
     CUmemorytype srcMemoryType; /**< Source memory type (host, device, array) */
     const void *srcHost;        /**< Source host pointer */
@@ -897,8 +894,8 @@ typedef struct CUDA_MEMCPY2D_st {
     CUarray srcArray;           /**< Source array reference */
     size_t srcPitch;            /**< Source pitch (ignored when src is array) */
 
-    size_t dstXInBytes; /**< Destination X in bytes */
-    size_t dstY;        /**< Destination Y */
+    size_t dstXInBytes;         /**< Destination X in bytes */
+    size_t dstY;                /**< Destination Y */
 
     CUmemorytype dstMemoryType; /**< Destination memory type (host, device, array) */
     void *dstHost;              /**< Destination host pointer */
@@ -906,8 +903,8 @@ typedef struct CUDA_MEMCPY2D_st {
     CUarray dstArray;           /**< Destination array reference */
     size_t dstPitch;            /**< Destination pitch (ignored when dst is array) */
 
-    size_t WidthInBytes; /**< Width of 2D memory copy in bytes */
-    size_t Height;       /**< Height of 2D memory copy */
+    size_t WidthInBytes;        /**< Width of 2D memory copy in bytes */
+    size_t Height;              /**< Height of 2D memory copy */
 } CUDA_MEMCPY2D;
 
 /**
@@ -940,9 +937,9 @@ typedef struct CUDA_MEMCPY3D_st {
     size_t dstHeight;           /**< Destination height (ignored when dst is array; may be 0
                                    if Depth==1) */
 
-    size_t WidthInBytes; /**< Width of 3D memory copy in bytes */
-    size_t Height;       /**< Height of 3D memory copy */
-    size_t Depth;        /**< Depth of 3D memory copy */
+    size_t WidthInBytes;        /**< Width of 3D memory copy in bytes */
+    size_t Height;              /**< Height of 3D memory copy */
+    size_t Depth;               /**< Depth of 3D memory copy */
 } CUDA_MEMCPY3D;
 
 /**
@@ -977,16 +974,15 @@ typedef struct CUDA_MEMCPY3D_PEER_st {
     size_t dstHeight;           /**< Destination height (ignored when dst is array; may be 0
                                    if Depth==1) */
 
-    size_t WidthInBytes; /**< Width of 3D memory copy in bytes */
-    size_t Height;       /**< Height of 3D memory copy */
-    size_t Depth;        /**< Depth of 3D memory copy */
+    size_t WidthInBytes;        /**< Width of 3D memory copy in bytes */
+    size_t Height;              /**< Height of 3D memory copy */
+    size_t Depth;               /**< Depth of 3D memory copy */
 } CUDA_MEMCPY3D_PEER;
 
 /**
  * Function properties
  */
 typedef enum CUfunction_attribute_enum {
-
     /**
      * The maximum number of threads per block, beyond which a launch of the
      * function would fail. This number depends on both the function and the
@@ -1062,8 +1058,8 @@ typedef enum CUarray_format_enum {
  * Array descriptor
  */
 typedef struct CUDA_ARRAY_DESCRIPTOR_st {
-    size_t Width;  /**< Width of array */
-    size_t Height; /**< Height of array */
+    size_t Width;             /**< Width of array */
+    size_t Height;            /**< Height of array */
 
     CUarray_format Format;    /**< Array format */
     unsigned int NumChannels; /**< Channels per array element */
@@ -1073,9 +1069,9 @@ typedef struct CUDA_ARRAY_DESCRIPTOR_st {
  * 3D array descriptor
  */
 typedef struct CUDA_ARRAY3D_DESCRIPTOR_st {
-    size_t Width;  /**< Width of 3D array */
-    size_t Height; /**< Height of 3D array */
-    size_t Depth;  /**< Depth of 3D array */
+    size_t Width;             /**< Width of 3D array */
+    size_t Height;            /**< Height of 3D array */
+    size_t Depth;             /**< Depth of 3D array */
 
     CUarray_format Format;    /**< Array format */
     unsigned int NumChannels; /**< Channels per array element */
@@ -1412,7 +1408,18 @@ typedef enum CUeglFrameType_enum {
     CU_EGL_FRAME_TYPE_PITCH = 1,
 } CUeglFrameType;
 
-typedef enum CueglColorFormat_enum { CU_EGL_COLOR_FORMAT_YUV420_PLANAR = 0x00, CU_EGL_COLOR_FORMAT_YUV420_SEMIPLANAR = 0x01, CU_EGL_COLOR_FORMAT_YUV422_PLANAR = 0x02, CU_EGL_COLOR_FORMAT_YUV422_SEMIPLANAR = 0x03, CU_EGL_COLOR_FORMAT_RGB = 0x04, CU_EGL_COLOR_FORMAT_BGR = 0x05, CU_EGL_COLOR_FORMAT_ARGB = 0x06, CU_EGL_COLOR_FORMAT_RGBA = 0x07, CU_EGL_COLOR_FORMAT_L = 0x08, CU_EGL_COLOR_FORMAT_R = 0x09 } CUeglColorFormat;
+typedef enum CueglColorFormat_enum {
+    CU_EGL_COLOR_FORMAT_YUV420_PLANAR = 0x00,
+    CU_EGL_COLOR_FORMAT_YUV420_SEMIPLANAR = 0x01,
+    CU_EGL_COLOR_FORMAT_YUV422_PLANAR = 0x02,
+    CU_EGL_COLOR_FORMAT_YUV422_SEMIPLANAR = 0x03,
+    CU_EGL_COLOR_FORMAT_RGB = 0x04,
+    CU_EGL_COLOR_FORMAT_BGR = 0x05,
+    CU_EGL_COLOR_FORMAT_ARGB = 0x06,
+    CU_EGL_COLOR_FORMAT_RGBA = 0x07,
+    CU_EGL_COLOR_FORMAT_L = 0x08,
+    CU_EGL_COLOR_FORMAT_R = 0x09
+} CUeglColorFormat;
 
 typedef struct CUeglFrame_st {
     union
@@ -1550,7 +1557,6 @@ typedef struct CUDA_MEMSET_NODE_PARAMS_st {
  * External memory handle types
  */
 typedef enum CUexternalMemoryHandleType_enum {
-
     /**
      * Handle is an opaque file descriptor
      */
@@ -1628,7 +1634,6 @@ typedef struct CUDA_EXTERNAL_MEMORY_HANDLE_DESC_st {
  * External semaphore handle types
  */
 typedef enum CUexternalSemaphoreHandleType_enum {
-
     /**
      * Handle is an opaque file descriptor
      */
@@ -1720,7 +1725,11 @@ typedef struct CUDA_EXTERNAL_SEMAPHORE_SIGNAL_PARAMS_st {
  * Possible modes for stream capture thread interactions. For more details see
  * ::cuStreamBeginCapture and ::cuThreadExchangeStreamCaptureMode
  */
-typedef enum CUstreamCaptureMode_enum { CU_STREAM_CAPTURE_MODE_GLOBAL = 0, CU_STREAM_CAPTURE_MODE_THREAD_LOCAL = 1, CU_STREAM_CAPTURE_MODE_RELAXED = 2 } CUstreamCaptureMode;
+typedef enum CUstreamCaptureMode_enum {
+    CU_STREAM_CAPTURE_MODE_GLOBAL = 0,
+    CU_STREAM_CAPTURE_MODE_THREAD_LOCAL = 1,
+    CU_STREAM_CAPTURE_MODE_RELAXED = 2
+} CUstreamCaptureMode;
 
 /**
  * Possible stream capture statuses returned by ::cuStreamIsCapturing
@@ -1925,7 +1934,12 @@ typedef enum CUstreamAttrID_enum {
     CU_STREAM_ATTRIBUTE_SYNCHRONIZATION_POLICY = 3 /**< ::CUsynchronizationPolicy for work queued up in this stream */
 } CUstreamAttrID;
 
-typedef enum CUsynchronizationPolicy_enum { CU_SYNC_POLICY_AUTO = 1, CU_SYNC_POLICY_SPIN = 2, CU_SYNC_POLICY_YIELD = 3, CU_SYNC_POLICY_BLOCKING_SYNC = 4 } CUsynchronizationPolicy;
+typedef enum CUsynchronizationPolicy_enum {
+    CU_SYNC_POLICY_AUTO = 1,
+    CU_SYNC_POLICY_SPIN = 2,
+    CU_SYNC_POLICY_YIELD = 3,
+    CU_SYNC_POLICY_BLOCKING_SYNC = 4
+} CUsynchronizationPolicy;
 
 /**
  * Stream attributes union, used with
@@ -1986,17 +2000,25 @@ typedef struct CUDA_EXT_SEM_WAIT_NODE_PARAMS_st {
 /**
  * Sparse subresource types
  */
-typedef enum CUarraySparseSubresourceType_enum { CU_ARRAY_SPARSE_SUBRESOURCE_TYPE_SPARSE_LEVEL = 0, CU_ARRAY_SPARSE_SUBRESOURCE_TYPE_MIPTAIL = 1 } CUarraySparseSubresourceType;
+typedef enum CUarraySparseSubresourceType_enum {
+    CU_ARRAY_SPARSE_SUBRESOURCE_TYPE_SPARSE_LEVEL = 0,
+    CU_ARRAY_SPARSE_SUBRESOURCE_TYPE_MIPTAIL = 1
+} CUarraySparseSubresourceType;
 
 /**
  * Memory operation types
  */
-typedef enum CUmemOperationType_enum { CU_MEM_OPERATION_TYPE_MAP = 1, CU_MEM_OPERATION_TYPE_UNMAP = 2 } CUmemOperationType;
+typedef enum CUmemOperationType_enum {
+    CU_MEM_OPERATION_TYPE_MAP = 1,
+    CU_MEM_OPERATION_TYPE_UNMAP = 2
+} CUmemOperationType;
 
 /**
  * Memory handle types
  */
-typedef enum CUmemHandleType_enum { CU_MEM_HANDLE_TYPE_GENERIC = 0 } CUmemHandleType;
+typedef enum CUmemHandleType_enum {
+    CU_MEM_HANDLE_TYPE_GENERIC = 0
+} CUmemHandleType;
 
 /**
  * Specifies the CUDA array or CUDA mipmapped array memory mapping information
@@ -2060,7 +2082,12 @@ typedef struct CUmemPoolPtrExportData_st {
     unsigned char reserved[64];
 } CUmemPoolPtrExportData;
 
-typedef enum CUmemPool_attribute_enum { CU_MEMPOOL_ATTR_REUSE_FOLLOW_EVENT_DEPENDENCIES = 1, CU_MEMPOOL_ATTR_REUSE_ALLOW_OPPORTUNISTIC, CU_MEMPOOL_ATTR_REUSE_ALLOW_INTERNAL_DEPENDENCIES, CU_MEMPOOL_ATTR_RELEASE_THRESHOLD } CUmemPool_attribute;
+typedef enum CUmemPool_attribute_enum {
+    CU_MEMPOOL_ATTR_REUSE_FOLLOW_EVENT_DEPENDENCIES = 1,
+    CU_MEMPOOL_ATTR_REUSE_ALLOW_OPPORTUNISTIC,
+    CU_MEMPOOL_ATTR_REUSE_ALLOW_INTERNAL_DEPENDENCIES,
+    CU_MEMPOOL_ATTR_RELEASE_THRESHOLD
+} CUmemPool_attribute;
 
 /**
  * Execution Affinity Types
@@ -2091,7 +2118,6 @@ typedef struct CUexecAffinityParam_st {
 typedef CUexecAffinityParam_v1 CUexecAffinityParam;
 
 typedef enum CUgraphMem_attribute_enum {
-
     /**
      * (value type = cuuint64_t)
      * Amount of memory, in bytes, currently associated with graphs
@@ -2175,48 +2201,48 @@ typedef enum CUclusterSchedulingPolicy_enum {
 } CUclusterSchedulingPolicy;
 
 typedef enum CUlaunchAttributeID_enum {
-    CU_LAUNCH_ATTRIBUTE_IGNORE = 0 /**< Ignored entry, for convenient composition */
-    ,
-    CU_LAUNCH_ATTRIBUTE_ACCESS_POLICY_WINDOW = 1 /**< Valid for streams, graph nodes, launches. */
-    ,
-    CU_LAUNCH_ATTRIBUTE_COOPERATIVE = 2 /**< Valid for graph nodes, launches. */
-    ,
-    CU_LAUNCH_ATTRIBUTE_SYNCHRONIZATION_POLICY = 3 /**< Valid for streams. */
-    ,
-    CU_LAUNCH_ATTRIBUTE_CLUSTER_DIMENSION = 4 /**< Valid for graph nodes, launches. */
-    ,
+    CU_LAUNCH_ATTRIBUTE_IGNORE = 0                               /**< Ignored entry, for convenient composition */
+        ,
+    CU_LAUNCH_ATTRIBUTE_ACCESS_POLICY_WINDOW = 1                 /**< Valid for streams, graph nodes, launches. */
+        ,
+    CU_LAUNCH_ATTRIBUTE_COOPERATIVE = 2                          /**< Valid for graph nodes, launches. */
+        ,
+    CU_LAUNCH_ATTRIBUTE_SYNCHRONIZATION_POLICY = 3               /**< Valid for streams. */
+        ,
+    CU_LAUNCH_ATTRIBUTE_CLUSTER_DIMENSION = 4                    /**< Valid for graph nodes, launches. */
+        ,
     CU_LAUNCH_ATTRIBUTE_CLUSTER_SCHEDULING_POLICY_PREFERENCE = 5 /**< Valid for graph nodes, launches. */
-    ,
-    CU_LAUNCH_ATTRIBUTE_PROGRAMMATIC_STREAM_SERIALIZATION = 6 /**< Valid for launches. Setting
-                                                                   programmaticStreamSerializationAllowed to non-0
-                                                                   signals that the kernel will use programmatic
-                                                                   means to resolve its stream dependency, so that
-                                                                   the CUDA runtime should opportunistically allow
-                                                                   the grid's execution to overlap with the previous
-                                                                   kernel in the stream, if that kernel requests the
-                                                                   overlap. */
-    ,
-    CU_LAUNCH_ATTRIBUTE_PROGRAMMATIC_EVENT = 7 /**< Valid for launches. Event recorded through this
-                                                    launch attribute is guaranteed to only trigger
-                                                    after all block in the associated kernel trigger
-                                                    the event. A block can trigger the event through
-                                                    PTX griddepcontrol.launch_dependents. A trigger
-                                                    can also be inserted at the beginning of each
-                                                    block's execution if triggerAtBlockStart is set to
-                                                    non-0. Note that dependents (including the CPU
-                                                    thread calling cuEventSynchronize()) are not
-                                                    guaranteed to observe the release precisely when
-                                                    it is released. For example, cuEventSynchronize()
-                                                    may only observe the event trigger long after the
-                                                    associated kernel has completed. This recording
-                                                    type is primarily meant for establishing
-                                                    programmatic dependency between device tasks. The
-                                                    event supplied must not be an interprocess or
-                                                    interop event. The event must disable timing
-                                                    (i.e. created with ::CU_EVENT_DISABLE_TIMING flag
-                                                    set). */
-    ,
-    CU_LAUNCH_ATTRIBUTE_PRIORITY = 8 /**< Valid for graph nodes. */
+        ,
+    CU_LAUNCH_ATTRIBUTE_PROGRAMMATIC_STREAM_SERIALIZATION = 6    /**< Valid for launches. Setting
+                                                                      programmaticStreamSerializationAllowed to non-0
+                                                                      signals that the kernel will use programmatic
+                                                                      means to resolve its stream dependency, so that
+                                                                      the CUDA runtime should opportunistically allow
+                                                                      the grid's execution to overlap with the previous
+                                                                      kernel in the stream, if that kernel requests the
+                                                                      overlap. */
+        ,
+    CU_LAUNCH_ATTRIBUTE_PROGRAMMATIC_EVENT = 7                   /**< Valid for launches. Event recorded through this
+                                                                      launch attribute is guaranteed to only trigger
+                                                                      after all block in the associated kernel trigger
+                                                                      the event. A block can trigger the event through
+                                                                      PTX griddepcontrol.launch_dependents. A trigger
+                                                                      can also be inserted at the beginning of each
+                                                                      block's execution if triggerAtBlockStart is set to
+                                                                      non-0. Note that dependents (including the CPU
+                                                                      thread calling cuEventSynchronize()) are not
+                                                                      guaranteed to observe the release precisely when
+                                                                      it is released. For example, cuEventSynchronize()
+                                                                      may only observe the event trigger long after the
+                                                                      associated kernel has completed. This recording
+                                                                      type is primarily meant for establishing
+                                                                      programmatic dependency between device tasks. The
+                                                                      event supplied must not be an interprocess or
+                                                                      interop event. The event must disable timing
+                                                                      (i.e. created with ::CU_EVENT_DISABLE_TIMING flag
+                                                                      set). */
+        ,
+    CU_LAUNCH_ATTRIBUTE_PRIORITY = 8                             /**< Valid for graph nodes. */
 } CUlaunchAttributeID;
 
 typedef union CUlaunchAttributeValue_union
@@ -2262,7 +2288,10 @@ typedef struct CUlaunchConfig_st {
 /**
  * Specifies the handle type for address range
  */
-typedef enum CUmemRangeHandleType_enum { CU_MEM_RANGE_HANDLE_TYPE_DMA_BUF_FD = 0x1, CU_MEM_RANGE_HANDLE_TYPE_MAX = 0x7FFFFFFF } CUmemRangeHandleType;
+typedef enum CUmemRangeHandleType_enum {
+    CU_MEM_RANGE_HANDLE_TYPE_DMA_BUF_FD = 0x1,
+    CU_MEM_RANGE_HANDLE_TYPE_MAX = 0x7FFFFFFF
+} CUmemRangeHandleType;
 
 /**
  * CUDA array memory requirements

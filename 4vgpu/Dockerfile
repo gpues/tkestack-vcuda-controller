@@ -1,4 +1,4 @@
-FROM 4pdosc/k8s-vdevice:v2.3.6
+FROM 4pdosc/k8s-uuid:v2.3.6
 
 COPY libvgpu.so /k8s-vgpu/lib/nvidia/libvgpu.so
 

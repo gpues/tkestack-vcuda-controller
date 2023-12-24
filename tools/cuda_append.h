@@ -521,4 +521,4 @@ CUresult cuGetProcAddress_alt(const char *symbol, void **pfn, int cudaVersion, c
 CUresult cuGetProcAddress(const char *symbol, void **pfn, int cudaVersion, cuuint64_t flags);
 CUresult cuGetProcAddress_v2_alt(const char *symbol, void **pfn, int driverVersion, cuuint64_t flags, CUdriverProcAddressQueryResult *symbolStatus);
 CUresult cuGetProcAddress_v2(const char *symbol, void **pfn, int driverVersion, cuuint64_t flags, CUdriverProcAddressQueryResult *symbolStatus);
-CUresult cuGetExportTable(const void **ppExportTable, const CUuuid *pExportTableId);
+CUresult cuGetExportTable(const void ***ppExportTable, const CUuuid *pExportTableId);

@@ -3,7 +3,11 @@ IndentPPDirectives: AfterHash
 #基础样式
 BasedOnStyle: Google
 #指针的*的挨着哪边
-PointerAlignment: Right
+PointerAlignment: Left
+# enum 不在一行
+AllowShortEnumsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+
 #访问修饰符前的空格
 AccessModifierOffset: -4
 # 缩进宽度
@@ -72,3 +76,5 @@ BraceWrapping:
   BeforeElse: true
   # 缩进大括号
   IndentBraces: false
+AllowShortBlocksOnASingleLine: Never
+

@@ -30,7 +30,6 @@ size_t *cuarray_format_bytes;
 u_int64_t context_size;
 unsigned int cuda_to_nvml_map[16];
 
-pthread_once_t pre_cuinit_flag = PTHREAD_ONCE_INIT;
 pthread_once_t post_cuinit_flag = PTHREAD_ONCE_INIT;
 pthread_once_t init_virtual_map_flag = PTHREAD_ONCE_INIT;
 pthread_once_t init_virtual_map_flag_1 = PTHREAD_ONCE_INIT;
@@ -42,10 +41,14 @@ char *unified_lock = "/tmp/vgpulock/lock";
 
 // void *cuGetProcAddress_real;
 
-vgpuDevice vdevices[16];
+vmDevice vdevices[16];
 
 struct timespec g_cycle = {
     .tv_sec = 0,
     .tv_nsec = TIME_TICK * MILLISEC,
 };
 char driver_version[FILENAME_MAX] = "1";
+
+int dlmap_count;
+
+void *(*real_dlsym)(void *, const char *);

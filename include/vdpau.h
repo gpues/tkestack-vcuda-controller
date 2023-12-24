@@ -1126,7 +1126,6 @@ typedef struct {
  * \brief The set of all possible error codes.
  */
 typedef enum {
-
     /** The operation completed successfully; no error. */
     VDP_STATUS_OK = 0,
     /**
@@ -3867,7 +3866,6 @@ typedef VdpStatus VdpVideoMixerDestroy(VdpVideoMixer mixer);
  *        VdpVideoSurface "VdpVideoSurface".
  */
 typedef enum {
-
     /**
      * The picture is a field, and is the top field of the surface.
      */
@@ -4179,7 +4177,6 @@ typedef VdpStatus VdpPresentationQueueBlockUntilSurfaceIdle(
  * \brief The status of a surface within a presentation queue.
  */
 typedef enum {
-
     /** The surface is not queued or currently visible. */
     VDP_PRESENTATION_QUEUE_STATUS_IDLE,
     /** The surface is in the queue, and not currently visible. */

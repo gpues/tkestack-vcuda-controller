@@ -21,10 +21,8 @@ static const struct timespec g_wait = {
 };
 
 int64_t find_proc_by_hostpid(unsigned int pid) {
-    printf("%s %s", __FILE__, __LINE__);
     int i;
     for (i = 0; i < global_config->procnum; ++i) {
-        printf("%s %s", __FILE__, __LINE__);
         if (pid == global_config->procs[i].hostpid)
             return global_config->procs[i].pid;
     }
@@ -32,7 +30,6 @@ int64_t find_proc_by_hostpid(unsigned int pid) {
 }
 
 int64_t get_used_gpu_utilization(void *arg) {
-    printf("%s %s", __FILE__, __LINE__);
     utilization_t *top_result = (utilization_t *)arg;
 
     struct timeval tv;
@@ -45,7 +42,6 @@ int64_t get_used_gpu_utilization(void *arg) {
     unsigned int running_processes = 0;
 
     for (int i = 0;; ++i) {
-        printf("%s %s", __FILE__, __LINE__);
         if (i >= virtual_devices[0])
             return 0LL;
 
@@ -54,19 +50,15 @@ int64_t get_used_gpu_utilization(void *arg) {
             break;
         ret = nvmlDeviceGetComputeRunningProcesses(dev, &running_processes, (nvmlProcessInfo_v1_t *)&pids_on_device);
         if (ret != 7) {
-            printf("%s %s", __FILE__, __LINE__);
             gettimeofday(&tv, 0LL);
             microsec = (tv.tv_sec - 1) * 1000UL * 1000UL + tv.tv_usec;
             ret = nvmlDeviceGetProcessUtilization(dev, processes_sample, &processes_num, microsec);
             if (ret == 7) {
-                printf("%s %s", __FILE__, __LINE__);
                 top_result[i].allTimeStamp = 0;
                 top_result[i].allUsedGpuMemory = 0;
                 for (int j = 0; j < running_processes; ++j) {
-                    printf("%s %s", __FILE__, __LINE__);
                     int64_t proc_by_hostpid = find_proc_by_hostpid(pids_on_device[j]->pid);
                     if (proc_by_hostpid) {
-                        printf("%s %s", __FILE__, __LINE__);
                         LINFO("pid=%u monitor=%lld", pids_on_device[j]->pid, pids_on_device[j]->usedGpuMemory);
                         top_result->allUsedGpuMemory += pids_on_device[j]->usedGpuMemory;
                     }
@@ -74,12 +66,9 @@ int64_t get_used_gpu_utilization(void *arg) {
                 }
             }
             else {
-                printf("%s %s", __FILE__, __LINE__);
                 for (int j = 0; j < processes_num; ++j) {
-                    printf("%s %s", __FILE__, __LINE__);
                     int64_t proc_by_hostpid = find_proc_by_hostpid(processes_sample[j].pid);
                     if (proc_by_hostpid) {
-                        printf("%s %s", __FILE__, __LINE__);
                         top_result->allTimeStamp += processes_sample[j].timeStamp;
                         top_result->allUsedGpuMemory += pids_on_device[j]->usedGpuMemory;
                     }
@@ -97,14 +86,12 @@ int64_t get_used_gpu_utilization(void *arg) {
 }
 
 int64_t reset_task_pid() {
-    printf("%s %s", __FILE__, __LINE__);
     char s[1000];
     sprintf(s, "cat /proc/%d/status | grep Ngid | awk '{printf $2}' ", getpid());
     LWARN("reset task_pid=%s", s);
     char line[112];
     FILE *stream = popen(s, "r");
     if (!stream) {
-        printf("%s %s", __FILE__, __LINE__);
         LERROR("reset task_pid failed");
     }
     fgets(line, 100, stream);
@@ -113,9 +100,7 @@ int64_t reset_task_pid() {
     return 0LL;
 }
 int64_t update_host_pid() {
-    printf("%s %s", __FILE__, __LINE__);
     for (int i = 0; i < global_config->procnum; ++i) {
-        printf("%s %s", __FILE__, __LINE__);
         if (global_config->procs[i].pid == getpid() && global_config->procs[i].hostpid)
             pidfound = 1;
     }
@@ -136,7 +121,6 @@ void change_token(int delta) {
     } while (!CAS(&g_cur_cuda_cores, cuda_cores_before, cuda_cores_after));
 }
 void utilization_watcher() {
-    printf("%s %s", __FILE__, __LINE__);
     nvmlInit();
     int share;
     unsigned int v13[18];
@@ -150,9 +134,7 @@ void utilization_watcher() {
     LINFO(" upper_limit=%d", current_device_sm_limit);
 
     while (1) {
-        printf("%s %s", __FILE__, __LINE__);
         do {
-            printf("%s %s", __FILE__, __LINE__);
             nanosleep(&g_wait, NULL);
             if (pidfound)
                 break;
@@ -160,7 +142,6 @@ void utilization_watcher() {
         } while (!pidfound);
         get_used_gpu_utilization(v13);
         if (share == g_total_cuda_cores && g_cur_cuda_cores < 0) {
-            printf("%s %s", __FILE__, __LINE__);
             g_total_cuda_cores *= 2;
             share = g_total_cuda_cores;
         }
@@ -171,7 +152,6 @@ void utilization_watcher() {
 }
 
 int init_utilization_watcher() {
-    printf("%s %s", __FILE__, __LINE__);
     pthread_t newthread;
     sharedRegionT flags_bak = *global_config;
     LINFO("set core utilization limit to  %d", get_current_device_sm_limit(0LL));
@@ -186,28 +166,23 @@ int init_utilization_watcher() {
 }
 
 int delta(int up_limit, int user_current, int share) {
-    printf("%s %s", __FILE__, __LINE__);
     int utilization_diff = abs(up_limit - user_current) < 4 ? 4 : abs(up_limit - user_current);
     int increment = utilization_diff * g_sm_num * g_sm_num * g_max_thread_per_sm / 2560;
 
     /* Accelerate cuda cores allocation when utilization vary widely */
     if (utilization_diff > up_limit / 2) {
-        printf("%s %s", __FILE__, __LINE__);
         increment = increment * utilization_diff * 2 / (up_limit + 1);
     }
 
     if (user_current > up_limit) {
-        printf("%s %s", __FILE__, __LINE__);
         if (share < increment)
             return 0;
         return share - increment;
     }
     else if (increment + share > g_total_cuda_cores) {
-        printf("%s %s", __FILE__, __LINE__);
         return g_total_cuda_cores;
     }
     else {
-        printf("%s %s", __FILE__, __LINE__);
         return share + increment;
     }
 }

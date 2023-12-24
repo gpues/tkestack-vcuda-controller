@@ -36,9 +36,9 @@ typedef struct vgpuDevice_t { // 整个结构体  152 字节
     int add_gpu_flag;         // 偏移 20
     int64_t devIndex;         // 偏移 24
     char *busIdLegacy;        // 偏移 0x20
-    nvmlDevice_t *vhandle;    // 偏移 0x28
-    nvmlDevice_t device;      // 偏移 0x30
-    nvmlDevice_t vdevice;     // 偏移 56
+    nvmlDevice_t vhandle;     // 偏移 0x28    40
+    nvmlDevice_t vdevice;     // 偏移 0x30   48
+    char uuid[16];            // 偏移 56
     nvmlDevice_t *handle;     // 偏移 0x40
     int64_t d6;               // 偏移 72
     int64_t e7;               // 偏移 0x50
@@ -52,4 +52,4 @@ typedef struct vgpuDevice_t { // 整个结构体  152 字节
     int64_t f115;             // 偏移 0x90
     int64_t f116;             // 偏移 152
     //    asd detail;
-} vgpuDevice;
+} vmDevice;

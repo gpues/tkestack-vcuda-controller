@@ -268,7 +268,10 @@ typedef enum nvmlBrandType_enum {
 /**
  * Enum to represent type of bridge chip
  */
-typedef enum nvmlBridgeChipType_enum { NVML_BRIDGE_CHIP_PLX = 0, NVML_BRIDGE_CHIP_BRO4 = 1 } nvmlBridgeChipType_t;
+typedef enum nvmlBridgeChipType_enum {
+    NVML_BRIDGE_CHIP_PLX = 0,
+    NVML_BRIDGE_CHIP_BRO4 = 1
+} nvmlBridgeChipType_t;
 
 /**
  * Information about the Bridge Chip Firmware
@@ -428,7 +431,7 @@ typedef struct nvmlFieldValue_st {
  * Each GOM is designed to meet specific user needs.
  */
 typedef enum nvmlGom_enum {
-    NVML_GOM_ALL_ON = 0, //!< Everything is enabled and running at full speed
+    NVML_GOM_ALL_ON = 0,  //!< Everything is enabled and running at full speed
 
     NVML_GOM_COMPUTE = 1, //!< Designed for running only compute tasks. Graphics operations
     //!< are not allowed
@@ -478,7 +481,6 @@ typedef enum nvmlInforomObject_enum {
  * Memory error types
  */
 typedef enum nvmlMemoryErrorType_enum {
-
     /**
      * A memory error that was corrected
      *
@@ -595,7 +597,14 @@ typedef struct nvmlNvLinkUtilizationControl_st {
 } nvmlNvLinkUtilizationControl_t;
 
 /* P2P Capability Index*/
-typedef enum nvmlGpuP2PCapsIndex_enum { NVML_P2P_CAPS_INDEX_READ = 0, NVML_P2P_CAPS_INDEX_WRITE, NVML_P2P_CAPS_INDEX_NVLINK, NVML_P2P_CAPS_INDEX_ATOMICS, NVML_P2P_CAPS_INDEX_PROP, NVML_P2P_CAPS_INDEX_UNKNOWN } nvmlGpuP2PCapsIndex_t;
+typedef enum nvmlGpuP2PCapsIndex_enum {
+    NVML_P2P_CAPS_INDEX_READ = 0,
+    NVML_P2P_CAPS_INDEX_WRITE,
+    NVML_P2P_CAPS_INDEX_NVLINK,
+    NVML_P2P_CAPS_INDEX_ATOMICS,
+    NVML_P2P_CAPS_INDEX_PROP,
+    NVML_P2P_CAPS_INDEX_UNKNOWN
+} nvmlGpuP2PCapsIndex_t;
 
 /* P2P Capability Index Status*/
 typedef enum nvmlGpuP2PStatus_enum {
@@ -1200,7 +1209,12 @@ typedef struct nvmlClkMonStatus_status {
 /**
  * Enum to represent NvLink's remote device type
  */
-typedef enum nvmlIntNvLinkDeviceType_enum { NVML_NVLINK_DEVICE_TYPE_GPU = 0x00, NVML_NVLINK_DEVICE_TYPE_IBMNPU = 0x01, NVML_NVLINK_DEVICE_TYPE_SWITCH = 0x02, NVML_NVLINK_DEVICE_TYPE_UNKNOWN = 0xFF } nvmlIntNvLinkDeviceType_t;
+typedef enum nvmlIntNvLinkDeviceType_enum {
+    NVML_NVLINK_DEVICE_TYPE_GPU = 0x00,
+    NVML_NVLINK_DEVICE_TYPE_IBMNPU = 0x01,
+    NVML_NVLINK_DEVICE_TYPE_SWITCH = 0x02,
+    NVML_NVLINK_DEVICE_TYPE_UNKNOWN = 0xFF
+} nvmlIntNvLinkDeviceType_t;
 
 /**
  * Excluded GPU device information
@@ -1412,7 +1426,7 @@ typedef enum nvmlGpuUtilizationDomainId_t {
 } nvmlGpuUtilizationDomainId_t;
 
 typedef struct nvmlGpuDynamicPstatesInfo_st {
-    unsigned int flags; //!< Reserved for future use
+    unsigned int flags;            //!< Reserved for future use
     struct {
         unsigned int bIsPresent;   //!< Set if this utilization domain is present on this GPU
         unsigned int percentage;   //!< Percentage of time where the domain is considered busy in the last 1-second interval

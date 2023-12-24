@@ -23,8 +23,6 @@
 extern "C" {
 #endif
 
-#include <dlfcn.h>
-
 /**
  * NVML management library prefix
  */
@@ -112,6 +110,7 @@ typedef enum {
     NVML_ENTRY_ENUM(nvmlDeviceGetMaxPcieLinkWidth),
     NVML_ENTRY_ENUM(nvmlDeviceGetMemoryErrorCounter),
     NVML_ENTRY_ENUM(nvmlDeviceGetMemoryInfo),
+    NVML_ENTRY_ENUM(nvmlDeviceGetMemoryInfo_v2),
     NVML_ENTRY_ENUM(nvmlDeviceGetMinorNumber),
     NVML_ENTRY_ENUM(nvmlDeviceGetMPSComputeRunningProcesses),
     NVML_ENTRY_ENUM(nvmlDeviceGetMultiGpuBoard),
@@ -234,8 +233,6 @@ typedef enum {
     NVML_ENTRY_ENUM(nvmlDeviceGetRetiredPages_v2),
     NVML_ENTRY_ENUM(nvmlDeviceResetGpuLockedClocks),
     NVML_ENTRY_ENUM(nvmlDeviceSetGpuLockedClocks),
-    NVML_ENTRY_ENUM(nvmlGetBlacklistDeviceCount),
-    NVML_ENTRY_ENUM(nvmlGetBlacklistDeviceInfoByIndex),
     NVML_ENTRY_ENUM(nvmlVgpuInstanceGetAccountingMode),
     NVML_ENTRY_ENUM(nvmlVgpuInstanceGetAccountingPids),
     NVML_ENTRY_ENUM(nvmlVgpuInstanceGetAccountingStats),
@@ -287,20 +284,6 @@ typedef enum {
     NVML_ENTRY_ENUM(nvmlDeviceSetTemperatureThreshold),
     NVML_ENTRY_ENUM(nvmlVgpuInstanceGetGpuInstanceId),
     NVML_ENTRY_ENUM(nvmlVgpuTypeGetGpuInstanceProfileId),
-    NVML_ENTRY_ENUM(nvmlDeviceCreateGpuInstanceWithPlacement),
-    NVML_ENTRY_ENUM(nvmlDeviceGetBusType),
-    NVML_ENTRY_ENUM(nvmlDeviceGetClkMonStatus),
-    NVML_ENTRY_ENUM(nvmlDeviceGetGpuInstancePossiblePlacements_v2),
-    NVML_ENTRY_ENUM(nvmlDeviceGetGridLicensableFeatures_v4),
-    NVML_ENTRY_ENUM(nvmlDeviceGetIrqNum),
-    NVML_ENTRY_ENUM(nvmlDeviceGetMPSComputeRunningProcesses_v2),
-    NVML_ENTRY_ENUM(nvmlDeviceGetNvLinkRemoteDeviceType),
-    NVML_ENTRY_ENUM(nvmlDeviceResetMemoryLockedClocks),
-    NVML_ENTRY_ENUM(nvmlDeviceSetMemoryLockedClocks),
-    NVML_ENTRY_ENUM(nvmlGetExcludedDeviceCount),
-    NVML_ENTRY_ENUM(nvmlGetExcludedDeviceInfoByIndex),
-    NVML_ENTRY_ENUM(nvmlVgpuInstanceGetLicenseInfo),
-    NVML_ENTRY_ENUM(nvmlDeviceGetMemoryInfo_v2),
     NVML_ENTRY_END
 } nvml_entry_enum_t;
 

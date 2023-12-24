@@ -191,3 +191,17 @@ typedef struct FatbincWrapper_t {
     FatbinHeader *data;        // 8
     void *filename_or_fatbins; // 16
 } FatbincWrapper;
+
+#define MAX_DLMAP_COUNT 100
+
+struct DlMapEntry {
+    pthread_t p;
+    void *handle;
+};
+
+struct DlMap {
+    struct DlMapEntry entries[MAX_DLMAP_COUNT];
+    int count;
+} dlmap;
+
+typedef void *(*real_dlsym_func)(void *, const char *);
